@@ -27,3 +27,10 @@
   
   ## Wednesday 032917
   
+  ### Notes
+   -Decided to continue with Stripe API, come back to PCI at later date
+   
+  ### Tasks
+  - [D/L] test Stripe API
+  - [A] facebook login on react
+  - [Y] mockups using sketch
