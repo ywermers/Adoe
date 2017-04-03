@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
-const Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-const foundationSchema  = mongoose.Schema({
+var foundationSchema  = mongoose.Schema({
   createdTime:{
     type: Date,
     default: Date.now()
@@ -11,11 +11,32 @@ const foundationSchema  = mongoose.Schema({
     type: String,
     required: true
   },
-
+  password: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  phoneNumber: {
+    type: String
+  },
+  address: {
+    type: String
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  logo: {
+    type: String
+  },
+  stripe: {
+    accountid: String
+  }
 })
 
-const Foundation = mongoose.model('Foundation', foundationSchema);
+var Foundation = mongoose.model('Foundation', foundationSchema);
 
-module.exports = {
-  Foundation
-}
+module.exports = Foundation

@@ -1,5 +1,4 @@
 var express=require('express');
-var stripe=require('stripe')('sk_test_5p5XtniGoi1GgZXpOO7hOoHK');
 var bodyParser=require('body-parser');
 var exphbs = require('express-handlebars');
 var path = require('path');

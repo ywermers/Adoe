@@ -32,8 +32,10 @@ var userSchema  = mongoose.Schema({
 
   },
   authToken:{
-    token:String,
-    createdAt: Date
+    type:String
+  },
+  createdToken:{
+    type: Date
   },
   stripe:{
     creditToken:{
@@ -47,11 +49,9 @@ var userSchema  = mongoose.Schema({
     }]
   }
 });
-
 userSchema.methods.tokenize = function(cb){
   var newToken = this.email + Date.now().toString()
-      this.update({authToken: {token: newToken,
-                  createdAt: Date.now()}},
+      this.update({authToken:newToken,createdToken: Date.now()},
                   { w:1},
     function(err, updated){
       if(err) console.log(err);
