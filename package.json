@@ -1,0 +1,28 @@
+{
+  "name": "adoe",
+  "version": "1.0.0",
+  "description": "- https://trello.com/b/dmZVAxTM/adoe",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ywermers/Adoe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ywermers/Adoe/issues"
+  },
+  "homepage": "https://github.com/ywermers/Adoe#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "logger": "0.0.1",
+    "mongoose": "^4.9.2",
+    "nodemon": "^1.11.0",
+    "stripe": "^4.17.0"
+  }
+}

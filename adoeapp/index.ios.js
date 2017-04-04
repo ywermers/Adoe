@@ -4,11 +4,17 @@
  * @flow
  */
 
+<<<<<<< HEAD
+=======
+'use strict'
+
+>>>>>>> 18f0c34db4bb9c6b94f7f73d1a882ed02c7974da
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
+<<<<<<< HEAD
   View
 } from 'react-native';
 
@@ -27,16 +33,45 @@ export default class adoeapp extends Component {
           Cmd+D or shake for dev menu
         </Text>
       </View>
+=======
+  View,
+  NavigatorIOS
+} from 'react-native';
+
+var SearchPage = require('./SearchPage');
+
+class adoeapp extends Component {
+  render() {
+    return (
+      <NavigatorIOS
+        style={styles.container}
+        initialRoute={{
+          title: 'Charity Finder',
+          component: SearchPage,
+        }}/>
+>>>>>>> 18f0c34db4bb9c6b94f7f73d1a882ed02c7974da
     );
   }
 }
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+=======
+  text: {
+    color: 'black',
+    backgroundColor: 'white',
+    fontSize: 30,
+    margin: 80
+  },
+  container: {
+    flex: 1,
+
+>>>>>>> 18f0c34db4bb9c6b94f7f73d1a882ed02c7974da
   },
   welcome: {
     fontSize: 20,

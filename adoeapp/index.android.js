@@ -17,7 +17,11 @@ export default class adoeapp extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
+<<<<<<< HEAD
           Welcome to React Native!!
+=======
+          Welcome to React Native!
+>>>>>>> 18f0c34db4bb9c6b94f7f73d1a882ed02c7974da
         </Text>
         <Text style={styles.instructions}>
           To get started, edit index.android.js
