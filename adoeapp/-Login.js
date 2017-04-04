@@ -12,11 +12,27 @@ import {
   Text
 } from 'react-native';
 
+var Newsfeed = require('./-Newsfeed');
+var Signup = require('./-Signup');
 
 class Login extends Component {
+
+  goToNewsfeed() {
+    this.props.navigator.push({
+      component: Newsfeed,
+      title: 'Newsfeed',
+    })
+  }
+
+  goToSignup() {
+    this.props.navigator.push({
+      component: Signup,
+      title: 'Signup',
+    })
+  }
+
   render() {
     return(
-
 
       <View style={styles.container}>
 
@@ -28,10 +44,16 @@ class Login extends Component {
           style={styles.searchInput}
           placeholder='Password'/>
 
-        <TouchableHighlight style={styles.button}
-            underlayColor='#99d9f4'>
+        <TouchableOpacity style={styles.button}
+            underlayColor='#99d9f4' onPress={this.goToNewsfeed.bind(this)} >
           <Text style={styles.buttonText}>Go!</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={this.goToSignup.bind(this)}>
+          <Text style={styles.description} >
+            Don&rsquo;t have an account? Sign up here.
+          </Text>
+        </TouchableOpacity>
 
       </View>
     )

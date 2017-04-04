@@ -14,7 +14,18 @@ import {
 var Login = require('./-Login');
 var Signup = require('./-Signup');
 
-class Landing extends Component {
+// ease of development - NEWSFEED ACCESS ALSO ON GO OF LOGIN
+var Newsfeed = require('./-Newsfeed');
+
+class Welcome extends Component {
+
+  goToNewsfeed() {
+    this.props.navigator.push({
+      component: Newsfeed,
+      title: 'Newsfeed',
+    })
+  }
+
   goTo2() {
     this.props.navigator.push({
       component: Login,
@@ -40,7 +51,11 @@ class Landing extends Component {
             Sign up
           </Text>
         </TouchableOpacity>
-
+        <TouchableOpacity onPress={this.goToNewsfeed.bind(this)} style={styles.button}>
+          <Text style={styles.buttonText}>
+            -nf-
+          </Text>
+        </TouchableOpacity>
       </View>
     )
   }
@@ -67,4 +82,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Landing;
+module.exports = Welcome;

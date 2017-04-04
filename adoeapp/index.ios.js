@@ -16,14 +16,14 @@ import {
   ListView,
 } from 'react-native';
 
-var Landing = require('./-Landing');
+var Welcome = require('./-Welcome');
 
 export default class adoeapp extends Component {
   render() {
     return (
       <NavigatorIOS
         initialRoute={{
-          component: Landing,
+          component: Welcome,
           title: 'Welcome',
         }}
         style={{flex:1}}
