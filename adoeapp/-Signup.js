@@ -37,7 +37,6 @@ class Signup extends Component {
         <Text style={styles.buttonText}>FACEBOOK</Text>
       </TouchableHighlight>
 
-
         <Text style={styles.description}>
           or sign up manually
         </Text>
@@ -53,11 +52,27 @@ class Signup extends Component {
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Phone Number'/>
+            placeholder='Phone number'/>
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Password'/>
+            placeholder='Street address'/>
+
+          <TextInput
+            style={styles.searchInput}
+            placeholder='City'/>
+
+          <TextInput
+            style={styles.searchInput}
+            placeholder='State'/>
+
+          <TextInput
+            style={styles.searchInput}
+            placeholder='Zip code'/>
+
+          <TextInput
+            style={styles.searchInput}
+            placeholder='Country'/>
 
         </View>
 
@@ -80,7 +95,7 @@ var styles = StyleSheet.create({
   },
   container: {
     padding: 30,
-    marginTop: 65,
+    marginTop: 45,
     alignItems: 'center'
   },
   buttonText: {
@@ -104,10 +119,9 @@ var styles = StyleSheet.create({
     borderColor: 'blue',
     borderWidth: 1,
     borderRadius: 8,
-    marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    marginBottom: 50
+    marginBottom: 20
   },
   searchInput: {
     height: 40,
