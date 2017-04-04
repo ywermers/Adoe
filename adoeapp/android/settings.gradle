@@ -1,0 +1,3 @@
+rootProject.name = 'adoeapp'
+
+include ':app'
