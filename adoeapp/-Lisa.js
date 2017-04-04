@@ -27,6 +27,10 @@ class Lisa extends Component {
 
           <TextInput
             style={styles.searchInput}
+            placeholder='Name on card'/>
+
+          <TextInput
+            style={styles.searchInput}
             placeholder='Credit card number'/>
 
           <TextInput
