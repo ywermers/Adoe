@@ -4,53 +4,53 @@
  * @flow
  */
 
-'use strict'
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  NavigatorIOS
+  NavigatorIOS,
+  TouchableOpacity,
+  TouchableHighlight,
+  ListView,
 } from 'react-native';
 
-var SearchPage = require('./SearchPage');
+var Welcome = require('./-Welcome');
 
-class adoeapp extends Component {
+export default class adoeapp extends Component {
   render() {
     return (
       <NavigatorIOS
-        style={styles.container}
         initialRoute={{
-          title: 'Charity Finder',
-          component: SearchPage,
-        }}/>
+          component: Welcome,
+          title: 'Welcome',
+        }}
+        style={{flex:1}}
+      />
     );
   }
 }
 
-const styles = StyleSheet.create({
-  text: {
-    color: 'black',
-    backgroundColor: 'white',
-    fontSize: 30,
-    margin: 80
+var styles = StyleSheet.create({
+  buttonText: {
+    fontSize: 40,
+    color: 'white',
+    alignSelf: 'center'
   },
-  container: {
-    flex: 1,
-
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  button: {
+    height: 80,
+    width: 160,
+    backgroundColor: '#48BBEC',
+    borderColor: '#48BBEC',
+    borderWidth: 1,
+    borderRadius: 80,
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center'
+  }
 });
 
 AppRegistry.registerComponent('adoeapp', () => adoeapp);
