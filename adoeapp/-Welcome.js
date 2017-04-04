@@ -16,8 +16,17 @@ var Signup = require('./-Signup');
 
 // ease of development - NEWSFEED ACCESS ALSO ON GO OF LOGIN
 var Newsfeed = require('./-Newsfeed');
+// ease of development - ADOE ACCESS for backend sync
+var Lisa = require('./-Lisa');
 
 class Welcome extends Component {
+
+  goToLisa() {
+    this.props.navigator.push({
+      component: Lisa,
+      title: 'Lisa',
+    })
+  }
 
   goToNewsfeed() {
     this.props.navigator.push({
@@ -26,13 +35,13 @@ class Welcome extends Component {
     })
   }
 
-  goTo2() {
+  goToLogin() {
     this.props.navigator.push({
       component: Login,
       title: 'Login',
     })
   }
-  goTo3() {
+  goToSignup() {
     this.props.navigator.push({
       component: Signup,
       title: 'Sign up'
@@ -41,12 +50,12 @@ class Welcome extends Component {
   render() {
     return(
       <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-        <TouchableOpacity onPress={this.goTo2.bind(this)} style={styles.button}>
+        <TouchableOpacity onPress={this.goToLogin.bind(this)} style={styles.button}>
           <Text style={styles.buttonText}>
             Login
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.goTo3.bind(this)} style={styles.button}>
+        <TouchableOpacity onPress={this.goToSignup.bind(this)} style={styles.button}>
           <Text style={styles.buttonText}>
             Sign up
           </Text>
@@ -54,6 +63,11 @@ class Welcome extends Component {
         <TouchableOpacity onPress={this.goToNewsfeed.bind(this)} style={styles.button}>
           <Text style={styles.buttonText}>
             -nf-
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.goToLisa.bind(this)} style={styles.lisabutton}>
+          <Text style={styles.buttonText}>
+            LISA
           </Text>
         </TouchableOpacity>
       </View>
@@ -72,6 +86,19 @@ var styles = StyleSheet.create({
     width: 160,
     backgroundColor: '#48BBEC',
     borderColor: '#48BBEC',
+    borderWidth: 1,
+    borderRadius: 80,
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center'
+  },
+  lisabutton: {
+    height: 80,
+    width: 160,
+    backgroundColor: 'pink',
+    borderColor: 'pink',
     borderWidth: 1,
     borderRadius: 80,
     marginBottom: 10,
