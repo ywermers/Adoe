@@ -4,85 +4,53 @@
  * @flow
  */
 
-<<<<<<< HEAD
-=======
-'use strict'
-
->>>>>>> 18f0c34db4bb9c6b94f7f73d1a882ed02c7974da
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
-<<<<<<< HEAD
-  View
+  View,
+  NavigatorIOS,
+  TouchableOpacity,
+  TouchableHighlight,
+  ListView,
 } from 'react-native';
+
+var Welcome = require('./-Welcome');
 
 export default class adoeapp extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-=======
-  View,
-  NavigatorIOS
-} from 'react-native';
-
-var SearchPage = require('./SearchPage');
-
-class adoeapp extends Component {
-  render() {
-    return (
       <NavigatorIOS
-        style={styles.container}
         initialRoute={{
-          title: 'Charity Finder',
-          component: SearchPage,
-        }}/>
->>>>>>> 18f0c34db4bb9c6b94f7f73d1a882ed02c7974da
+          component: Welcome,
+          title: 'Welcome',
+        }}
+        style={{flex:1}}
+      />
     );
   }
 }
 
-const styles = StyleSheet.create({
-<<<<<<< HEAD
-  container: {
-    flex: 1,
+var styles = StyleSheet.create({
+  buttonText: {
+    fontSize: 40,
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 80,
+    width: 160,
+    backgroundColor: '#48BBEC',
+    borderColor: '#48BBEC',
+    borderWidth: 1,
+    borderRadius: 80,
+    marginBottom: 10,
+    alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-=======
-  text: {
-    color: 'black',
-    backgroundColor: 'white',
-    fontSize: 30,
-    margin: 80
-  },
-  container: {
-    flex: 1,
-
->>>>>>> 18f0c34db4bb9c6b94f7f73d1a882ed02c7974da
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    alignSelf: 'center'
+  }
 });
 
 AppRegistry.registerComponent('adoeapp', () => adoeapp);
