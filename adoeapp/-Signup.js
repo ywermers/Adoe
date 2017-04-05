@@ -23,27 +23,40 @@ import {
 
 var Login = require('./-Login');
 
-class Signup extends Component {
+// class Signup extends Component {
+var Signup = React.createClass({
 
   getInitialState() {
     return {
-      responseJsonError: ''
+      responseJsonError: '',
+      name: '',
+      password: ''
     }
-  }
+  },
 
   signup() {
-    fetch('https://hohoho-backend.herokuapp.com/register', {
+    console.log('hotdog');
+
+    fetch('https://polar-sands-99108.herokuapp.com/api/users/register', {
       method: 'POST',
+      body: JSON.stringify({
+        name: this.state.name,
+        password: this.state.password,
+        email: this.state.email,
+        phoneNumber: this.state.phoneNumber,
+        streetAddress: this.state.streetAddress,
+        city: this.state.city,
+        ustate: this.state.ustate,
+        zipCode: this.state.zipCode,
+        country: this.state.country
+      }),
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        username: this.state.username,
-        password: this.state.password,
-      })
     })
     .then((response) => response.json())
     .then((responseJson) => {
+      console.log('hello!!!',responseJson)
       if (responseJson.success === true) {
         this.props.navigator.push({
           component: Login,
@@ -59,7 +72,7 @@ class Signup extends Component {
     .catch((err) => {
       console.log('error', err)
     });
-  }
+  },
 
 
   render() {
@@ -67,9 +80,7 @@ class Signup extends Component {
     return (
       <View style={styles.container}>
 
-      <Text style={styles.textBig}>
-        {this.state.responseJsonError}
-      </Text>
+
 
       <Text style={styles.description}>
         Sign up through Facebook
@@ -88,7 +99,7 @@ class Signup extends Component {
           <TextInput
             style={styles.searchInput}
             placeholder='Name'
-            onChangeText={(text) => this.setState({username: text})}
+            onChangeText={(text) => this.setState({name: text})}
           />
 
           <TextInput
@@ -100,43 +111,59 @@ class Signup extends Component {
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Email'/>
+            placeholder='Email'
+            onChangeText={(text) => this.setState({email: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Phone number'/>
+            placeholder='Phone number'
+            onChangeText={(text) => this.setState({phoneNumber: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Street address'/>
+            placeholder='Street address'
+            onChangeText={(text) => this.setState({streetAddress: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='City'/>
+            placeholder='City'
+            onChangeText={(text) => this.setState({city: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='State'/>
+            placeholder='State'
+            onChangeText={(text) => this.setState({ustate: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Zip code'/>
+            placeholder='Zip code'
+            onChangeText={(text) => this.setState({zipCode: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Country'/>
+            placeholder='Country'
+            onChangeText={(text) => this.setState({country: text})}
+          />
 
         </View>
 
         <TouchableOpacity style={styles.button}
-            underlayColor='#99d9f4'>
+            underlayColor='#99d9f4'
+            onPress={this.signup}
+            >
           <Text style={styles.buttonText}>Go!</Text>
         </TouchableOpacity>
 
       </View>
     );
   }
-}
+})
 
 var styles = StyleSheet.create({
   textBig: {
@@ -178,7 +205,7 @@ var styles = StyleSheet.create({
     borderRadius: 8,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    marginBottom: 20
+    marginBottom: 5
   },
   searchInput: {
     height: 40,
