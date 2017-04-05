@@ -49,6 +49,8 @@ var userSchema  = mongoose.Schema({
     }]
   }
 });
+//methods --> user.methods.tokenize --> methods for instances
+//statics --> user.statics.tokenize --> statics for models
 userSchema.methods.tokenize = function(cb){
   var newToken = this.email + Date.now().toString()
       this.update({authToken:newToken,createdToken: Date.now()},

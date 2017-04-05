@@ -109,13 +109,21 @@ router.post('/api/users/addcreditcard',function(req,res){
       if(err) console.log(err);
       if(user){
         console.log('user found')
-        stripe.customers.update(user.stripe.customerID, {
-          //source: req.body.creditToken
-          source: testToken.id
-        }, function(err, customer){
-          if(err) console.log(err)
-          if(customer) res.send('Customer created')
-        })
+        stripe.tokens.create({
+          card: {
+           "number": req.body.number,
+           "exp_month": req.body.month,
+           "exp_year": req.body.year,
+           "cvc": req.body.cvc
+         }
+        }, function(err, token) {
+          stripe.customers.update(user.stripe.customerID, {
+            source: token
+          }, function(err, customer){
+            if(err) console.log(err)
+            if(customer) res.send('Customer updated')
+          });
+        });
       }else if(!user){
         console.log('user not found')
       }
@@ -133,29 +141,25 @@ router.post('/api/users/chargeCard',function(req,res){
     })
 })
 
-router.post('/api/foundations/register', function(req,res){
+router.get('/api/foundation/register', function(req,res){
+  res.render('website HERE')
+})
+
+router.post('/api/foundation/register', function(req,res){
   var foundation = new Foundation({
     name : req.body.name,
     email :  req.body.email,
     password : req.body.password,
     phoneNumber: req.body.phoneNumber,
-    address: req.body.address
+    address: req.body.address,
+    description: req.body.description
   })
   foundation.save(function(err,foundation){
     if(err){
       console.log('cant save')
       res.status(500).json(err);
-
     }else{
-      stripe.accounts.create({
-        description: 'Customer for ' + user.email,
-        email: user.email
-      }, function(err, customer){
-        if(err)console.log(err);
-        console.log(customer);
-        foundation.update({stripe: {customerID: customer.id}},{w:1}).exec().catch((err)=> console.log(err))
-      res.json({foundation});
-    })
+
   }
 });
 })
