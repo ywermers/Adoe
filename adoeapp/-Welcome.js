@@ -16,6 +16,7 @@ var Signup = require('./-Signup');
 
 // ease of development - NEWSFEED ACCESS ALSO ON GO OF LOGIN
 var Newsfeed = require('./-Newsfeed');
+var News = require('./-News')
 // ease of development - ADOE ACCESS for backend sync
 var Lisa = require('./-Lisa');
 
@@ -25,6 +26,13 @@ class Welcome extends Component {
     this.props.navigator.push({
       component: Lisa,
       title: 'Lisa',
+    })
+  }
+
+  goToNews() {
+    this.props.navigator.push({
+      component: News,
+      title: 'News',
     })
   }
 
@@ -60,14 +68,19 @@ class Welcome extends Component {
             Sign up
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.goToNewsfeed.bind(this)} style={styles.button}>
+        <TouchableOpacity onPress={this.goToNews.bind(this)} style={styles.button}>
           <Text style={styles.buttonText}>
-            -nf-
+            News
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.goToLisa.bind(this)} style={styles.lisabutton}>
           <Text style={styles.buttonText}>
             LISA
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.goToNewsfeed.bind(this)} style={styles.lisabutton}>
+          <Text style={styles.buttonText}>
+            -nf-
           </Text>
         </TouchableOpacity>
       </View>
