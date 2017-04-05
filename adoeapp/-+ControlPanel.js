@@ -25,3 +25,5 @@ export default class ControlPanel extends Component {
     )
   }
 }
+
+module.exports = ControlPanel;

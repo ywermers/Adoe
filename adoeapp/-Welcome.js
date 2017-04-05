@@ -8,7 +8,8 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   ListView,
-  Text
+  Text,
+  NavigatorIOS
 } from 'react-native';
 
 var Login = require('./-Login');
@@ -80,7 +81,7 @@ class Welcome extends Component {
         </TouchableOpacity>
         <TouchableOpacity onPress={this.goToNewsfeed.bind(this)} style={styles.lisabutton}>
           <Text style={styles.buttonText}>
-            -nf-
+            HOLLY
           </Text>
         </TouchableOpacity>
       </View>

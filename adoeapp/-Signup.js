@@ -10,7 +10,8 @@ import {
   ListView,
   TextInput,
   AsyncStorage,
-  Text
+  Text,
+  NavigatorIOS
 } from 'react-native';
 
 // constructor(props){
@@ -58,6 +59,7 @@ var Signup = React.createClass({
     .then((responseJson) => {
       console.log('hello!!!',responseJson)
       if (responseJson.success === true) {
+        console.log("SUCCESS")
         this.props.navigator.push({
           component: Login,
           title: 'Login',
