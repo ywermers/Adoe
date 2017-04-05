@@ -9,33 +9,87 @@ import {
   TouchableOpacity,
   ListView,
   TextInput,
+  AsyncStorage,
   Text
 } from 'react-native';
 
+// constructor(props){
+//   super(props);
+//   this.state={
+//     isLoading: false,
+//     message: ''
+//   };
+// }
 
-class Signup extends Component {
+var Login = require('./-Login');
 
-  constructor(props){
-    super(props);
-    this.state={
-      isLoading: false,
-      message: ''
-    };
-  }
+// class Signup extends Component {
+var Signup = React.createClass({
+
+  getInitialState() {
+    return {
+      responseJsonError: '',
+      name: '',
+      password: ''
+    }
+  },
+
+  signup() {
+    console.log('hotdog');
+
+    fetch('https://polar-sands-99108.herokuapp.com/api/users/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: this.state.name,
+        password: this.state.password,
+        email: this.state.email,
+        phoneNumber: this.state.phoneNumber,
+        streetAddress: this.state.streetAddress,
+        city: this.state.city,
+        ustate: this.state.ustate,
+        zipCode: this.state.zipCode,
+        country: this.state.country
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log('hello!!!',responseJson)
+      if (responseJson.success === true) {
+        this.props.navigator.push({
+          component: Login,
+          title: 'Login',
+        })
+      } else {
+        this.setState({
+          responseJsonError: responseJson.error,
+        });
+      }
+      console.log('responsejosn', responseJson)
+    })
+    .catch((err) => {
+      console.log('error', err)
+    });
+  },
+
 
   render() {
 
     return (
       <View style={styles.container}>
 
+
+
       <Text style={styles.description}>
         Sign up through Facebook
       </Text>
 
-      <TouchableHighlight style={styles.fbbutton}
+      <TouchableOpacity style={styles.fbbutton}
           underlayColor='#99d9f4'>
         <Text style={styles.buttonText}>FACEBOOK</Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
 
         <Text style={styles.description}>
           or sign up manually
@@ -44,49 +98,79 @@ class Signup extends Component {
         <View>
           <TextInput
             style={styles.searchInput}
-            placeholder='Name'/>
+            placeholder='Name'
+            onChangeText={(text) => this.setState({name: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Email'/>
+            placeholder='Password'
+            secureTextEntry={true}
+            onChangeText={(text) => this.setState({password: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Phone number'/>
+            placeholder='Email'
+            onChangeText={(text) => this.setState({email: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Street address'/>
+            placeholder='Phone number'
+            onChangeText={(text) => this.setState({phoneNumber: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='City'/>
+            placeholder='Street address'
+            onChangeText={(text) => this.setState({streetAddress: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='State'/>
+            placeholder='City'
+            onChangeText={(text) => this.setState({city: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Zip code'/>
+            placeholder='State'
+            onChangeText={(text) => this.setState({ustate: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
-            placeholder='Country'/>
+            placeholder='Zip code'
+            onChangeText={(text) => this.setState({zipCode: text})}
+          />
+
+          <TextInput
+            style={styles.searchInput}
+            placeholder='Country'
+            onChangeText={(text) => this.setState({country: text})}
+          />
 
         </View>
 
-        <TouchableHighlight style={styles.button}
-            underlayColor='#99d9f4'>
+        <TouchableOpacity style={styles.button}
+            underlayColor='#99d9f4'
+            onPress={this.signup}
+            >
           <Text style={styles.buttonText}>Go!</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
 
       </View>
     );
   }
-}
+})
 
 var styles = StyleSheet.create({
+  textBig: {
+    fontSize: 36,
+    textAlign: 'center',
+    margin: 10,
+  },
   description: {
     marginBottom: 20,
     fontSize: 18,
@@ -121,7 +205,7 @@ var styles = StyleSheet.create({
     borderRadius: 8,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    marginBottom: 20
+    marginBottom: 5
   },
   searchInput: {
     height: 40,
