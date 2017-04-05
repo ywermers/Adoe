@@ -9,33 +9,76 @@ import {
   TouchableOpacity,
   ListView,
   TextInput,
+  AsyncStorage,
   Text
 } from 'react-native';
 
+// constructor(props){
+//   super(props);
+//   this.state={
+//     isLoading: false,
+//     message: ''
+//   };
+// }
+
+var Login = require('./-Login');
 
 class Signup extends Component {
 
-  constructor(props){
-    super(props);
-    this.state={
-      isLoading: false,
-      message: ''
-    };
+  getInitialState() {
+    return {
+      responseJsonError: ''
+    }
   }
+
+  signup() {
+    fetch('https://hohoho-backend.herokuapp.com/register', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: this.state.username,
+        password: this.state.password,
+      })
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if (responseJson.success === true) {
+        this.props.navigator.push({
+          component: Login,
+          title: 'Login',
+        })
+      } else {
+        this.setState({
+          responseJsonError: responseJson.error,
+        });
+      }
+      console.log('responsejosn', responseJson)
+    })
+    .catch((err) => {
+      console.log('error', err)
+    });
+  }
+
 
   render() {
 
     return (
       <View style={styles.container}>
 
+      <Text style={styles.textBig}>
+        {this.state.responseJsonError}
+      </Text>
+
       <Text style={styles.description}>
         Sign up through Facebook
       </Text>
 
-      <TouchableHighlight style={styles.fbbutton}
+      <TouchableOpacity style={styles.fbbutton}
           underlayColor='#99d9f4'>
         <Text style={styles.buttonText}>FACEBOOK</Text>
-      </TouchableHighlight>
+      </TouchableOpacity>
 
         <Text style={styles.description}>
           or sign up manually
@@ -44,7 +87,16 @@ class Signup extends Component {
         <View>
           <TextInput
             style={styles.searchInput}
-            placeholder='Name'/>
+            placeholder='Name'
+            onChangeText={(text) => this.setState({username: text})}
+          />
+
+          <TextInput
+            style={styles.searchInput}
+            placeholder='Password'
+            secureTextEntry={true}
+            onChangeText={(text) => this.setState({password: text})}
+          />
 
           <TextInput
             style={styles.searchInput}
@@ -76,10 +128,10 @@ class Signup extends Component {
 
         </View>
 
-        <TouchableHighlight style={styles.button}
+        <TouchableOpacity style={styles.button}
             underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Go!</Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
 
       </View>
     );
@@ -87,6 +139,11 @@ class Signup extends Component {
 }
 
 var styles = StyleSheet.create({
+  textBig: {
+    fontSize: 36,
+    textAlign: 'center',
+    margin: 10,
+  },
   description: {
     marginBottom: 20,
     fontSize: 18,
