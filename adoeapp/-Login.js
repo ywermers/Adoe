@@ -16,31 +16,35 @@ import {
 var News = require('./-News');
 var Signup = require('./-Signup');
 
-class Login extends Component {
+var Login = React.createClass({
 
   getInitialState() {
     return {
       responseJsonError: '',
-      loginmessage: ''
+      loginmessage: '',
+      email:' ',
+      password: ' '
     }
-  }
+  },
 
-  login(username, password) {
-    fetch('https://hohoho-backend.herokuapp.com/login', {
+  login() {
+    console.log('i love lisa so much')
+    fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        username: username,
-        password: password
+        email: this.state.email,
+        password: this.state.password
       })
     })
     .then((response) => response.json())
     .then((responseJson) => {
+      console.log('response',responseJson)
       if (responseJson.success === true) {
         AsyncStorage.setItem('user', JSON.stringify({
-          username: username,
+          email: email,
           password: password
         }));
         this.props.navigator.push({
@@ -57,41 +61,38 @@ class Login extends Component {
     .catch((err) => {
       console.log('error', err)
     });
-  }
+  },
+  //
+  // componentDidMount() {
+  //   AsyncStorage.getItem('user')
+  //   // .then(result => {
+  //   //   var parsedResult = JSON.parse(result);
+  //   //   var email = parsedResult.email;
+  //   //   var password = parsedResult.password;
+  //   //   if (username && password) {
+  //   //     this.setState({
+  //   //       loginmessage: ('Logged in as ' + username + '.')
+  //   //     })
+  //   //     return this.login(username, password)
+  //   //   }
+  //   // })
+  //   .catch(err => {console.log('error', err)})
+  // }
 
-  componentDidMount() {
-    AsyncStorage.getItem('user')
-    .then(result => {
-      var parsedResult = JSON.parse(result);
-      var username = parsedResult.username;
-      var password = parsedResult.password;
-      if (username && password) {
-        this.setState({
-          loginmessage: ('Logged in as ' + username + '.')
-        })
-        return this.login(username, password)
-      }
-    })
-    .catch(err => {console.log('error', err)})
-  }
-
-  press(){
-    this.login(this.state.username, this.state.password)
-  }
 
   goToNews() {
     this.props.navigator.push({
       component: News,
       title: 'News',
     })
-  }
+  },
 
   goToSignup() {
     this.props.navigator.push({
       component: Signup,
       title: 'Signup',
     })
-  }
+  },
 
   render() {
     return(
@@ -101,7 +102,7 @@ class Login extends Component {
         <TextInput
           style={styles.searchInput}
           placeholder='Email'
-          onChangeText={(text) => this.setState({username: text})}
+          onChangeText={(text) => this.setState({email: text})}
         />
 
         <TextInput
@@ -112,7 +113,7 @@ class Login extends Component {
         />
 
         <TouchableOpacity style={styles.button}
-            underlayColor='#99d9f4' onPress={this.press.bind(this} >
+            underlayColor='#99d9f4' onPress={this.login} >
           <Text style={styles.buttonText}>Login!</Text>
         </TouchableOpacity>
 
@@ -125,7 +126,7 @@ class Login extends Component {
       </View>
     )
   }
-}
+})
 
 
 var styles = StyleSheet.create({

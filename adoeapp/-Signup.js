@@ -67,7 +67,7 @@ var Signup = React.createClass({
           responseJsonError: responseJson.error,
         });
       }
-      console.log('responsejosn', responseJson)
+      console.log('responsejson', responseJson)
     })
     .catch((err) => {
       console.log('error', err)
