@@ -6,15 +6,15 @@ var User = require('../models/user');
 
 module.exports = function(passport) {
 
-  router.get('/api/foundation/login', function(req,res){
+  router.get('/api/foundations/login', function(req,res){
     res.render('login');
   });
 
-  router.post('/api/foundation/login', passport.authenticate('local'), function(req,res){
+  router.post('/api/foundations/login', passport.authenticate('local'), function(req,res){
     res.redirect('/api/foundation');
   });
 
-  router.get('/api/foundation/logout', function(req, res){
+  router.get('/api/foundations/logout', function(req, res){
     req.logout();
     res.redirect('/login');
   });
