@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -20,9 +20,13 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "express-handlebars": "^3.0.0",
     "logger": "0.0.1",
     "mongoose": "^4.9.2",
+    "morgan": "^1.8.1",
     "nodemon": "^1.11.0",
+    "passport-stripe": "^0.2.2",
+    "request": "^2.81.0",
     "stripe": "^4.17.0"
   }
 }

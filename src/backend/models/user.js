@@ -11,25 +11,33 @@ var userSchema  = mongoose.Schema({
     type: String,
     required: true
   },
-  lname: {
-    type: String,
-    required: true
-  },
   email: {
     type: String,
     unique: true,
     required: true
   },
   password: {
-    type: String
+    type: String,
+    reuired:true
   },
   phoneNumber: {
-    type: String
-    // unique: true
-  },
-  address: {
     type: String,
-
+    unique: true
+  },
+  streetAddress: {
+    type: String
+  },
+  city: {
+    type: String
+  },
+  ustate: {
+    type: String
+  },
+  zipCode: {
+    type: String
+  },
+  country: {
+    type: String
   },
   authToken:{
     type:String

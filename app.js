@@ -3,8 +3,13 @@ var bodyParser=require('body-parser');
 var exphbs = require('express-handlebars');
 var path = require('path');
 var logger=require('morgan');
-var routes = require('./src/backend/routes/index');
-var connect = process.env.MONGODB_URI
+
+
+var userRoutes = require('./src/backend/routes/user');
+var foundationRoutes = require('./src/backend/routes/foundation');
+var auth = require('./src/backend/routes/auth');
+
+var connect ='mongodb://testing1:testing1@ds147510.mlab.com:47510/adoe_testing_v1'
 var app = express();
 
 // view engine setup
@@ -18,8 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-
+app.use('/api/users', userRoutes);
+app.use('/api/foundations', foundationRoutes )
 
 var mongoose = require('mongoose');
 mongoose.connect(connect);
@@ -29,7 +34,7 @@ mongoose.connection.on('connected', function(){
 mongoose.connection.on('error', function(){
   console.log('mongoose connection NOT successful');
 })
-
+mongoose.Promise = global.Promise;
 var port = process.env.PORT || 3001;
 console.log('listening on port ' + port)
 app.listen(port);
