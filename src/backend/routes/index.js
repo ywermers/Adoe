@@ -100,10 +100,7 @@ router.post('/api/users/login',function(req,res){
 })
 //to addcreditCard pass creditToken and authToken
 router.post('/api/users/addcreditcard',function(req,res){
-<<<<<<< HEAD
   console.log('cardstuff',req.body))
-=======
->>>>>>> 18f0c34db4bb9c6b94f7f73d1a882ed02c7974da
     console.log('req.body.authToken',req.body.authToken)
     User.findOne({authToken:req.body.authToken},function(err,user){
       if(err) console.log(err);
