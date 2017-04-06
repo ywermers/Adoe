@@ -29,7 +29,7 @@ var Login = React.createClass({
 
   login() {
     console.log('i love lisa so much')
-    fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
+    fetch('https://sleepy-taiga-45314.herokuapp.com/api/users/login', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -42,10 +42,10 @@ var Login = React.createClass({
     .then((response) => response.json())
     .then((responseJson) => {
       console.log('response',responseJson)
-      if (responseJson.success === true) {
+      if (responseJson === 'found') {
         AsyncStorage.setItem('user', JSON.stringify({
-          email: email,
-          password: password
+          email: this.state.email,
+          password: this.state.password
         }));
         this.props.navigator.push({
           component: News,

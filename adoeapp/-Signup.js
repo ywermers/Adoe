@@ -38,7 +38,7 @@ var Signup = React.createClass({
   signup() {
     console.log('hotdog');
 
-    fetch('https://polar-sands-99108.herokuapp.com/api/users/register', {
+    fetch('https://sleepy-taiga-45314.herokuapp.com/api/users/register', {
       method: 'POST',
       body: JSON.stringify({
         name: this.state.name,
