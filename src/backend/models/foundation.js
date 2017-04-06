@@ -26,7 +26,8 @@ var foundationSchema  = mongoose.Schema({
     type: String
   },
   description: {
-    type: String
+    type: String,
+    required: true
   },
   logo: {
     type: String
