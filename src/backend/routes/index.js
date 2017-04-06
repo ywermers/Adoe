@@ -93,14 +93,14 @@ router.post('/api/users/login',function(req,res){
         })
     }else if(!user){
       console.log('user not found');
-      res.json('user not found')
+      res.json({success: false})
     }
 
   })
 })
 //to addcreditCard pass creditToken and authToken
 router.post('/api/users/addcreditcard',function(req,res){
-  console.log('cardstuff',req.body))
+  console.log('cardstuff',req.body)
     console.log('req.body.authToken',req.body.authToken)
     User.findOne({authToken:req.body.authToken},function(err,user){
       if(err) console.log(err);
@@ -138,24 +138,24 @@ router.post('/api/users/chargeCard',function(req,res){
     })
 })
 
-router.post('/api/foundations/register', function(req,res){
-  var foundation = new Foundation({
-    name : req.body.name,
-    email :  req.body.email,
-    password : req.body.password,
-    phoneNumber: req.body.phoneNumber,
-    address: req.body.address
-  })
-  foundation.save(function(err,foundation){
-    if(err){
-      console.log('cant save')
-      res.status(500).json(err);
+// router.post('/api/foundations/register', function(req,res){
+//   var foundation = new Foundation({
+//     name : req.body.name,
+//     email :  req.body.email,
+//     password : req.body.password,
+//     phoneNumber: req.body.phoneNumber,
+//     address: req.body.address
+//   })
+//   foundation.save()
+//   .then((x)=>{
+//     res.redirect('/api/login')
+//   })
+//   .catch((err) => {
+//     res.status(500).json(err)
+//   })
+// });
 
-    }
-  })
-});
-
-router.get('/api/auoth',function(req,res) {
+router.get('/api/oauth',function(req,res) {
             res.redirect('https://connect.stripe.com/oauth/authorize' + '?' + qs.stringify({
            response_type: 'code',
            scope: 'read_write',
