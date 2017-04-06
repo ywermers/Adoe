@@ -58,7 +58,7 @@ var Signup = React.createClass({
     .then((response) => response.json())
     .then((responseJson) => {
       console.log('hello!!!',responseJson)
-      if (responseJson.success === true) {
+      if (responseJson === 'userAdded') {
         console.log("SUCCESS")
         this.props.navigator.push({
           component: Login,

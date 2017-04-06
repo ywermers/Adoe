@@ -42,7 +42,7 @@ var Login = React.createClass({
     .then((response) => response.json())
     .then((responseJson) => {
       console.log('response',responseJson)
-      if (responseJson === 'found') {
+      if (responseJson.success === true) {
         AsyncStorage.setItem('user', JSON.stringify({
           email: this.state.email,
           password: this.state.password
