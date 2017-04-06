@@ -112,7 +112,7 @@ class Login extends Component {
         />
 
         <TouchableOpacity style={styles.button}
-            underlayColor='#99d9f4' onPress={this.press.bind(this} >
+            underlayColor='#99d9f4' onPress={this.press.bind(this)} >
           <Text style={styles.buttonText}>Login!</Text>
         </TouchableOpacity>
 
