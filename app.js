@@ -4,7 +4,7 @@ var exphbs = require('express-handlebars');
 var path = require('path');
 var logger=require('morgan');
 var routes = require('./src/backend/routes/index');
-var connect = process.env.MONGODB_URI
+var connect ='mongodb://testing1:testing1@ds147510.mlab.com:47510/adoe_testing_v1'
 var app = express();
 
 // view engine setup
@@ -29,7 +29,7 @@ mongoose.connection.on('connected', function(){
 mongoose.connection.on('error', function(){
   console.log('mongoose connection NOT successful');
 })
-
+mongoose.Promise = global.Promise;
 var port = process.env.PORT || 3001;
 console.log('listening on port ' + port)
 app.listen(port);
