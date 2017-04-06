@@ -157,40 +157,38 @@ router.post('/api/users/chargeCard',function(req,res){
 //   })
 // });
 
-router.get('/api/oauth',function(req,res) {
-            res.redirect('https://connect.stripe.com/oauth/authorize' + '?' + qs.stringify({
-           response_type: 'code',
-           scope: 'read_write',
-           client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
-           redirect_uri: 'https://polar-sands-99108.herokuapp.com/oauth/callback'
-          }));
-
-  });
-
-  router.get("/oauth/callback", function(req, res) {
-  var code = req.query.code;
-
-  //Make /oauth/token endpoint POST request
-  request.post({
-    url: 'https://connect.stripe.com/oauth/token',
-    form: {
-      grant_type: "authorization_code",
-      client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
-      code: code,
-      client_secret: 'sk_test_l8cpzxuRnceflUsfthcojqSs'
-    }
-  }, function(err, r, body) {
-
-    var accessToken = JSON.parse(body).access_token;
-
-    // Do something with your accessToken
-    // For demo"s sake, output in response:
-    res.send({ "Your Token": accessToken });
-    res.render('login.hbs')
-
-
-  });
-});
+// router.get('/api/oauth',function(req,res) {
+//             res.redirect('https://connect.stripe.com/oauth/authorize' + '?' + qs.stringify({
+//            response_type: 'code',
+//            scope: 'read_write',
+//            client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
+//            redirect_uri: 'http://localhost:3001/oauth/callback'
+//           }));
+//
+//   });
+//
+//   router.get("/oauth/callback", function(req, res) {
+//   var code = req.query.code;
+//
+//   //Make /oauth/token endpoint POST request
+//   request.post({
+//     url: 'https://connect.stripe.com/oauth/token',
+//     form: {
+//       grant_type: "authorization_code",
+//       client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
+//       code: code,
+//       client_secret: 'sk_test_l8cpzxuRnceflUsfthcojqSs'
+//     }
+//   }, function(err, r, body) {
+//
+//     var accessToken = JSON.parse(body).access_token;
+//
+//     // Do something with your accessToken
+//     // For demo"s sake, output in response:
+//     res.send({ "Your Token": accessToken });
+//
+//   });
+// });
 
 
 
