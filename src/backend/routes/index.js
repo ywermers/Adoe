@@ -52,6 +52,8 @@ router.get('/', function(req,res,next){
 router.get('/register', function(req,res){
   res.render('register.hbs')
 });
+
+
 router.get('/login', function(req,res){
   res.render('login.hbs')
 });
@@ -160,7 +162,7 @@ router.get('/api/oauth',function(req,res) {
            response_type: 'code',
            scope: 'read_write',
            client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
-           redirect_uri: 'http://localhost:3001/oauth/callback'
+           redirect_uri: 'https://polar-sands-99108.herokuapp.com/oauth/callback'
           }));
 
   });
@@ -184,6 +186,8 @@ router.get('/api/oauth',function(req,res) {
     // Do something with your accessToken
     // For demo"s sake, output in response:
     res.send({ "Your Token": accessToken });
+    res.render('login.hbs')
+
 
   });
 });
