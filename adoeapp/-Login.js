@@ -29,10 +29,7 @@ export default class Login extends Component {
   }
 
   login() {
-    console.log('i love lisa so much'),
-    console.log('fuck the overlord'),
-    console.log("fuck", this.state),
-    console.log('fuck'),
+
     fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
       method: 'POST',
       headers: {
@@ -48,10 +45,10 @@ export default class Login extends Component {
     .then((responseJson) => {
       console.log('response',responseJson)
       if (responseJson.success === true) {
-        console.log(this.state.password);
         AsyncStorage.setItem('user', JSON.stringify({
           email: this.state.email,
-          password: this.state.password
+          password: this.state.password,
+          authToken: responseJson.token
         }));
         this.props.navigator.push({
           component: News,
