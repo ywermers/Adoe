@@ -14,16 +14,11 @@ var hbs=require('express-handlebars')
 router.post('/api/users/addcreditcard',function(req,res){
     console.log('req.body.authToken',req.body.authToken)
 
-    // User.findOne({authToken:req.body.authToken})
-    // .then(function(user){
-    //
-    // })
-
     User.findOne({authToken:req.body.authToken},function(err,user){
       if(err) console.log(err);
       if(user){
         console.log('user found', user)
-        console.log(stripe)
+        console.log('Stripe', stripe)
         stripe.tokens.create({
           card: {
            "number": req.body.number,
