@@ -22,7 +22,7 @@ router.post('/api/users/addcreditcard',function(req,res){
     User.findOne({authToken:req.body.authToken},function(err,user){
       if(err) console.log(err);
       if(user){
-        console.log('user found')
+        console.log('user found', user)
         stripe.tokens.create({
           card: {
            "number": req.body.number,
@@ -31,6 +31,7 @@ router.post('/api/users/addcreditcard',function(req,res){
            "cvc": req.body.cvc
          }
         }, function(err, token) {
+          console.log("TOKEN", token)
           stripe.customers.update(user.stripe.customerID, {
             source: token
           }, function(err, customer){
