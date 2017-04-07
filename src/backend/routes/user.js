@@ -12,6 +12,7 @@ var hbs=require('express-handlebars')
 
 
 router.post('/api/users/addcreditcard',function(req,res){
+    console.log('Stripe', stripe)
     console.log('req.body.authToken',req.body.authToken)
 
     User.findOne({authToken:req.body.authToken},function(err,user){
