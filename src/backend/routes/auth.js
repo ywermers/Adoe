@@ -38,6 +38,7 @@ module.exports = function(passport) {
     })
     foundation.save()
     .then((x)=>{
+      console.log(x)
       res.redirect('/api/foundations/login')
     })
     .catch((err) => {
