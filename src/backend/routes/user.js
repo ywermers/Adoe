@@ -10,7 +10,7 @@ var qs = require('querystring')
 var request = require('request');
 var hbs=require('express-handlebars')
 
-
+//to addcreditCard pass creditToken and authToken
 router.post('/api/users/addcreditcard',function(req,res){
     console.log('Stripe', stripe)
     console.log('req.body.authToken',req.body.authToken)
@@ -33,7 +33,7 @@ router.post('/api/users/addcreditcard',function(req,res){
             source: token.id
           }, function(err, customer){
             if(err) console.log(err)
-            if(customer) res.send('Customer updated')
+            if(customer) res.json({success : true})
           });
         });
       }else if(!user){
@@ -84,34 +84,7 @@ router.post('/api/users/login',function(req,res){
 
   })
 })
-//to addcreditCard pass creditToken and authToken
-router.post('/api/users/addcreditcard',function(req,res){
-  console.log('cardstuff',req.body)
-    console.log('req.body.authToken',req.body.authToken)
-    User.findOne({authToken:req.body.authToken},function(err,user){
-      if(err) console.log(err);
-      if(user){
-        console.log('user found')
-        stripe.tokens.create({
-          card: {
-           "number": req.body.number,
-           "exp_month": req.body.month,
-           "exp_year": req.body.year,
-           "cvc": req.body.cvc
-         }
-        }, function(err, token) {
-          stripe.customers.update(user.stripe.customerID, {
-            source: token
-          }, function(err, customer){
-            if(err) console.log(err)
-            if(customer) res.json(success: true)
-          });
-        });
-      }else if(!user){
-        console.log('user not found')
-      }
-    })
-})
+
 // To charge a card pass authToken, foundation, and amount
 // router.post('/api/users/chargeCard',function(req,res){
 //     User.findOne({authToken:req.body.authToken},function(err,user){
