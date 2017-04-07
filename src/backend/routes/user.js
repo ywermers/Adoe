@@ -10,16 +10,16 @@ var qs = require('querystring')
 var request = require('request');
 var hbs=require('express-handlebars')
 
+
 //to addcreditCard pass creditToken and authToken
 router.post('/api/users/addcreditcard',function(req,res){
-    console.log('Stripe', stripe)
     console.log('req.body.authToken',req.body.authToken)
 
     User.findOne({authToken:req.body.authToken},function(err,user){
       if(err) console.log(err);
+      console.log('user',user)
       if(user){
         console.log('user found', user)
-        console.log('Stripe', stripe)
         stripe.tokens.create({
           card: {
            "number": req.body.number,
