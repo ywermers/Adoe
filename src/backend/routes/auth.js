@@ -6,17 +6,26 @@ var User = require('../models/user');
 
 module.exports = function(passport) {
 
+  router.get('/api/foundations', function(req,res,next){
+    res.render('home.hbs')
+  });
+
   router.get('/api/foundations/login', function(req,res){
     res.render('login');
   });
 
   router.post('/api/foundations/login', passport.authenticate('local'), function(req,res){
-    res.redirect('/api/foundation');
+    res.redirect('/api/foundations/stripe');
   });
 
   router.get('/api/foundations/logout', function(req, res){
     req.logout();
     res.redirect('/login');
+  });
+
+
+  router.get('/api/foundations/register', function(req,res){
+    res.render('register')
   });
 
   router.post('/api/foundations/register', function(req,res){
@@ -29,7 +38,7 @@ module.exports = function(passport) {
     })
     foundation.save()
     .then((x)=>{
-      res.redirect('/api/login')
+      res.redirect('/api/foundations/login')
     })
     .catch((err) => {
       res.status(500).json(err)

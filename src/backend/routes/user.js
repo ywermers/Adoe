@@ -4,8 +4,8 @@ var Donation = require('../models/donations').donations;
 var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
-var Stripe_connect = 'sk_test_5p5XtniGoi1GgZXpOO7hOoHK'
-var stripe = require("stripe")(Stripe_connect);
+
+var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET);
 var qs = require('querystring')
 var request = require('request');
 var hbs=require('express-handlebars')
@@ -44,19 +44,6 @@ router.post('/api/users/addcreditcard',function(req,res){
     })
 })
 
-
-router.get('/', function(req,res,next){
-  res.render('home.hbs')
-});
-
-router.get('/register', function(req,res){
-  res.render('register.hbs')
-});
-
-
-router.get('/login', function(req,res){
-  res.render('login.hbs')
-});
 
 router.post('/api/users/register', function(req,res){
   console.log(req.body.name);
@@ -129,16 +116,16 @@ router.post('/api/users/addcreditcard',function(req,res){
     })
 })
 // To charge a card pass authToken, foundation, and amount
-router.post('/api/users/chargeCard',function(req,res){
-    User.findOne({authToken:req.body.authToken},function(err,user){
-      if(err) console.log(err);
-      if(user){
-        Foundation.findOne({name: req.body.foundation})
-      }else if(!user){
-        console.log('user not found')
-      }
-    })
-})
+// router.post('/api/users/chargeCard',function(req,res){
+//     User.findOne({authToken:req.body.authToken},function(err,user){
+//       if(err) console.log(err);
+//       if(user){
+//         Foundation.findOne({name: req.body.foundation})
+//       }else if(!user){
+//         console.log('user not found')
+//       }
+//     })
+// })
 
 // router.post('/api/foundations/register', function(req,res){
 //   var foundation = new Foundation({
@@ -188,7 +175,7 @@ router.post('/api/users/chargeCard',function(req,res){
 //     res.send({ "Your Token": accessToken });
 //
 //   });
-// });
+//});
 
 
 

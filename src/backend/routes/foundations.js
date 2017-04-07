@@ -40,11 +40,15 @@ router.get('/api/foundations/api/oauth',function(req,res) {
     res.send({ "Your Token": accessToken });
 
   });
-
+});
 router.get('/api/foundations/stripe', function(req, res){
-
+    res.render('stripe')
 })
 
+router.post('/api/foundations/stripe', function(req, res){
+
+
+})
 
 
 module.exports = router;
