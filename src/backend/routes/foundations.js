@@ -1,5 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var Donation = require('../models/donations');
+var Foundation = require('../models/foundation');
+var Fundraiser = require('../models/fundraiser');
+var User = require('../models/user');
 
 router.use(function(req, res, next){
   if(!req.foundation) {
@@ -14,7 +18,7 @@ router.get('/api/foundations/api/oauth',function(req,res) {
            response_type: 'code',
            scope: 'read_write',
            client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
-           redirect_uri: 'http://localhost:3001/oauth/callback'
+           redirect_uri: 'https://polar-sands-99108.herokuapp.com/api/foundations/oauth/callback'
           }));
 
   });
@@ -43,11 +47,6 @@ router.get('/api/foundations/api/oauth',function(req,res) {
 });
 router.get('/api/foundations/stripe', function(req, res){
     res.render('stripe')
-})
-
-router.post('/api/foundations/stripe', function(req, res){
-
-
 })
 
 

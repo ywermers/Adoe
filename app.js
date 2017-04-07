@@ -10,6 +10,11 @@ var LocalStrategy = require('passport-local').Strategy;
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
+var Donation = require('./src/backend/models/donations');
+var Foundation = require('./src/backend/models/foundation');
+var Fundraiser = require('./src/backend/models/fundraiser');
+var User = require('./src/backend/models/user');
+
 var userRoutes = require('./src/backend/routes/user');
 var foundationRoutes = require('./src/backend/routes/foundations');
 var auth = require('./src/backend/routes/auth');
@@ -17,6 +22,7 @@ var hashPassword = require('./src/backend/hashPassword');
 
 var connect = process.env.MONGODB_URI
 var app = express();
+
 
 // view engine setup
 app.engine('.hbs',exphbs({ extname: '.hbs'}));
@@ -48,8 +54,9 @@ app.use(session({
     // In milliseconds, i.e., 10 days
     maxAge: 1000 * 60 * 60 * 24 * 10
   },
-  resave: false,
-  saveUninitialized: false,
+  proxy: true,
+  resave: true,
+  saveUninitialized: true,
   store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 app.use(passport.initialize());
@@ -60,17 +67,17 @@ passport.serializeUser(function(model, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  models.Foundation.findById(id, function(err, foundation) {
-    done(err, user);
+  Foundation.findById(id, function(err, foundation) {
+    done(err, foundation);
   });
 });
 
 
-passport.use(new LocalStrategy(function (username, password, done) {
-    var hash = hashPassword(password);
-
+passport.use(new LocalStrategy(function (email, password, done) {
+    //var hash = hashPassword(password);
+    console.log('LocaleStrategy email', email);
     // Find the user with the given username
-    models.Foundation.findOne({foundation: foundation}, function (err, foundation) {
+    Foundation.findOne({email: email}, function (err, foundation) {
       // if there's an error, finish trying to authenticate (auth failed)
       if (err) {
         console.error(err);
@@ -82,7 +89,7 @@ passport.use(new LocalStrategy(function (username, password, done) {
         return done(null, false, {message: 'Incorrect Foundation Name.'});
       }
       // if passwords do not match, auth failed
-      if (foundation.password !== hash) {
+      if (foundation.password !== password) {
         return done(null, false, {message: 'Incorrect password.'});
       }
       // auth has has succeeded

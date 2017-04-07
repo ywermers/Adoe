@@ -7,13 +7,14 @@
   </head>
   <body>
     <h1>Register Page</h1>
-     <form type="post" method="/api/foundations/register">
+     <form method="post" action="/api/foundations/register">
 
-       <input type='text'></input>FoundationName
-       <input type='password'></input>Password
-       <input type='text'></input>Password
-       <input type='email'></input>email
-       <input type='text'></input>description
+       <input type="text" name="name"></input>FoundationName
+       <input type="password" name="password"></input>Password
+       <input type="password" name="repeatPassword"></input>Password
+       <input type="email" name="email"></input>email
+       <input type="text" name="address"></input>address
+       <input type="text" name="description"></input>description
        <input type='submit'></input>
      </form>
 

@@ -46,7 +46,6 @@ router.post('/api/users/addcreditcard',function(req,res){
 
 
 router.post('/api/users/register', function(req,res){
-  console.log(req.body.name);
   var user = new User({
     name : req.body.name,
     email :  req.body.email,

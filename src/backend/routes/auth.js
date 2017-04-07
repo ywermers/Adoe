@@ -1,11 +1,17 @@
 var express = require('express');
 var router = express.Router();
 var hashPassword = require('../hashPassword');
+var Donation = require('../models/donations');
 var Foundation = require('../models/foundation');
+var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
 
 module.exports = function(passport) {
 
+  router.use(function(req, res, next){
+    console.log("authenticate")
+    next();
+  });
   router.get('/api/foundations', function(req,res,next){
     res.render('home.hbs')
   });
@@ -35,16 +41,18 @@ module.exports = function(passport) {
       email :  req.body.email,
       password : req.body.password,
       phoneNumber: req.body.phoneNumber,
-      address: req.body.address
+      address: req.body.address,
+      description: req.body.description
     })
+    console.log(foundation)
     foundation.save()
     .then((x)=>{
-      console.log(x)
+      console.log('foundation saved')
       res.redirect('/api/foundations/login')
     })
     .catch((err) => {
       res.status(500).json(err)
-    })
+    });
   });
 
   return router
