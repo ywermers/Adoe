@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Donation = require('../models/donations').donations;
+var Donation = require('../models/donations');
 var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
