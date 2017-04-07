@@ -16,7 +16,7 @@ import {
 var News = require('./-News');
 var Signup = require('./-Signup');
 
-var Login = React.createClass({
+export default class Login extends Component {
 
   getInitialState() {
     return {
@@ -25,11 +25,10 @@ var Login = React.createClass({
       email:' ',
       password: ' '
     }
-  },
-
+  }
   login() {
     console.log('i love lisa so much')
-    fetch('https://sleepy-taiga-45314.herokuapp.com/api/users/login', {
+    fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -61,7 +60,7 @@ var Login = React.createClass({
     .catch((err) => {
       console.log('error', err)
     });
-  },
+  }
   //
   // componentDidMount() {
   //   AsyncStorage.getItem('user')
@@ -85,48 +84,48 @@ var Login = React.createClass({
       component: News,
       title: 'News',
     })
-  },
+  }
 
   goToSignup() {
     this.props.navigator.push({
       component: Signup,
       title: 'Signup',
     })
-  },
+  }
 
   render() {
     return(
 
       <View style={styles.container}>
 
-        <TextInput
-          style={styles.searchInput}
-          placeholder='Email'
-          onChangeText={(text) => this.setState({email: text})}
-        />
+      <TextInput
+      style={styles.searchInput}
+      placeholder='Email'
+      onChangeText={(text) => this.setState({email: text})}
+      />
 
-        <TextInput
-          style={styles.searchInput}
-          placeholder='Password'
-          secureTextEntry={true}
-          onChangeText={(text) => this.setState({password: text})}
-        />
+      <TextInput
+      style={styles.searchInput}
+      placeholder='Password'
+      secureTextEntry={true}
+      onChangeText={(text) => this.setState({password: text})}
+      />
 
-        <TouchableOpacity style={styles.button}
-            underlayColor='#99d9f4' onPress={this.login} >
-          <Text style={styles.buttonText}>Login!</Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.button}
+      underlayColor='#99d9f4' onPress={this.login} >
+      <Text style={styles.buttonText}>Login!</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity onPress={this.goToSignup.bind(this)}>
-          <Text style={styles.description} >
-            Don&rsquo;t have an account? Sign up here.
-          </Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={this.goToSignup}>
+      <Text style={styles.description} >
+      Don&rsquo;t have an account? Sign up here.
+      </Text>
+      </TouchableOpacity>
 
       </View>
     )
   }
-})
+};
 
 
 var styles = StyleSheet.create({
@@ -167,8 +166,7 @@ var styles = StyleSheet.create({
     borderColor: '#48BBEC',
     borderRadius: 8,
     color: '#48BBEC'
-  },
+  }
 });
-
 
 module.exports = Login;

@@ -10,8 +10,7 @@ import {
   ListView,
   TextInput,
   AsyncStorage,
-  Text,
-  NavigatorIOS
+  Text
 } from 'react-native';
 
 // constructor(props){
@@ -22,7 +21,7 @@ import {
 //   };
 // }
 
-var Login = require('./-Login');
+import Login from './-Login'
 
 // class Signup extends Component {
 var Signup = React.createClass({
@@ -38,7 +37,7 @@ var Signup = React.createClass({
   signup() {
     console.log('hotdog');
 
-    fetch('https://sleepy-taiga-45314.herokuapp.com/api/users/register', {
+    fetch('https://polar-sands-99108.herokuapp.com/api/users/register', {
       method: 'POST',
       body: JSON.stringify({
         name: this.state.name,
@@ -58,11 +57,11 @@ var Signup = React.createClass({
     .then((response) => response.json())
     .then((responseJson) => {
       console.log('hello!!!',responseJson)
-      if (responseJson === 'userAdded') {
-        console.log("SUCCESS")
+      if (responseJson.success === true) {
+        console.log("SUCCESS", Login)
         this.props.navigator.push({
           component: Login,
-          title: 'Login',
+          title: 'Login'
         })
       } else {
         this.setState({
@@ -78,7 +77,6 @@ var Signup = React.createClass({
 
 
   render() {
-
     return (
       <View style={styles.container}>
 

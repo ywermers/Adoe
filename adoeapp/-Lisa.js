@@ -20,24 +20,42 @@ class Lisa extends Component {
       name:"",
       number:"",
       date:"",
-      cvc:""
+      cvc:"",
+      responseJsonError: ''
     }
   }
   submit(){
-    console.log('asd', this.state)
 
       //fetch --> api/users/addcreditcard
       // auth token and credit token
 
-      fetch('https://localhost:3001/api/users/addcreditcard/', {
+      fetch('https://polar-sands-99108.herokuapp.com/api/users/addcreditcard/', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(this.state)
-      })
+        body: JSON.stringify({
+          name:this.state.name,
+          cvs: this.state.cvc
 
+        })
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log('response', responseJson)
+        if (responseJson.success === true) {
+          console.log('card added')
+        } else {
+          this.setState({
+            responseJsonError: responseJson.error
+          });
+        }
+        console.log('responseJson', responseJson)
+      })
+      .catch((err) => {
+        console.log('error', err)
+      });
   }
   render() {
     return(
