@@ -29,6 +29,7 @@ module.exports = function(passport) {
   });
 
   router.post('/api/foundations/register', function(req,res){
+    console.log("REGISTER", req.body)
     var foundation = new Foundation({
       name : req.body.name,
       email :  req.body.email,
