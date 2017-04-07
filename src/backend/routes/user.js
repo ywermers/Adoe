@@ -13,6 +13,8 @@ var hbs=require('express-handlebars')
 
 //to addcreditCard pass creditToken and authToken
 router.post('/api/users/addcreditcard',function(req,res){
+
+    console.log('THISISTHETESt')
     console.log('req.body.authToken',req.body.authToken)
 
     User.findOne({authToken:req.body.authToken},function(err,user){
