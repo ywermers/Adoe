@@ -23,6 +23,7 @@ router.post('/api/users/addcreditcard',function(req,res){
       if(err) console.log(err);
       if(user){
         console.log('user found', user)
+        console.log(stripe)
         stripe.tokens.create({
           card: {
            "number": req.body.number,
@@ -33,7 +34,7 @@ router.post('/api/users/addcreditcard',function(req,res){
         }, function(err, token) {
           console.log("TOKEN", token)
           stripe.customers.update(user.stripe.customerID, {
-            source: token
+            source: token.id
           }, function(err, customer){
             if(err) console.log(err)
             if(customer) res.send('Customer updated')
