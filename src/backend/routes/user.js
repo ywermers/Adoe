@@ -106,7 +106,7 @@ router.post('/api/users/addcreditcard',function(req,res){
             source: token
           }, function(err, customer){
             if(err) console.log(err)
-            if(customer) res.send('Customer updated')
+            if(customer) res.json(success: true)
           });
         });
       }else if(!user){
