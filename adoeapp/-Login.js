@@ -18,30 +18,37 @@ var Signup = require('./-Signup');
 
 export default class Login extends Component {
 
-  getInitialState() {
-    return {
+  constructor(props){
+    super(props);
+    this.state = {
       responseJsonError: '',
       loginmessage: '',
-      email:' ',
-      password: ' '
+      email:'',
+      password: ''
     }
   }
+
   login() {
-    console.log('i love lisa so much')
+    console.log('i love lisa so much'),
+    console.log('fuck the overlord'),
+    console.log("fuck", this.state),
+    console.log('fuck'),
     fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
       method: 'POST',
       headers: {
+        'Accept': 'application/json',
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        email: this.state.email
       })
     })
     .then((response) => response.json())
     .then((responseJson) => {
       console.log('response',responseJson)
       if (responseJson.success === true) {
+        console.log(this.state.password);
         AsyncStorage.setItem('user', JSON.stringify({
           email: this.state.email,
           password: this.state.password
@@ -102,6 +109,7 @@ export default class Login extends Component {
       style={styles.searchInput}
       placeholder='Email'
       onChangeText={(text) => this.setState({email: text})}
+      value={this.state.email}
       />
 
       <TextInput
@@ -109,10 +117,11 @@ export default class Login extends Component {
       placeholder='Password'
       secureTextEntry={true}
       onChangeText={(text) => this.setState({password: text})}
+      value={this.state.password}
       />
 
       <TouchableOpacity style={styles.button}
-      underlayColor='#99d9f4' onPress={this.login} >
+      underlayColor='#99d9f4' onPress={this.login.bind(this)} >
       <Text style={styles.buttonText}>Login!</Text>
       </TouchableOpacity>
 
