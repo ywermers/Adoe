@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   ListView,
   TextInput,
-  Text
+  Text,
+  AsyncStorage
 } from 'react-native';
 
 
@@ -20,24 +21,56 @@ class Lisa extends Component {
       name:"",
       number:"",
       date:"",
-      cvc:""
+      cvc:"",
+      responseJsonError: ''
     }
   }
   submit(){
-    console.log('asd', this.state)
 
       //fetch --> api/users/addcreditcard
       // auth token and credit token
-
-      fetch('https://localhost:3001/api/users/addcreditcard/', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(this.state)
+      // var authToken = await AsyncStorage.getItem(authToken)
+      //
+      AsyncStorage.getItem('user')
+      .then(result => {
+        console.log('asyncStorage', result)
+        var parsedResult = JSON.parse(result);
+        var authToken = parsedResult.authToken;
+        console.log(authToken)
+        fetch('https://polar-sands-99108.herokuapp.com/api/users/addcreditcard/', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name:this.state.name,
+            cvc: this.state.cvc,
+            month: this.state.month,
+            year: this.state.year,
+            number: this.state.number,
+            authToken: authToken
+          })
+        })
       })
-
+      .then((response) => {
+        console.log('lisa is so loved')
+        console.log(response)
+        response.json()})
+      .then((responseJson) => {
+        console.log('response', responseJson)
+        if (responseJson.success === true) {
+          console.log('card added')
+        } else {
+          this.setState({
+            responseJsonError: responseJson.error
+          });
+        }
+        console.log('responseJson', responseJson)
+      })
+      .catch((err) => {
+        console.log('error', err)
+      });
   }
   render() {
     return(
@@ -66,9 +99,16 @@ class Lisa extends Component {
 
       <TextInput
       style={styles.searchInput}
-      placeholder='Expiration date (mm/dd)'
-      onChangeText={(date) => this.setState({date})}
-      value={this.state.date}
+      placeholder='Expiration MONTH (MM)'
+      onChangeText={(month) => this.setState({month})}
+      value={this.state.month}
+      />
+
+      <TextInput
+      style={styles.searchInput}
+      placeholder='Expiration YEAR (YY)'
+      onChangeText={(year) => this.setState({year})}
+      value={this.state.year}
       />
 
       <TextInput

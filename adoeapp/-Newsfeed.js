@@ -11,8 +11,9 @@ import {
   Text
 } from 'react-native';
 
-import Drawer from 'react-native-drawer';
 import ControlPanel from './-+ControlPanel';
+import Drawer from 'react-native-drawer';
+// import ControlPanel from './-+ControlPanel';
 
 class Newsfeed extends Component {
 
@@ -22,24 +23,13 @@ class Newsfeed extends Component {
   openControlPanel = () => {
     this._drawer.open()
   };
-
-  render() {
-    return(
-      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-        <Text style={{fontSize: 40}}>
-          Newsfeed content
-        </Text>
-
-        <Drawer
-    type="static"
-    content={<ControlPanel />}
-    openDrawerOffset={100}
-    styles={drawerStyles}
-    tweenHandler={Drawer.tweenPresets.parallax}
-    >
-  </Drawer>
-
-      </View>
+  render () {
+    return (
+      <Drawer
+        ref={(ref) => this._drawer = ref}
+        content={<ControlPanel />}
+        >
+      </Drawer>
     )
   }
 }

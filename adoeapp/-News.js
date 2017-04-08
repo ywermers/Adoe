@@ -11,7 +11,8 @@ import {
   Text
 } from 'react-native';
 
-class News extends Component {
+var News = React.createClass({
+
   render() {
     return(
       <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
@@ -21,7 +22,7 @@ class News extends Component {
       </View>
     )
   }
-}
+})
 
 var styles = StyleSheet.create({
   description: {

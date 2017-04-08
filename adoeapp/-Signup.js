@@ -21,7 +21,7 @@ import {
 //   };
 // }
 
-var Login = require('./-Login');
+import Login from './-Login'
 
 // class Signup extends Component {
 var Signup = React.createClass({
@@ -58,16 +58,17 @@ var Signup = React.createClass({
     .then((responseJson) => {
       console.log('hello!!!',responseJson)
       if (responseJson.success === true) {
+        console.log("SUCCESS", Login)
         this.props.navigator.push({
           component: Login,
-          title: 'Login',
+          title: 'Login'
         })
       } else {
         this.setState({
           responseJsonError: responseJson.error,
         });
       }
-      console.log('responsejosn', responseJson)
+      console.log('responsejson', responseJson)
     })
     .catch((err) => {
       console.log('error', err)
@@ -76,7 +77,6 @@ var Signup = React.createClass({
 
 
   render() {
-
     return (
       <View style={styles.container}>
 

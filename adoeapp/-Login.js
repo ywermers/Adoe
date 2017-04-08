@@ -16,32 +16,39 @@ import {
 var News = require('./-News');
 var Signup = require('./-Signup');
 
-class Login extends Component {
+export default class Login extends Component {
 
-  getInitialState() {
-    return {
+  constructor(props){
+    super(props);
+    this.state = {
       responseJsonError: '',
-      loginmessage: ''
+      loginmessage: '',
+      email:'',
+      password: ''
     }
   }
 
-  login(username, password) {
-    fetch('https://hohoho-backend.herokuapp.com/login', {
+  login() {
+
+    fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
       method: 'POST',
       headers: {
+        'Accept': 'application/json',
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        username: username,
-        password: password
+        password: this.state.password,
+        email: this.state.email
       })
     })
     .then((response) => response.json())
     .then((responseJson) => {
+      console.log('response',responseJson)
       if (responseJson.success === true) {
         AsyncStorage.setItem('user', JSON.stringify({
-          username: username,
-          password: password
+          email: this.state.email,
+          password: this.state.password,
+          authToken: responseJson.token
         }));
         this.props.navigator.push({
           component: News,
@@ -58,26 +65,23 @@ class Login extends Component {
       console.log('error', err)
     });
   }
+  //
+  // componentDidMount() {
+  //   AsyncStorage.getItem('user')
+  //   // .then(result => {
+  //   //   var parsedResult = JSON.parse(result);
+  //   //   var email = parsedResult.email;
+  //   //   var password = parsedResult.password;
+  //   //   if (username && password) {
+  //   //     this.setState({
+  //   //       loginmessage: ('Logged in as ' + username + '.')
+  //   //     })
+  //   //     return this.login(username, password)
+  //   //   }
+  //   // })
+  //   .catch(err => {console.log('error', err)})
+  // }
 
-  componentDidMount() {
-    AsyncStorage.getItem('user')
-    .then(result => {
-      var parsedResult = JSON.parse(result);
-      var username = parsedResult.username;
-      var password = parsedResult.password;
-      if (username && password) {
-        this.setState({
-          loginmessage: ('Logged in as ' + username + '.')
-        })
-        return this.login(username, password)
-      }
-    })
-    .catch(err => {console.log('error', err)})
-  }
-
-  press(){
-    this.login(this.state.username, this.state.password)
-  }
 
   goToNews() {
     this.props.navigator.push({
@@ -98,34 +102,36 @@ class Login extends Component {
 
       <View style={styles.container}>
 
-        <TextInput
-          style={styles.searchInput}
-          placeholder='Email'
-          onChangeText={(text) => this.setState({username: text})}
-        />
+      <TextInput
+      style={styles.searchInput}
+      placeholder='Email'
+      onChangeText={(text) => this.setState({email: text})}
+      value={this.state.email}
+      />
 
-        <TextInput
-          style={styles.searchInput}
-          placeholder='Password'
-          secureTextEntry={true}
-          onChangeText={(text) => this.setState({password: text})}
-        />
+      <TextInput
+      style={styles.searchInput}
+      placeholder='Password'
+      secureTextEntry={true}
+      onChangeText={(text) => this.setState({password: text})}
+      value={this.state.password}
+      />
 
-        <TouchableOpacity style={styles.button}
-            underlayColor='#99d9f4' onPress={this.press.bind(this)} >
-          <Text style={styles.buttonText}>Login!</Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.button}
+      underlayColor='#99d9f4' onPress={this.login.bind(this)} >
+      <Text style={styles.buttonText}>Login!</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity onPress={this.goToSignup.bind(this)}>
-          <Text style={styles.description} >
-            Don&rsquo;t have an account? Sign up here.
-          </Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={this.goToSignup}>
+      <Text style={styles.description} >
+      Don&rsquo;t have an account? Sign up here.
+      </Text>
+      </TouchableOpacity>
 
       </View>
     )
   }
-}
+};
 
 
 var styles = StyleSheet.create({
@@ -166,8 +172,7 @@ var styles = StyleSheet.create({
     borderColor: '#48BBEC',
     borderRadius: 8,
     color: '#48BBEC'
-  },
+  }
 });
-
 
 module.exports = Login;
