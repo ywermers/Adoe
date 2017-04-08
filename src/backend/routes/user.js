@@ -1,28 +1,27 @@
 var express = require('express');
 var router = express.Router();
-var Donation = require('../models/donations').donations;
+var Donation = require('../models/donations');
 var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
-var Stripe_connect = 'sk_test_5p5XtniGoi1GgZXpOO7hOoHK'
-var stripe = require("stripe")(Stripe_connect);
+
+var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET);
 var qs = require('querystring')
 var request = require('request');
 var hbs=require('express-handlebars')
 
 
+//to addcreditCard pass creditToken and authToken
 router.post('/api/users/addcreditcard',function(req,res){
-    console.log('req.body.authToken',req.body.authToken)
 
-    // User.findOne({authToken:req.body.authToken})
-    // .then(function(user){
-    //
-    // })
+    console.log('THISISTHETESt')
+    console.log('req.body.authToken',req.body.authToken)
 
     User.findOne({authToken:req.body.authToken},function(err,user){
       if(err) console.log(err);
+      console.log('user',user)
       if(user){
-        console.log('user found')
+        console.log('user found', user)
         stripe.tokens.create({
           card: {
            "number": req.body.number,
@@ -31,11 +30,12 @@ router.post('/api/users/addcreditcard',function(req,res){
            "cvc": req.body.cvc
          }
         }, function(err, token) {
+          console.log("TOKEN", token)
           stripe.customers.update(user.stripe.customerID, {
-            source: token
+            source: token.id
           }, function(err, customer){
             if(err) console.log(err)
-            if(customer) res.send('Customer updated')
+            if(customer) res.json({success : true})
           });
         });
       }else if(!user){
@@ -45,21 +45,7 @@ router.post('/api/users/addcreditcard',function(req,res){
 })
 
 
-router.get('/', function(req,res,next){
-  res.render('home.hbs')
-});
-
-router.get('/register', function(req,res){
-  res.render('register.hbs')
-});
-
-
-router.get('/login', function(req,res){
-  res.render('login.hbs')
-});
-
 router.post('/api/users/register', function(req,res){
-  console.log(req.body.name);
   var user = new User({
     name : req.body.name,
     email :  req.body.email,
@@ -100,45 +86,18 @@ router.post('/api/users/login',function(req,res){
 
   })
 })
-//to addcreditCard pass creditToken and authToken
-router.post('/api/users/addcreditcard',function(req,res){
-  console.log('cardstuff',req.body)
-    console.log('req.body.authToken',req.body.authToken)
-    User.findOne({authToken:req.body.authToken},function(err,user){
-      if(err) console.log(err);
-      if(user){
-        console.log('user found')
-        stripe.tokens.create({
-          card: {
-           "number": req.body.number,
-           "exp_month": req.body.month,
-           "exp_year": req.body.year,
-           "cvc": req.body.cvc
-         }
-        }, function(err, token) {
-          stripe.customers.update(user.stripe.customerID, {
-            source: token
-          }, function(err, customer){
-            if(err) console.log(err)
-            if(customer) res.send('Customer updated')
-          });
-        });
-      }else if(!user){
-        console.log('user not found')
-      }
-    })
-})
+
 // To charge a card pass authToken, foundation, and amount
-router.post('/api/users/chargeCard',function(req,res){
-    User.findOne({authToken:req.body.authToken},function(err,user){
-      if(err) console.log(err);
-      if(user){
-        Foundation.findOne({name: req.body.foundation})
-      }else if(!user){
-        console.log('user not found')
-      }
-    })
-})
+// router.post('/api/users/chargeCard',function(req,res){
+//     User.findOne({authToken:req.body.authToken},function(err,user){
+//       if(err) console.log(err);
+//       if(user){
+//         Foundation.findOne({name: req.body.foundation})
+//       }else if(!user){
+//         console.log('user not found')
+//       }
+//     })
+// })
 
 // router.post('/api/foundations/register', function(req,res){
 //   var foundation = new Foundation({
@@ -188,7 +147,7 @@ router.post('/api/users/chargeCard',function(req,res){
 //     res.send({ "Your Token": accessToken });
 //
 //   });
-// });
+//});
 
 
 
