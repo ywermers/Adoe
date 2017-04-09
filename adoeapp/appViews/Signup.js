@@ -21,7 +21,7 @@ import {
 //   };
 // }
 
-import Login from './-Login'
+import Login from './Login'
 
 // class Signup extends Component {
 var Signup = React.createClass({

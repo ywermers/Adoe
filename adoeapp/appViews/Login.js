@@ -13,8 +13,8 @@ import {
   Text
 } from 'react-native';
 
-var News = require('./-News');
-var Signup = require('./-Signup');
+var News = require('./News');
+var Signup = require('./Signup');
 
 export default class Login extends Component {
 

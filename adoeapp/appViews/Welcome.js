@@ -12,21 +12,21 @@ import {
   NavigatorIOS
 } from 'react-native';
 
-var Login = require('./-Login');
-var Signup = require('./-Signup');
+var Login = require('./Login');
+var Signup = require('./Signup');
 
 // ease of development - NEWSFEED ACCESS ALSO ON GO OF LOGIN
-var Newsfeed = require('./-Newsfeed');
-var News = require('./-News')
+var Newsfeed = require('./Newsfeed');
+var News = require('./News')
 // ease of development - ADOE ACCESS for backend sync
-var Lisa = require('./-Lisa');
+var Credit = require('./Credit');
 
 class Welcome extends Component {
 
-  goToLisa() {
+  goToCredit() {
     this.props.navigator.push({
-      component: Lisa,
-      title: 'Lisa',
+      component: Credit,
+      title: 'Credit',
     })
   }
 
@@ -74,9 +74,9 @@ class Welcome extends Component {
             News
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.goToLisa.bind(this)} style={styles.lisabutton}>
+        <TouchableOpacity onPress={this.goToCredit.bind(this)} style={styles.lisabutton}>
           <Text style={styles.buttonText}>
-            LISA
+            Credit
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.goToNewsfeed.bind(this)} style={styles.lisabutton}>
