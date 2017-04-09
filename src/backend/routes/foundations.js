@@ -4,14 +4,21 @@ var Donation = require('../models/donations');
 var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
+var qs = require('querystring');
 
 router.use(function(req, res, next){
-  if(!req.foundation) {
+  if(!req.user) {
     res.redirect('/api/foundations/login');
   }else{
+    console.log('foundations API')
     return next();
   }
 });
+
+router.get('/api/foundations/stripe', function(req, res){
+    console.log('STRIPE');
+    res.render('stripe');
+})
 
 router.get('/api/foundations/api/oauth',function(req,res) {
             res.redirect('https://connect.stripe.com/oauth/authorize' + '?' + qs.stringify({
@@ -45,9 +52,6 @@ router.get('/api/foundations/api/oauth',function(req,res) {
 
   });
 });
-router.get('/api/foundations/stripe', function(req, res){
-    res.render('stripe')
-})
 
 
 module.exports = router;

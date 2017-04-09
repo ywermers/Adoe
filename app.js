@@ -73,21 +73,25 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(model, done) {
-  done(null, model._id);
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-  Foundation.findById(id, function(err, foundation) {
-    done(err, foundation);
+  Foundation.findById(id, function(err, user) {
+    done(err, user);
   });
 });
 
 
-passport.use(new LocalStrategy(function (email, password, done) {
-    //var hash = hashPassword(password);
+passport.use(new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'
+},function (email, password, done) {
+    var hash = hashPassword(password);
     console.log('LocaleStrategy email', email);
-    // Find the user with the given username
+    console.log('password', password)
+    // Find the user with the given email
     Foundation.findOne({email: email}, function (err, foundation) {
       // if there's an error, finish trying to authenticate (auth failed)
       if (err) {
@@ -95,7 +99,7 @@ passport.use(new LocalStrategy(function (email, password, done) {
         return done(err);
       }
       // if no user present, auth failed
-      if (!user) {
+      if (!foundation) {
         console.log(foundation);
         return done(null, false, {message: 'Incorrect Foundation Name.'});
       }
@@ -104,14 +108,14 @@ passport.use(new LocalStrategy(function (email, password, done) {
         return done(null, false, {message: 'Incorrect password.'});
       }
       // auth has has succeeded
-      return done(null, user);
+      return done(null, foundation);
     });
   }
 ));
 
 app.use('/', auth(passport));
-app.use('/api/users', userRoutes);
-app.use('/api/foundations', foundationRoutes )
+app.use('/', userRoutes);
+app.use('/', foundationRoutes )
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
