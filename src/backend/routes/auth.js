@@ -8,6 +8,8 @@ var User = require('../models/user');
 
 module.exports = function(passport) {
 
+  router.use(express.static(__dirname + '/public'));
+
   router.use(function(req, res, next){
     console.log("authenticate")
     next();
