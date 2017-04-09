@@ -16,7 +16,7 @@ import {
   ListView,
 } from 'react-native';
 
-var Welcome = require('./-Welcome');
+var Welcome = require('./appViews/Welcome');
 
 export default class adoeapp extends Component {
   render() {

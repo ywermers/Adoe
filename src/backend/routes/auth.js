@@ -21,6 +21,7 @@ module.exports = function(passport) {
   });
 
   router.post('/api/foundations/login', passport.authenticate('local'), function(req,res){
+    console.log("authenticated correcty")
     res.redirect('/api/foundations/stripe');
   });
 
@@ -36,6 +37,8 @@ module.exports = function(passport) {
 
   router.post('/api/foundations/register', function(req,res){
     console.log("REGISTER", req.body)
+    if(req.body.password !== req.body.repeatPassword) throw new Error("passwords don't match")
+    var password = hashPassword(req.body.password)
     var foundation = new Foundation({
       name : req.body.name,
       email :  req.body.email,

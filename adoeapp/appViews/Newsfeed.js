@@ -11,7 +11,7 @@ import {
   Text
 } from 'react-native';
 
-import ControlPanel from './-+ControlPanel';
+import ControlPanel from './ControlPanel';
 import Drawer from 'react-native-drawer';
 // import ControlPanel from './-+ControlPanel';
 

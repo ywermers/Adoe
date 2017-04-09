@@ -5,8 +5,8 @@ import {
   Text
 } from 'react-native';
 
-import lstyles from './-+styles';
-import lButton from './-+Button';
+import lstyles from './styles';
+import lButton from './Button';
 
 export default class ControlPanel extends Component {
   render() {
