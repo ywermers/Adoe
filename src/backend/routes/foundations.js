@@ -18,6 +18,8 @@ router.use(function(req, res, next){
 });
 
 router.get('/api/foundations/stripe', function(req, res){
+    console.log('session', req.session);
+    console.log('user', req.user);
     console.log('STRIPE');
     res.render('stripe');
 })
@@ -48,7 +50,14 @@ router.get('/api/foundations/api/oauth',function(req,res) {
   }, function(err, r, body) {
 
     var accessToken = JSON.parse(body).access_token;
-    console.log(req.user);
+    Foundation.update({_id: req.session.passport.user}, {w:1},
+    function(err, updated){
+      if(err) res.status(500).json(err)
+      if(updated){
+          res.render('stripe', {"success": true});
+      }
+    })
+
 
 
   });
