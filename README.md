@@ -113,7 +113,7 @@ Below are the live server specifications for accessing our "Adoe" internal API.
  "ustate": String,
  "zipCode": String,
  "Country": String,
- "description: String
+ "description": String
  }
 ```
 **Success Response**: 200 - `{"success": true}`  //redirected to GET login
