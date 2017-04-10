@@ -50,13 +50,14 @@ router.get('/api/foundations/api/oauth',function(req,res) {
   }, function(err, r, body) {
 
     var accessToken = JSON.parse(body).access_token;
-    Foundation.update({_id: req.session.passport.user}, {w:1},
-    function(err, updated){
-      if(err) res.status(500).json(err)
-      if(updated){
-          res.render('stripe', {"success": true});
-      }
+    Foundation.findONe({_id: req.session.passport.user})
+    .update({stripeAccountId: accesssToken}, {w:1})
+    .then((updated) =>{
+      res.render('stripe');
+    }).catch((err) => {
+      res.status(500).json(err);
     })
+  })
 
 
 

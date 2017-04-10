@@ -45,8 +45,8 @@ var foundationSchema  = mongoose.Schema({
   logo: {
     type: String
   },
-  stripe: {
-    accountid: String
+  stripeAccountId: {
+    type: String
   }
 })
 
