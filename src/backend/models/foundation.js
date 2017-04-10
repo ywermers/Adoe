@@ -18,7 +18,7 @@ var foundationSchema  = mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique
+    unique: true
   },
   phoneNumber: {
     type: String
