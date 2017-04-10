@@ -1,5 +1,17 @@
 # Adoe
 
+*Donations made easy*
+
+## Overview 
+Adoe consolidates and curates all foundations and charities through a single centralized platform where all donations are made easy. Our application reinvents the process of donating by eliminating the hassle of creating multiple accounts, re-entering credit card information, and maneuvring through the vast world of charities. With Adoe, foundations don't need to waste valuable dollars and time building and marketing their own app. We take care of the app so foundations can take care of what they do best. 
+
+What Adoe Offers:
+ * Highlighting applicable foundations related to current disasters
+ * Curating charities by pass through rate
+ * Single time payment information entry
+ * Easy tax receipts exported on your desired taxing software or simple pdf
+ * Fundraiser hosting, bringing your donors to you in a single click 
+
 ## Important Links
 - https://trello.com/b/dmZVAxTM/adoe
 
