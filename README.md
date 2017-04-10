@@ -105,9 +105,9 @@ Below are the live server specifications for accessing our "Adoe" internal API.
 ```javascript
 {
  "name": String, *Required
- "email": String *Required
- "password": String *Required
- "phoneNumber: String,
+ "email": String, *Required
+ "password": String, *Required
+ "phoneNumber": String,
  "streetAddress": String,
  "city": String,
  "ustate": String,
