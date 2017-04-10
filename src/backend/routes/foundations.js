@@ -48,10 +48,8 @@ router.get('/api/foundations/api/oauth',function(req,res) {
   }, function(err, r, body) {
 
     var accessToken = JSON.parse(body).access_token;
+    console.log(req.user);
 
-    // Do something with your accessToken
-    // For demo"s sake, output in response:
-    res.send({ "Your Token": accessToken });
 
   });
 });
