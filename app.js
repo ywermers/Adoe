@@ -53,6 +53,7 @@ mongoose.connection.on('connected', function(){
 })
 mongoose.connection.on('error', function(){
   console.log('mongoose connection NOT successful');
+  console.log(process.env.MONGODB_URI)
 })
 mongoose.Promise = global.Promise;
 var port = process.env.PORT || 3001;
