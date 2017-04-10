@@ -25,8 +25,21 @@ Below are the live server specifications for accessing our "Adoe" internal API.
 ```
 
 -output 
-`` javascript
+``` javascript
 {
-"success:true
+"success":true
 }
 ```
+**Success Response**: 200 - `{success: true}`
+
+**Failure Responses**:
+
+* 400 - `{"success":false, "error": "Name Required"}`
+
+* 400 - `{"success":false, "error": "Email Required"}`
+
+* 400 - `{"success":false, "error": "password Required"}`
+
+* 400 - `{"success":false, "error": "Phone number already being used"}`
+
+* 400 - `{"success":false, "error": "Email already being used"}`
