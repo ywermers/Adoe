@@ -41,7 +41,11 @@ module.exports = function(passport) {
       email :  req.body.email,
       password : req.body.password,
       phoneNumber: req.body.phoneNumber,
-      address: req.body.address,
+      streetAddress: req.body.streetAddress,
+      city:req.body.city,
+      ustate:req.body.ustate,
+      zipCode:req.body.zipCode,
+      country:req.body.country,
       description: req.body.description
     })
     console.log(foundation)

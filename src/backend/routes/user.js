@@ -51,7 +51,7 @@ router.post('/api/users/register', function(req,res){
     email :  req.body.email,
     password : req.body.password,
     phoneNumber: req.body.phoneNumber,
-    streetAddressaddress: req.body.streetAddress,
+    streetAddress: req.body.streetAddress,
     city:req.body.city,
     ustate:req.body.ustate,
     zipCode:req.body.zipCode,

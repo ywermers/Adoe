@@ -17,12 +17,25 @@ var foundationSchema  = mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique
   },
   phoneNumber: {
     type: String
   },
-  address: {
+  streetAddress: {
+    type: String
+  },
+  city: {
+    type: String
+  },
+  ustate: {
+    type: String
+  },
+  zipCode: {
+    type: String
+  },
+  country: {
     type: String
   },
   description: {
