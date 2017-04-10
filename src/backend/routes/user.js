@@ -7,7 +7,6 @@ var User = require('../models/user');
 
 var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET);
 
-var request = require('request');
 var hbs=require('express-handlebars')
 
 
