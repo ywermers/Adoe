@@ -24,7 +24,7 @@ router.get('/api/foundations/api/oauth',function(req,res) {
             res.redirect('https://connect.stripe.com/oauth/authorize' + '?' + qs.stringify({
            response_type: 'code',
            scope: 'read_write',
-           client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
+           client_id: 'ca_ANcQG5qGEd0c3WX2oN9xoG7Iu1JOaqgo',
            redirect_uri: 'https://polar-sands-99108.herokuapp.com/api/foundations/oauth/callback'
           }));
 
@@ -38,9 +38,9 @@ router.get('/api/foundations/api/oauth',function(req,res) {
     url: 'https://connect.stripe.com/oauth/token',
     form: {
       grant_type: "authorization_code",
-      client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
+      client_id: 'ca_ANcQG5qGEd0c3WX2oN9xoG7Iu1JOaqgo',
       code: code,
-      client_secret: 'sk_test_l8cpzxuRnceflUsfthcojqSs'
+      client_secret: 'sk_test_5p5XtniGoi1GgZXpOO7hOoHK'
     }
   }, function(err, r, body) {
 
