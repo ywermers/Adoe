@@ -10,7 +10,8 @@ Below are the live server specifications for accessing our "Adoe" internal API.
 ### `POST` Register User
 `url: https://polar-sands-99108.herokuapp.com/api/users/register`
 
--input {
+-input 
+```javascript{
  "name": String *Required
  "email": String *Required
  "password": String *Required
@@ -21,6 +22,11 @@ Below are the live server specifications for accessing our "Adoe" internal API.
  "zipCode": String
  "country": String
 }
+```
 
--output {
+-output 
+`` javascript
+{
+"success:true
 }
+```
