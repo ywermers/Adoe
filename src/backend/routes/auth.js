@@ -12,9 +12,6 @@ module.exports = function(passport) {
     console.log("authenticate")
     next();
   });
-  router.get('/api/foundations', function(req,res,next){
-    res.render('home.hbs')
-  });
 
   router.get('/api/foundations/login', function(req,res){
     res.render('login');
