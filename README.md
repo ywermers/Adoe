@@ -103,6 +103,17 @@ Below are the live server specifications for accessing our "Adoe" internal API.
 * 400 - `{"success":false, "error": "Invalid authentication token"}`
 * 400 - `{"success":false, "error": "Foundation not found"}`
 
+### `Get` Newsfeed
+`url: https://polar-sands-99108.herokuapp.com/api/users/newsfeed`
+
+* This request will give you an array of all foundatioins, each foundation in an object
+
+**Success Response**: 200 - `[{"name": String, "description": String, "logo": String}]`
+
+**Failure Responses**:
+
+* 500 - `{"ERROR!!",error}`
+
 ## Foundations
 
 ### `GET` Register/Login Foundation
