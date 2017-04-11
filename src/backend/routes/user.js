@@ -104,11 +104,10 @@ router.post('/api/users/chargeCard',function(req,res){
         amount: req.body.amount,
         currency: "usd",
         source: user.stripe.createdToken,
-        destination: {
-          amount: platform_fee,
-          account: foundation.stripeAccountId
-        }
-      });
+        application_fee: process.env.PERCENT_FEE * req.body.amount
+      },{
+          stripe_account: foundation.stripeAccountId
+        });
     }).then((charge)=>{
       res.json(charge)
     }).catch((err) => {
