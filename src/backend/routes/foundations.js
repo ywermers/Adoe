@@ -50,6 +50,7 @@ router.get('/api/foundations/api/oauth',function(req,res) {
   }, function(err, r, body) {
 
     var accessToken = JSON.parse(body).access_token;
+    console.log("accessToken", accessToken)
     Foundation.findONe({_id: req.session.passport.user})
     .update({stripeAccountId: accesssToken}, {w:1})
     .then((updated) =>{
@@ -62,7 +63,6 @@ router.get('/api/foundations/api/oauth',function(req,res) {
 
 
   });
-});
 
 
 module.exports = router;
