@@ -42,7 +42,7 @@ var foundationSchema  = mongoose.Schema({
     type: String,
     required: true
   },
-  logo: {
+  logoURL: {
     type: String
   },
   stripeAccountId: {

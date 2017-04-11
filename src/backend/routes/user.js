@@ -117,4 +117,30 @@ router.post('/api/users/chargeCard',function(req,res){
 });
 
 
+router.get('/api/users/newsfeed',function(req,res) {
+  Foundation.find()
+  .then((foundations)=> {
+    var arr=[]
+    foundations.forEach((foundation)=>{
+      var obj={}
+      obj.name=foundation.name;
+      obj.description=foundation.description;
+      obj.logo=foundation.logo;
+      obj.city=foundation.city;
+      arr.push(obj)
+    })
+    res.json(arr)
+  }).catch((error)=> {
+    res.status(500).json(error)
+  })
+})
+
+
+
+
+
+
+
+
+
 module.exports = router;
