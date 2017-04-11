@@ -48,12 +48,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var mongoose = require('mongoose');
 mongoose.connect(connect);
-
 mongoose.connection.on('connected', function(){
   console.log('mongoose connection successful');
 })
 mongoose.connection.on('error', function(){
   console.log('mongoose connection NOT successful');
+  console.log(process.env.MONGODB_URI)
 })
 mongoose.Promise = global.Promise;
 var port = process.env.PORT || 3001;
@@ -116,7 +116,7 @@ passport.use(new LocalStrategy({
 
 app.use('/', auth(passport));
 app.use('/', userRoutes);
-app.use('/', foundationRoutes);
+app.use('/', foundationRoutes )
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

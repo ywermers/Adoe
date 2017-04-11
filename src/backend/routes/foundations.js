@@ -32,7 +32,7 @@ router.get('/api/foundations/api/oauth',function(req,res) {
            response_type: 'code',
            scope: 'read_write',
            client_id: process.env.CLIENT_ID,
-           redirect_uri: 'http://localhost:5000/api/foundations/oauth/callback'
+           redirect_uri: 'https://polar-sands-99108.herokuapp.com/api/foundations/oauth/callback'
           }));
 
   });
