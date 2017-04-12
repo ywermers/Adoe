@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Image,
   View,
+  Alert,
+  Button,
   TouchableHighlight,
   TouchableOpacity,
   ScrollView,
@@ -13,21 +15,55 @@ import {
 } from 'react-native';
 
 import ControlPanel from './ControlPanel';
-import Drawer from 'react-native-drawer';
 // import ControlPanel from './-+ControlPanel';
 
 class Newsfeed extends Component {
 
   render () {
     return (
-      <View style={{width:400, height: 100, backgroundColor: '#058ed9'}} />
-      
+      <View style={{width:400, height: 100, backgroundColor: '#058ed9'}}>
+      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>
+            Login
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>
+            Sign up
+          </Text>
+        </TouchableOpacity>
+
+
+      </View>
+      </View>
 
     )
   };
 }
 
+var styles = StyleSheet.create({
 
+  buttonText: {
+    fontSize: 30,
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 60,
+    width: 160,
+    backgroundColor: '#a39a92',
+    borderColor: '#a39a92',
+    borderWidth: 1,
+    borderRadius: 80,
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center'
+  },
+
+});
 
 
 module.exports = Newsfeed;
