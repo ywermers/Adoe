@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import Splash from "./appViews/splash";
 
-var Welcome = require('./content/-Welcome');
+var Welcome = require('./appViews/-Welcome');
 
 export default class adoeapp extends Component {
   render() {
