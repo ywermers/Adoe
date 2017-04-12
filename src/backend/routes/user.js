@@ -102,7 +102,7 @@ router.post('/api/users/chargeCard',function(req,res){
       return stripe.charges.create({
         amount: req.body.amount,
         currency: "usd",
-        source: user.stripe.createdToken,
+        source: user.stripe.creditToken,
         application_fee: process.env.PERCENT_FEE * req.body.amount
       },{
           stripe_account: foundation.stripeUserId
