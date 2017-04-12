@@ -99,10 +99,17 @@ router.post('/api/users/chargeCard',function(req,res){
       console.log('user', user);
       console.log('foundation', tempFoundation);
       foundation = tempFoundation
+      return stripe.tokens.create({
+        customer: user.stripe.customerID,
+      }, {
+        stripe_account: foundation.stripeUserId
+      })
+    }).then((token) => {
+      console.log(token);
       return stripe.charges.create({
         amount: req.body.amount,
         currency: "usd",
-        source: user.stripe.creditToken,
+        source: token.id,
         application_fee: process.env.PERCENT_FEE * req.body.amount
       },{
           stripe_account: foundation.stripeUserId

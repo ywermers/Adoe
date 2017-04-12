@@ -46,16 +46,17 @@ var userSchema  = mongoose.Schema({
     type: Date
   },
   stripe:{
-    creditToken:{
+  creditToken:{
       type: String
   },
   customerID: {
       type: String
+  }
   },
   donationID: [{
     type: mongoose.Schema.Types.ObjectId
   }]
-  }
+
 });
 userSchema.methods.tokenize = function(cb){
   var newToken = this.email + Date.now().toString()
