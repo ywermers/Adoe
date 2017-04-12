@@ -7,6 +7,7 @@ import {
   View,
   TouchableHighlight,
   TouchableOpacity,
+  ScrollView,
   ListView,
   Text
 } from 'react-native';
@@ -17,27 +18,16 @@ import Drawer from 'react-native-drawer';
 
 class Newsfeed extends Component {
 
-  closeControlPanel = () => {
-    this._drawer.close()
-  };
-  openControlPanel = () => {
-    this._drawer.open()
-  };
   render () {
     return (
-      <Drawer
-        ref={(ref) => this._drawer = ref}
-        content={<ControlPanel />}
-        >
-      </Drawer>
+      <View style={{width:400, height: 100, backgroundColor: '#058ed9'}} />
+      
+
     )
-  }
+  };
 }
 
 
-const drawerStyles = {
-  drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
-  main: {paddingLeft: 3},
-}
+
 
 module.exports = Newsfeed;

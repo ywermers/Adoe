@@ -19,17 +19,12 @@ import Splash from "./appViews/splash";
 
 
 var Welcome = require('./appViews/-Welcome');
-
+var Newsfeed = require('./appViews/Newsfeed');
 
 export default class adoeapp extends Component {
   render() {
     return (
-      <NavigatorIOS
-         initialRoute={{
-           component: Welcome,
-           title: 'Welcome',
-         }}
-         style={{flex:1}}
+      < Newsfeed
        />
     );
   }

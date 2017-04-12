@@ -60,32 +60,25 @@ class Welcome extends Component {
             Sign up
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.goToNewsfeed.bind(this)} style={styles.button}>
-          <Text style={styles.buttonText}>
-            News
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.goToLisa.bind(this)} style={styles.lisabutton}>
-          <Text style={styles.buttonText}>
-            Card
-          </Text>
-        </TouchableOpacity>
+
+
       </View>
     )
   }
 }
 
 var styles = StyleSheet.create({
+
   buttonText: {
-    fontSize: 40,
+    fontSize: 30,
     color: 'white',
     alignSelf: 'center'
   },
   button: {
-    height: 80,
+    height: 60,
     width: 160,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    backgroundColor: '#a39a92',
+    borderColor: '#a39a92',
     borderWidth: 1,
     borderRadius: 80,
     marginBottom: 10,

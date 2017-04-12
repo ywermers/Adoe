@@ -133,7 +133,7 @@ var styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 18,
     textAlign: 'center',
-    color: '#656565'
+    color: '#483d3f'
   },
   container: {
     padding: 30,
@@ -147,8 +147,8 @@ var styles = StyleSheet.create({
   },
   button: {
     height: 36,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    backgroundColor: '#483d3f',
+    borderColor: '#483d3f',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
@@ -163,7 +163,7 @@ var styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 18,
     borderWidth: 1,
-    borderColor: '#48BBEC',
+    borderColor: '#483d3f',
     borderRadius: 8,
     color: '#48BBEC'
   },
