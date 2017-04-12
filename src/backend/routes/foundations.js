@@ -49,9 +49,13 @@ router.get('/api/foundations/api/oauth',function(req,res) {
       client_secret: process.env.STRIPE_TEST_SECRET
     }
   }, function(err, r, body) {
-
-    var accessToken = JSON.parse(body).access_token;
-    Foundation.findOneAndUpdate({_id: req.session.passport.user},{stripeAccountId: accessToken})
+    console.log(body);
+    var body = JSON.parse(body);
+    Foundation.findOneAndUpdate({_id: req.session.passport.user},
+      {stripeAccessToken: body.access_token,
+       stripeRefreshToken: body.refresh_token,
+       stripeUserId: body.stripe_user_id,
+       stripePublishable: body.stripe_publishable_key})
     .then((updated) =>{
       res.render('stripe');
     }).catch((err) => {

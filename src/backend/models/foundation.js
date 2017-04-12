@@ -45,7 +45,16 @@ var foundationSchema  = mongoose.Schema({
   logoURL: {
     type: String
   },
-  stripeAccountId: {
+  stripeAccessToken: {
+    type: String
+  },
+  stripeRefreshToken: {
+    type: String
+  },
+  stripeUserId: {
+    type: String
+  },
+  stripePublishable: {
     type: String
   }
 })
