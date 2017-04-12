@@ -88,12 +88,10 @@
         'padding-bottom': 'toggle',
         opacity: "toggle"
       }, "slow");
-    });
-    // changes register to login and vice versa
-    $(".tooltip").click(function () {
-       $(this).text(function(i, text){
-           return text === "Login" ? "Register" : "Login";
-       })
+      // changes register to login and vice versa
+      $('.tooltip').text(function(i, text){
+          return text === "Login" ? "Register" : "Login";
+      })
     });
     </script>
 
