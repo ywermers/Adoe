@@ -62,12 +62,12 @@ class Welcome extends Component {
         </TouchableOpacity>
         <TouchableOpacity onPress={this.goToNewsfeed.bind(this)} style={styles.button}>
           <Text style={styles.buttonText}>
-            -nf-
+            News
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.goToLisa.bind(this)} style={styles.lisabutton}>
           <Text style={styles.buttonText}>
-            LISA
+            Card
           </Text>
         </TouchableOpacity>
       </View>
