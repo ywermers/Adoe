@@ -77,6 +77,7 @@
 
 
     <script type="text/javascript">
+    // toggles open the registration form on login page
     $('.toggle').click(function(){
       // Switches the Icon
       $(this).children('i').toggleClass('fa-pencil');
@@ -87,9 +88,12 @@
         'padding-bottom': 'toggle',
         opacity: "toggle"
       }, "slow");
+      // changes register to login and vice versa
+      $('.tooltip').text(function(i, text){
+          return text === "Login" ? "Register" : "Login";
+      })
     });
     </script>
-
 
     <!-- modal  -->
 <!-- The Modal -->

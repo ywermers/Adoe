@@ -7,7 +7,7 @@ var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
 
 module.exports = function(passport) {
-
+  
   router.use(function(req, res, next){
     console.log("authenticate")
     next();
