@@ -11,8 +11,8 @@ import {
   Text
 } from 'react-native';
 
-var Login = require('./-Login');
-var Signup = require('./-Signup');
+var Login = require('./Login');
+var Signup = require('./Signup');
 
 class Ex extends Component {
   goTo2() {

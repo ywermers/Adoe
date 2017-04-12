@@ -1,28 +1,26 @@
 var express = require('express');
 var router = express.Router();
-var Donation = require('../models/donations').donations;
+var Donation = require('../models/donations');
 var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
-var Stripe_connect = 'sk_test_5p5XtniGoi1GgZXpOO7hOoHK'
-var stripe = require("stripe")(Stripe_connect);
-var qs = require('querystring')
-var request = require('request');
+
+var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET);
+
 var hbs=require('express-handlebars')
 
 
+//to addcreditCard pass creditToken and authToken
 router.post('/api/users/addcreditcard',function(req,res){
-    console.log('req.body.authToken',req.body.authToken)
 
-    // User.findOne({authToken:req.body.authToken})
-    // .then(function(user){
-    //
-    // })
+    console.log('THISISTHETESt')
+    console.log('req.body.authToken',req.body.authToken)
 
     User.findOne({authToken:req.body.authToken},function(err,user){
       if(err) console.log(err);
+      console.log('user',user)
       if(user){
-        console.log('user found')
+        console.log('user found', user)
         stripe.tokens.create({
           card: {
            "number": req.body.number,
@@ -31,11 +29,12 @@ router.post('/api/users/addcreditcard',function(req,res){
            "cvc": req.body.cvc
          }
         }, function(err, token) {
+          console.log("TOKEN", token)
           stripe.customers.update(user.stripe.customerID, {
-            source: token
+            source: token.id
           }, function(err, customer){
             if(err) console.log(err)
-            if(customer) res.send('Customer updated')
+            if(customer) res.json({success : true})
           });
         });
       }else if(!user){
@@ -45,27 +44,13 @@ router.post('/api/users/addcreditcard',function(req,res){
 })
 
 
-router.get('/', function(req,res,next){
-  res.render('home.hbs')
-});
-
-router.get('/register', function(req,res){
-  res.render('register.hbs')
-});
-
-
-router.get('/login', function(req,res){
-  res.render('login.hbs')
-});
-
 router.post('/api/users/register', function(req,res){
-  console.log(req.body.name);
   var user = new User({
     name : req.body.name,
     email :  req.body.email,
     password : req.body.password,
     phoneNumber: req.body.phoneNumber,
-    streetAddressaddress: req.body.streetAddress,
+    streetAddress: req.body.streetAddress,
     city:req.body.city,
     ustate:req.body.ustate,
     zipCode:req.body.zipCode,
@@ -100,95 +85,57 @@ router.post('/api/users/login',function(req,res){
 
   })
 })
-//to addcreditCard pass creditToken and authToken
-router.post('/api/users/addcreditcard',function(req,res){
-  console.log('cardstuff',req.body)
-    console.log('req.body.authToken',req.body.authToken)
-    User.findOne({authToken:req.body.authToken},function(err,user){
-      if(err) console.log(err);
-      if(user){
-        console.log('user found')
-        stripe.tokens.create({
-          card: {
-           "number": req.body.number,
-           "exp_month": req.body.month,
-           "exp_year": req.body.year,
-           "cvc": req.body.cvc
-         }
-        }, function(err, token) {
-          stripe.customers.update(user.stripe.customerID, {
-            source: token
-          }, function(err, customer){
-            if(err) console.log(err)
-            if(customer) res.send('Customer updated')
-          });
-        });
-      }else if(!user){
-        console.log('user not found')
-      }
-    })
-})
-// To charge a card pass authToken, foundation, and amount
+
+//To charge a card pass authToken, foundationToken, and amount
 router.post('/api/users/chargeCard',function(req,res){
-    User.findOne({authToken:req.body.authToken},function(err,user){
-      if(err) console.log(err);
-      if(user){
-        Foundation.findOne({name: req.body.foundation})
-      }else if(!user){
-        console.log('user not found')
-      }
+  var platform_fee = parseInt(process.env.PERCENT_FEE) * req.body.amount;
+  var user;
+  var foundation;
+    User.findOne({authToken: req.body.authToken})
+    .then((tempUser) => {
+      console.log('urser1',tempUser);
+      user = tempUser;
+      return Foundation.findOne({_id: req.body.foundationToken})
+    }).then((tempFoundation) =>{
+      console.log('user', user);
+      console.log('foundation', tempFoundation);
+      foundation = tempFoundation
+      return stripe.charges.create({
+        amount: req.body.amount,
+        currency: "usd",
+        source: user.stripe.createdToken,
+        application_fee: process.env.PERCENT_FEE * req.body.amount
+      },{
+          stripe_account: foundation.stripeAccountId
+        });
+    }).then((charge)=>{
+      res.json(charge)
+    }).catch((err) => {
+      res.status(500).json(err);
     })
+
+});
+
+
+router.get('/api/users/newsfeed',function(req,res) {
+  Foundation.find()
+  .then((foundations)=> {
+    var arr=[]
+    foundations.forEach((foundation)=>{
+      var obj={}
+      obj.name=foundation.name;
+      obj.description=foundation.description;
+      obj.logo=foundation.logo;
+      obj.city=foundation.city;
+      arr.push(obj)
+    })
+    res.json(arr)
+  }).catch((error)=> {
+    res.status(500).json(error)
+  })
 })
 
-// router.post('/api/foundations/register', function(req,res){
-//   var foundation = new Foundation({
-//     name : req.body.name,
-//     email :  req.body.email,
-//     password : req.body.password,
-//     phoneNumber: req.body.phoneNumber,
-//     address: req.body.address
-//   })
-//   foundation.save()
-//   .then((x)=>{
-//     res.redirect('/api/login')
-//   })
-//   .catch((err) => {
-//     res.status(500).json(err)
-//   })
-// });
 
-// router.get('/api/oauth',function(req,res) {
-//             res.redirect('https://connect.stripe.com/oauth/authorize' + '?' + qs.stringify({
-//            response_type: 'code',
-//            scope: 'read_write',
-//            client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
-//            redirect_uri: 'http://localhost:3001/oauth/callback'
-//           }));
-//
-//   });
-//
-//   router.get("/oauth/callback", function(req, res) {
-//   var code = req.query.code;
-//
-//   //Make /oauth/token endpoint POST request
-//   request.post({
-//     url: 'https://connect.stripe.com/oauth/token',
-//     form: {
-//       grant_type: "authorization_code",
-//       client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
-//       code: code,
-//       client_secret: 'sk_test_l8cpzxuRnceflUsfthcojqSs'
-//     }
-//   }, function(err, r, body) {
-//
-//     var accessToken = JSON.parse(body).access_token;
-//
-//     // Do something with your accessToken
-//     // For demo"s sake, output in response:
-//     res.send({ "Your Token": accessToken });
-//
-//   });
-// });
 
 
 

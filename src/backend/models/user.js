@@ -48,13 +48,13 @@ var userSchema  = mongoose.Schema({
   stripe:{
     creditToken:{
       type: String
-    },
-    customerID: {
+  },
+  customerID: {
       type: String
-    },
-    donationID: [{
+  },
+  donationID: [{
     type: mongoose.Schema.Types.ObjectId
-    }]
+  }]
   }
 });
 userSchema.methods.tokenize = function(cb){
