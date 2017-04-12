@@ -17,23 +17,45 @@ var foundationSchema  = mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   phoneNumber: {
     type: String
   },
-  address: {
+  streetAddress: {
+    type: String
+  },
+  city: {
+    type: String
+  },
+  ustate: {
+    type: String
+  },
+  zipCode: {
+    type: String
+  },
+  country: {
     type: String
   },
   description: {
     type: String,
     required: true
   },
-  logo: {
+  logoURL: {
     type: String
   },
-  stripe: {
-    accountid: String
+  stripeAccessToken: {
+    type: String
+  },
+  stripeRefreshToken: {
+    type: String
+  },
+  stripeUserId: {
+    type: String
+  },
+  stripePublishable: {
+    type: String
   }
 })
 

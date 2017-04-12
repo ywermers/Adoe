@@ -6,8 +6,7 @@ var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
 
 var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET);
-var qs = require('querystring')
-var request = require('request');
+
 var hbs=require('express-handlebars')
 
 
@@ -30,7 +29,6 @@ router.post('/api/users/addcreditcard',function(req,res){
            "cvc": req.body.cvc
          }
         }, function(err, token) {
-          console.log("TOKEN", token)
           stripe.customers.update(user.stripe.customerID, {
             source: token.id
           }, function(err, customer){
@@ -51,7 +49,7 @@ router.post('/api/users/register', function(req,res){
     email :  req.body.email,
     password : req.body.password,
     phoneNumber: req.body.phoneNumber,
-    streetAddressaddress: req.body.streetAddress,
+    streetAddress: req.body.streetAddress,
     city:req.body.city,
     ustate:req.body.ustate,
     zipCode:req.body.zipCode,
@@ -87,67 +85,63 @@ router.post('/api/users/login',function(req,res){
   })
 })
 
-// To charge a card pass authToken, foundation, and amount
-// router.post('/api/users/chargeCard',function(req,res){
-//     User.findOne({authToken:req.body.authToken},function(err,user){
-//       if(err) console.log(err);
-//       if(user){
-//         Foundation.findOne({name: req.body.foundation})
-//       }else if(!user){
-//         console.log('user not found')
-//       }
-//     })
-// })
+//To charge a card pass authToken, foundationToken, and amount
+router.post('/api/users/chargeCard',function(req,res){
+  var platform_fee = parseInt(process.env.PERCENT_FEE) * req.body.amount;
+  var user;
+  var foundation;
+    User.findOne({authToken: req.body.authToken})
+    .then((tempUser) => {
+      console.log('urser1',tempUser);
+      user = tempUser;
+      return Foundation.findOne({_id: req.body.foundationToken})
+    }).then((tempFoundation) =>{
+      console.log('user', user);
+      console.log('foundation', tempFoundation);
+      foundation = tempFoundation
+      return stripe.tokens.create({
+        customer: user.stripe.customerID,
+      }, {
+        stripe_account: foundation.stripeUserId
+      })
+    }).then((token) => {
+      console.log(token);
+      return stripe.charges.create({
+        amount: req.body.amount,
+        currency: "usd",
+        source: token.id,
+        application_fee: process.env.PERCENT_FEE * req.body.amount
+      },{
+          stripe_account: foundation.stripeUserId
+        });
+    }).then((charge)=>{
+      res.json(charge)
+    }).catch((err) => {
+      res.status(500).json({err:err, message: "cannot charge this account"});
+    })
 
-// router.post('/api/foundations/register', function(req,res){
-//   var foundation = new Foundation({
-//     name : req.body.name,
-//     email :  req.body.email,
-//     password : req.body.password,
-//     phoneNumber: req.body.phoneNumber,
-//     address: req.body.address
-//   })
-//   foundation.save()
-//   .then((x)=>{
-//     res.redirect('/api/login')
-//   })
-//   .catch((err) => {
-//     res.status(500).json(err)
-//   })
-// });
+});
 
-// router.get('/api/oauth',function(req,res) {
-//             res.redirect('https://connect.stripe.com/oauth/authorize' + '?' + qs.stringify({
-//            response_type: 'code',
-//            scope: 'read_write',
-//            client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
-//            redirect_uri: 'http://localhost:3001/oauth/callback'
-//           }));
-//
-//   });
-//
-//   router.get("/oauth/callback", function(req, res) {
-//   var code = req.query.code;
-//
-//   //Make /oauth/token endpoint POST request
-//   request.post({
-//     url: 'https://connect.stripe.com/oauth/token',
-//     form: {
-//       grant_type: "authorization_code",
-//       client_id: 'ca_APkxSKVv2vo9ENiaN0MGfrtR0jcd4qUB',
-//       code: code,
-//       client_secret: 'sk_test_l8cpzxuRnceflUsfthcojqSs'
-//     }
-//   }, function(err, r, body) {
-//
-//     var accessToken = JSON.parse(body).access_token;
-//
-//     // Do something with your accessToken
-//     // For demo"s sake, output in response:
-//     res.send({ "Your Token": accessToken });
-//
-//   });
-//});
+//authToken
+router.post('/api/users/newsfeed',function(req,res) {
+  Foundation.find()
+  .then((foundations)=> {
+    var arr=[]
+    foundations.forEach((foundation)=>{
+      var obj={}
+      obj.name=foundation.name;
+      obj.description=foundation.description;
+      obj.logo=foundation.logo;
+      obj.city=foundation.city;
+      arr.push(obj)
+    })
+    res.json(arr)
+  }).catch((error)=> {
+    res.status(500).json(error)
+  })
+})
+
+
 
 
 

@@ -1,6 +1,25 @@
 # Standup Notes - "Adoe"
 > **TEAM**: Yasmeen, Derek, Alex, Lisa (AKA LADY)
 
+## Tuesday 041117
+
+### Backend
+  - express validators for both user and foundations routes
+    * incorrect login and registration entry
+    * incorrect payment information entry
+  - S3 set up for logo storage
+  - email subscription
+  - monthly payments
+  - create a fundraiser path 
+  
+### frontend webapp
+  - Style stripe.hbs
+  - Style home.hbs
+  
+
+### frontend app
+ -
+
 ## Tuesday 032817
 
 ### Blocker - How do we move user $ to chosen charities??
