@@ -29,7 +29,6 @@ router.post('/api/users/addcreditcard',function(req,res){
            "cvc": req.body.cvc
          }
         }, function(err, token) {
-          console.log("TOKEN", token)
           stripe.customers.update(user.stripe.customerID, {
             source: token.id
           }, function(err, customer){
@@ -106,18 +105,18 @@ router.post('/api/users/chargeCard',function(req,res){
         source: user.stripe.createdToken,
         application_fee: process.env.PERCENT_FEE * req.body.amount
       },{
-          stripe_account: foundation.stripeAccountId
+          stripe_account: foundation.stripeUserId
         });
     }).then((charge)=>{
       res.json(charge)
     }).catch((err) => {
-      res.status(500).json(err);
+      res.status(500).json({err:err, message: "cannot charge this account"});
     })
 
 });
 
-
-router.get('/api/users/newsfeed',function(req,res) {
+//authToken
+router.post('/api/users/newsfeed',function(req,res) {
   Foundation.find()
   .then((foundations)=> {
     var arr=[]
