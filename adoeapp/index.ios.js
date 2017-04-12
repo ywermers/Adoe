@@ -15,7 +15,7 @@ import {
   TouchableHighlight,
   ListView,
 } from 'react-native';
-import Splash from "./content/splash";
+import Splash from "./appViews/splash";
 
 var Welcome = require('./content/-Welcome');
 
