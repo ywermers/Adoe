@@ -22,15 +22,15 @@ class Newsfeed extends Component {
   render () {
     return (
       <View style={{width:400, height: 100, backgroundColor: '#058ed9'}}>
-      <View style={{alignItems: 'auto', justifyContent: 'center', flex: 1}}>
+      <View style={{flexDirection: 'row', justifyContent: 'center', flex: 1}}>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>
-            Login
+            Feed
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>
-            Sign up
+            News
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
@@ -65,7 +65,8 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
+
   },
 
 });
