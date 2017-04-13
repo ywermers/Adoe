@@ -14,6 +14,7 @@ import {
   View,
   NavigatorIOS
 } from 'react-native';
+import splash from './splash'
 
 var SearchPage = require('./SearchPage');
 

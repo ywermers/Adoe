@@ -21,7 +21,7 @@ import {
 //   };
 // }
 
-import Login from './Login'
+var Login = require('./-Login');
 
 // class Signup extends Component {
 var Signup = React.createClass({
@@ -58,17 +58,16 @@ var Signup = React.createClass({
     .then((responseJson) => {
       console.log('hello!!!',responseJson)
       if (responseJson.success === true) {
-        console.log("SUCCESS", Login)
         this.props.navigator.push({
           component: Login,
-          title: 'Login'
+          title: 'Login',
         })
       } else {
         this.setState({
           responseJsonError: responseJson.error,
         });
       }
-      console.log('responsejson', responseJson)
+      console.log('responsejosn', responseJson)
     })
     .catch((err) => {
       console.log('error', err)
@@ -77,6 +76,7 @@ var Signup = React.createClass({
 
 
   render() {
+
     return (
       <View style={styles.container}>
 
@@ -189,8 +189,8 @@ var styles = StyleSheet.create({
   },
   button: {
     height: 36,
-    backgroundColor: '#483d3f',
-    borderColor: '#483d3f',
+    backgroundColor: '#48BBEC',
+    borderColor: '#48BBEC',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
