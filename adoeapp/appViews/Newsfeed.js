@@ -22,7 +22,7 @@ class Newsfeed extends Component {
   render () {
     return (
       <View style={{width:400, height: 100, backgroundColor: '#058ed9'}}>
-      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+      <View style={{alignItems: 'auto', justifyContent: 'center', flex: 1}}>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>
             Login
@@ -31,6 +31,11 @@ class Newsfeed extends Component {
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>
             Sign up
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>
+            Me
           </Text>
         </TouchableOpacity>
 
@@ -45,15 +50,15 @@ class Newsfeed extends Component {
 var styles = StyleSheet.create({
 
   buttonText: {
-    fontSize: 30,
+    fontSize: 10,
     color: 'white',
     alignSelf: 'center'
   },
   button: {
-    height: 60,
-    width: 160,
-    backgroundColor: '#a39a92',
-    borderColor: '#a39a92',
+    height: 50,
+    width: 50,
+    backgroundColor: '#058ed9',
+    borderColor: '#f4ebd9',
     borderWidth: 1,
     borderRadius: 80,
     marginBottom: 10,
