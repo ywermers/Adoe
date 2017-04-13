@@ -122,31 +122,30 @@ router.post('/api/users/chargeCard',function(req,res){
 
 });
 
-//authToken
+//send authToken
+//stripe.accounts.list will only receive max 100 foundations
+//future pagination will have to be implemented
 router.post('/api/users/newsfeed',function(req,res) {
-  Foundation.find()
-  .then((foundations)=> {
-    var arr=[]
-    foundations.forEach((foundation)=>{
-      var obj={}
-      obj.name=foundation.name;
-      obj.description=foundation.description;
-      obj.logo=foundation.logo;
-      obj.city=foundation.city;
-      arr.push(obj)
+  var foundationJsonArray = []
+  var foundations = []
+ stripe.accounts.list({limit:100})
+  .then((stripe_accounts_list)=>{
+    console.log("stripe_accounts", stripe_accounts_list)
+    var array_userIds = stripe_accounts_list.data.map((x) => x.id)
+    return Foundation.find({stripeUserId : {$in:array_userIds}})
+  }).then((foundations) =>{
+    var foundationsJson = foundations.map((foundation)=>{
+      return {
+        "name": foundation.name,
+        "email": foundation.email,
+        "phoneNumber": foundation.phoneNumber,
+        "description": foundation.description,
+        "logoURL": foundation.logoURL
+      }
     })
-    res.json(arr)
-  }).catch((error)=> {
-    res.status(500).json(error)
-  })
+    res.json({success: true, foundations: foundationsJson});
+  }).catch(err => console.log(err))
 })
-
-
-
-
-
-
-
 
 
 module.exports = router;
