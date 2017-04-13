@@ -5,39 +5,70 @@ import {
   StyleSheet,
   Image,
   View,
+  Alert,
+  Button,
   TouchableHighlight,
   TouchableOpacity,
+  ScrollView,
   ListView,
   Text
 } from 'react-native';
 
 import ControlPanel from './ControlPanel';
-import Drawer from 'react-native-drawer';
 // import ControlPanel from './-+ControlPanel';
 
 class Newsfeed extends Component {
 
-  closeControlPanel = () => {
-    this._drawer.close()
-  };
-  openControlPanel = () => {
-    this._drawer.open()
-  };
   render () {
     return (
-      <Drawer
-        ref={(ref) => this._drawer = ref}
-        content={<ControlPanel />}
-        >
-      </Drawer>
+      <View style={{width:400, height: 100, backgroundColor: '#058ed9'}}>
+      <View style={{alignItems: 'auto', justifyContent: 'center', flex: 1}}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>
+            Login
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>
+            Sign up
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>
+            Me
+          </Text>
+        </TouchableOpacity>
+
+
+      </View>
+      </View>
+
     )
-  }
+  };
 }
 
+var styles = StyleSheet.create({
 
-const drawerStyles = {
-  drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
-  main: {paddingLeft: 3},
-}
+  buttonText: {
+    fontSize: 10,
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 50,
+    width: 50,
+    backgroundColor: '#058ed9',
+    borderColor: '#f4ebd9',
+    borderWidth: 1,
+    borderRadius: 80,
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center'
+  },
+
+});
+
 
 module.exports = Newsfeed;
