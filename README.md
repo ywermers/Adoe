@@ -112,8 +112,6 @@ Below are the live server specifications for accessing our "Adoe" internal API.
 ```javascript
 {
  "authToken": String, //user authentication token
- "foundation": mongoose.Schema.Types.ObjectId //This represents the ID of the foundations. (passed in from login route)
- "amount": Number // amount of money to be donated in cents
 }
 ```
 **Success Response**: 200 - 
