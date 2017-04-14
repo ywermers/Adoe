@@ -30,22 +30,37 @@
           background-color: #FAEBD7;
           flex:1;
           justify-content: flex-start;
-          align-items: center;
+          align-items: flex-start;
         }
+          .leftChild {
+            margin-left: 20px
+          }
         .middle {
           background-color: yellow;
           flex:1;
-          justify-content: center;
-          align-items: center;
           flex-direction: column;
           color: red
         }
+              .middleChildA {
+                flex: 1;
+                justify-content: center;
+                align-items: flex-end;
+                font-size: 40px
+              }
+              .middleChildB {
+                flex:1;
+                  font-size: 15px;
+                justify-content: center;
+                align-items: flex-start;
+              }
         .right {
           background-color:#FAEBD7;
           flex:1;
           justify-content: flex-end;
           align-items: flex-start;
-
+        }
+        .rightChild {
+          margin-right: 20px
         }
     .body {
       flex:10;
@@ -53,23 +68,29 @@
       text-align: center;
       flex-direction:row;
     }
-    .bodyright{
-      flex:1;
-      justify-content: center;
-      align-items: center;
-    }
-    .bodyleft {
-      flex:1;
-      flex-direction:column;
-      justify-content: center;
-      align-items: center;
-    }
-    .bodyChild {
-      flex:1;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
+        .bodyright{
+          flex:1;
+          justify-content: center;
+          align-items: center;
+        }
+        .bodymiddle{
+          flex:1;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        }
+        .bodyleft {
+          flex:1;
+          flex-direction:column;
+          justify-content: center;
+          align-items: center;
+        }
+        .bodyChild {
+          flex:1;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+        }
 
 
       #button{
@@ -92,30 +113,34 @@
   <body>
 <div class="container">
         <div class="header">
-          <div class="left"> <p>About</p> </div>
-          <div class="middle"> <h1>Adoe</h1><p> A pig company</p> </div>
-          <div class="right"><p> logout</p></div>
+          <div class="left"> <div class="leftChild">{{foundation}}</div> </div>
+          <div class="middle"><div class=middleChildA>Adoe</div><div class=middleChildB>A pig company</div></div>
+          <div class="right"><div class="rightChild">logout</div></div>
         </div>
-        <div class="body">
-          <div class="bodyright">
-            <img src="https://img.buzzfeed.com/buzzfeed-static/static/enhanced/webdr06/2013/7/10/16/enhanced-buzz-11993-1373488014-10.jpg" height="300" width="500"/>
-          </div>
-          <div class="bodyleft">
+      <div class="body">
+          <div class="bodyright"></div>
+          <div class="bodymiddle">
             <div class="bodyChild">
               <h1>{{name}}</h1>
             </div>
-            <form class="bodyChild"action="account" method="GET">
+            <div class="bodyChild">
+            <form action="account" method="GET">
               <input id="button" type="submit" value="Account information" />
             </form>
-              <div class="bodyChild">
-                <button id="button"> Create Fundraiser </button>
-              </div>
-            </div>
+          </div>
+          <div class="bodyChild">
+          <form action="account" method="GET">
+            <input id="button" type="submit" value="Create Fundraiser"/>
+          </form>
         </div>
-        <div class="bottom">
+          </div>
+          <div class="bodyleft">
+          </div>
+      </div>
+      <div class="bottom">
           <div class="bottomChild"> contact </div>
           <div class="bottomChild"> carears ( we are hiring!!) </div>
-        </div>
+      </div>
 </div>
   </body>
 </html>

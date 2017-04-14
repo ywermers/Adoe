@@ -2,15 +2,113 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>stripe</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+      $("button").click(function(){
+        var modal = document.getElementById('myModal');
+         modal.style.display = "flex";
+      });
+    });
+
+
+    $(document).ready(function(){
+      var save = document.getElementById('save');
+      var modal = document.getElementById('myModal');
+      save.onclick=function(){
+       var text=$(".textarea").val();
+        console.log(text)
+        modal.style.display = "none";
+        $.ajax({
+          type: "POST",
+          url: "/api/foundations/updateDescription",
+          data: {
+              description:text},
+          success: function(response) {
+          console.log('success', response);
+        $(".descriptionB").text(text)
+         }, error: function(error) {
+          console.log('error!!', error);
+         }
+        });
+      }
+    });
+
+    </script>
+    <style>
+
+    body{
+      background-color: pink
+    }
+
+    div {
+      display:flex;
+      flex-direction: row;
+    }
+
+    .container{
+      background-color: red;
+      border-style: solid;
+      border-color: pink;
+      width:100%;
+      justify-content: center;
+      height:95vh;
+      flex-direction: column
+    }
+    .header{
+      flex:3;
+      background-color: green;
+      flex-direction: row
+    }
+        .left {
+          background-color: #FAEBD7;
+          flex:1;
+          justify-content: flex-start;
+          align-items: flex-start;
+        }
+          .leftChild {
+            margin-left: 20px
+          }
+        .middle {
+          background-color: yellow;
+          flex:1;
+          flex-direction: column;
+          color: red
+        }
+        .right {
+          background-color:#FAEBD7;
+          flex:1;
+          justify-content: flex-end;
+          align-items: flex-start;
+        }
+
+    .body {
+      flex:10;
+      background-color:#FFB6C1;
+    }
+
+      .bottom {
+        flex:3;
+        background-color:orange;
+        flex-direction:column;
+      }
+
+</style>
   </head>
   <body>
-    <h1>Login or Register with stripe</h1>
-     <form method="GET" action="/api/foundations/api/oauth">
-
-       <input type='submit'>STRIPE</input>
-     </form>
-
-
+    <div class="container">
+      <div class="header"></div>
+      <div class="body">
+        Login or Register with stripe
+         <form method="GET" action="/api/foundations/api/oauth">
+           <input type='submit' value="stipe"></input>
+         </form>
+         Continue to Adoe (register with stripe later)
+         <form method="GET" action="/api/foundations/home">
+           <input type='submit' value="stipe"></input>
+         </form>
+        </div>
+      <div class="bottom"></div>
+    </div>
   </body>
-</html>
+  </html>

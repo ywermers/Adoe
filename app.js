@@ -56,7 +56,7 @@ mongoose.connection.on('error', function(){
   console.log(process.env.MONGODB_URI)
 })
 mongoose.Promise = global.Promise;
-var port = process.env.PORT || 3001;
+var port = process.env.PORT || 8080;
 console.log('listening on port ' + port)
 app.listen(port);
 
