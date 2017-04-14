@@ -22,7 +22,8 @@ router.get('/api/foundations/stripe', function(req, res, next){
    res.render('stripe');
 });
 
-router.get('/api/fondations/home', function(req, res, next){
+  router.get('/api/foundations/home', function(req, res, next){
+    console.log('here')
   res.render('home');
 });
 
