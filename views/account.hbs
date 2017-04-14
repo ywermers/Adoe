@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/IMbEfV42v0c" frameborder="0" allowfullscreen></iframe>
+    <script>
+
+    $(document).ready(function(){
+      $("button").click(function(){
+          $("h1").hide(1000);
+      });
+  });
+
+    </script>
+    <style>
+    .descritpion {
+      border-style: solid;
+      border-color: black
+
+    }
+
+
+    </style>
+    <title>Adoe</title>
+    <style>
+        .container{
+          background-color: powderblue;
+          border-style: solid;
+          border-color: "black"s
+        }
+      </style>
+  </head>
+  <body>
+      <h1 class='pigs'>PIGS </h1>
+      <h1>{{name}}</h1>
+      <h1>{{email}}</h1>
+      <h1> description</h1>
+      <div class='descritpion'>{{description}}</div>
+      <button>Edit</button>
+  </body>
+</html>

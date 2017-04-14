@@ -23,10 +23,13 @@ router.get('/api/foundations/stripe', function(req, res, next){
 });
 
   router.get('/api/foundations/home', function(req, res, next){
-    console.log('here')
-  res.render('home');
+    res.render('home',{name:req.user.name});
 });
 
+router.get('/api/foundations/account', function(req, res, next){
+  console.log(req.user)
+    res.render('account',{name:req.user.name,email:req.user.email,description:req.user.description});
+});
 
 router.get('/api/foundations/api/oauth',function(req,res) {
             res.redirect('https://connect.stripe.com/oauth/authorize' + '?' + qs.stringify({
