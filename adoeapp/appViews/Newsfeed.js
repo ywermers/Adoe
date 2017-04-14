@@ -26,19 +26,27 @@ onClick(itemIndex) {
 
   render () {
     return (
-    <View style={{width:375, height: 100, backgroundColor: '#058ed9'}}>
+    <View style={{width:375, height: 105, backgroundColor: '#058ed9'}}>
+      <View style={{justifyContent: 'flex-start'}}>
+      <TouchableOpacity>
+      <Image
+        style={styles.menuicon}
+        source={require('../assets/menu.png')}
+        />
+        </TouchableOpacity>
+      </View>
       <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button1}>
           <Text style={styles.buttonText}>
             Feed
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button2}>
           <Text style={styles.buttonText}>
             News
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button3}>
           <Text style={styles.buttonText}>
             Me
           </Text>
@@ -58,7 +66,7 @@ var styles = StyleSheet.create({
     color: 'white',
     alignSelf: 'center'
   },
-  button: {
+  button1: {
     height: 50,
     width: 50,
     backgroundColor: '#058ed9',
@@ -66,12 +74,41 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 80,
     marginBottom: 10,
-    alignSelf: 'stretch',
     justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-
+    top: 1,
+    left: 10,
   },
+  button2: {
+    height: 50,
+    width: 50,
+    backgroundColor: '#058ed9',
+    borderColor: '#f4ebd9',
+    borderWidth: 1,
+    borderRadius: 80,
+    marginBottom: 10,
+    justifyContent: 'center',
+    top: 1,
+    left: 10
+  },
+  button3: {
+    height: 50,
+    width: 50,
+    backgroundColor: '#058ed9',
+    borderColor: '#f4ebd9',
+    borderWidth: 1,
+    borderRadius: 80,
+    marginBottom: 10,
+    justifyContent: 'center',
+    top: 1,
+    left: 10
+  },
+  menuicon: {
+    alignItems: "flex-start",
+    height: 40,
+    width:40,
+    left: 10,
+    top: 45
+  }
 
 });
 

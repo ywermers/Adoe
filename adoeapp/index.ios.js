@@ -25,7 +25,7 @@ var Newsfeed = require('./appViews/Newsfeed');
 export default class adoeapp extends Component {
   render() {
     return (
-      < Splash
+      < Newsfeed
        />
     );
   }
