@@ -22,7 +22,7 @@ class Newsfeed extends Component {
   render () {
     return (
       <View style={{width:375, height: 100, backgroundColor: '#058ed9'}}>
-      <View style={{flexDirection: 'row', justifyContent: 'center', flex: 1}}>
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>
             Feed
@@ -42,7 +42,7 @@ class Newsfeed extends Component {
     <View style={{flex:1}}>
 
     </View>
-      </View>
+  </View>
 
     )
   };
