@@ -5,14 +5,17 @@ import {
   StyleSheet,
   Image,
   View,
+  Animated,
   Alert,
   Button,
   TouchableHighlight,
   TouchableOpacity,
   ScrollView,
+  TextInput,
   ListView,
   Text
 } from 'react-native';
+import SearchBar from 'react-native-material-design-searchbar';
 
 import ControlPanel from './ControlPanel';
 // import ControlPanel from './-+ControlPanel';
@@ -23,9 +26,13 @@ class Newsfeed extends Component {
 onClick(itemIndex) {
   console.log("Selected: " + items[itemNum]);
 }
-
+constructor(props) {
+   super(props);
+   this.state = { text: 'SearchBar' };
+ }
   render () {
     return (
+  <View stlye={styles.main}>
     <View style={{width:375, height: 105, backgroundColor: '#058ed9'}}>
       <View style={{justifyContent: 'flex-start'}}>
       <TouchableOpacity>
@@ -53,14 +60,19 @@ onClick(itemIndex) {
         </TouchableOpacity>
       </View>
      <View style={{flex:1}}>
+     <TextInput style={styles.searchBar}
+        style={{height: 30, borderColor: 'gray', borderWidth: 1}}
+        onChangeText={(text) => this.setState({text})}
+        value={this.state.text}
+      />
      </View>
     </View>
+  </View>
     )
   };
 }
 
 var styles = StyleSheet.create({
-
   buttonText: {
     fontSize: 10,
     color: 'white',
@@ -108,7 +120,13 @@ var styles = StyleSheet.create({
     width:40,
     left: 10,
     top: 45
+  },
+  searchBar: {
+
+    left: 10,
+    bottom: 100
   }
+
 
 });
 
