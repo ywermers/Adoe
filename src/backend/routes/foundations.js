@@ -18,13 +18,30 @@ router.use(function(req, res, next){
   }
 });
 
-router.get('/api/foundations/stripe', function(req, res, next){
-   res.render('stripe');
+router.get('/api/foundations/home', function(req, res, next){
+  Foundation.findOne({_id:req.session.passport.user})
+  .then((foundation)=> {
+    if(!foundation.stripeUserId) {
+      res.render('home',{name:req.user.name,foundation:'you need to sing up with stripe!!!'});
+    }
+    else {
+      res.render('home',{name:req.user.name});
+    }
+  })
+
 });
 
-  router.get('/api/foundations/home', function(req, res, next){
-    res.render('home',{name:req.user.name});
-});
+router.post('/api/foundations/updateDescription', function(req, res, next){
+  Foundation.findOneAndUpdate({_id: req.session.passport.user},
+    {description: req.body.description})
+    .then((updated) =>{
+      res.send('updated');
+    }).catch((err) => {
+      res.status(500).json(err);
+    })
+  })
+
+
 
 router.get('/api/foundations/account', function(req, res, next){
   console.log(req.user)
@@ -61,7 +78,7 @@ router.get('/api/foundations/api/oauth',function(req,res) {
        stripeUserId: body.stripe_user_id,
        stripePublishable: body.stripe_publishable_key})
     .then((updated) =>{
-      res.render('stripe');
+      console.log('updtaed')
     }).catch((err) => {
       res.status(500).json(err);
     })
