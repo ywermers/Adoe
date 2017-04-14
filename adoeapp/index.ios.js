@@ -18,13 +18,14 @@ import {
 import Splash from "./appViews/splash";
 
 
+
 var Welcome = require('./appViews/-Welcome');
 var Newsfeed = require('./appViews/Newsfeed');
 
 export default class adoeapp extends Component {
   render() {
     return (
-      < Newsfeed
+      < Splash
        />
     );
   }

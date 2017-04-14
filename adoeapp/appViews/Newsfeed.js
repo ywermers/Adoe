@@ -16,13 +16,18 @@ import {
 
 import ControlPanel from './ControlPanel';
 // import ControlPanel from './-+ControlPanel';
+var ScrollingMenu = require('react-native-scrolling-menu');
 
 class Newsfeed extends Component {
 
+onClick(itemIndex) {
+  console.log("Selected: " + items[itemNum]);
+}
+
   render () {
     return (
-      <View style={{width:375, height: 100, backgroundColor: '#058ed9'}}>
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+    <View style={{width:375, height: 100, backgroundColor: '#058ed9'}}>
+      <View style={{justifyContent: 'center', flexDirection: 'row'}}>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>
             Feed
@@ -39,11 +44,9 @@ class Newsfeed extends Component {
           </Text>
         </TouchableOpacity>
       </View>
-    <View style={{flex:1}}>
-
+     <View style={{flex:1}}>
+     </View>
     </View>
-  </View>
-
     )
   };
 }

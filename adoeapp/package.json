@@ -12,6 +12,7 @@
     "react-native": "0.42.3",
     "react-native-drawer": "^2.3.0",
     "react-native-elements": "^0.10.3",
+    "react-native-scrolling-menu": "^0.1.1",
     "react-native-side-menu": "^0.20.1",
     "react-native-slider": "^0.9.1",
     "react-native-vector-icons": "^4.0.1",
