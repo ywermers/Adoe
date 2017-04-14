@@ -28,7 +28,8 @@ onClick(itemIndex) {
 }
 constructor(props) {
    super(props);
-   this.state = { text: 'SearchBar' };
+   this.state = { text: '                      SearchBar' };
+
  }
   render () {
     return (
@@ -59,13 +60,13 @@ constructor(props) {
           </Text>
         </TouchableOpacity>
       </View>
+     </View>
      <View style={{flex:1}}>
      <TextInput style={styles.searchBar}
-        style={{height: 30, borderColor: 'gray', borderWidth: 1}}
+        style={{height: 40, fontSize: 23, color: '#a39a92', borderColor: '#058ed9', borderWidth: 4}}
         onChangeText={(text) => this.setState({text})}
         value={this.state.text}
       />
-     </View>
     </View>
   </View>
     )
@@ -74,13 +75,13 @@ constructor(props) {
 
 var styles = StyleSheet.create({
   buttonText: {
-    fontSize: 10,
-    color: 'white',
+    fontSize: 20,
+    color: '#f4ebd9',
     alignSelf: 'center'
   },
   button1: {
     height: 50,
-    width: 50,
+    width: 70,
     backgroundColor: '#058ed9',
     borderColor: '#f4ebd9',
     borderWidth: 1,
@@ -92,7 +93,7 @@ var styles = StyleSheet.create({
   },
   button2: {
     height: 50,
-    width: 50,
+    width: 70,
     backgroundColor: '#058ed9',
     borderColor: '#f4ebd9',
     borderWidth: 1,
@@ -104,7 +105,7 @@ var styles = StyleSheet.create({
   },
   button3: {
     height: 50,
-    width: 50,
+    width: 70,
     backgroundColor: '#058ed9',
     borderColor: '#f4ebd9',
     borderWidth: 1,
@@ -122,9 +123,7 @@ var styles = StyleSheet.create({
     top: 45
   },
   searchBar: {
-
-    left: 10,
-    bottom: 100
+    top: 200
   }
 
 
