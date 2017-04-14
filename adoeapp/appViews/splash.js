@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, NavigatorIOS, Image} from 'react-native';
+var Welcome = require('./Welcome');
 
 export default class splash extends Component {
+  goToWelcome() {
+    this.props.navigator.push({
+      component: Welcome,
+      title: 'Welcome',
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -13,7 +21,7 @@ export default class splash extends Component {
           <Text style={styles.title}>Adoe</Text>
         </View>
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity onPress={this.goToWelcome.bind(this)} style={styles.button}>
             <Text style={styles.buttonText}>
               Click to make a difference
             </Text>
@@ -64,6 +72,8 @@ const styles = StyleSheet.create({
   button: {
     height: 50,
     width: 290,
+    position: 'absolute',
+    bottom:-100,
     backgroundColor: '#483d3f',
     borderColor: '#483d3f',
     borderWidth: 1,
