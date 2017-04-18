@@ -40,7 +40,9 @@
 
 <body>
   <!-- country and state drop down menu -->
-    <script src="countries.js"></script>
+  <!-- <script src='/public/js/jquery.min.js'></script> -->
+
+
 
 <div class="pen-title">
   <h1>Adoe</h1><span><a>CHARITABLE GIVING MADE EASY</a></span>
@@ -72,7 +74,9 @@
       <input type="address" placeholder="State" name="ustate"/>
       <input type="address" placeholder="Zip Code" name="zipCode"/>
       <input type="address" placeholder="Country" name="country"/>
-      <select id="country" name="country"></select>
+
+      Select Country: <select id="country" name ="country"></select> 
+      Select State: <select name ="state" id ="state"></select>
 
       <input type="text" placeholder="Description" name="description"/>
       <button>Register</button>
@@ -84,7 +88,12 @@
 </div>
   <script src='/public/js/jquery.min.js'></script>
 
-
+  <script src="/public/js/countries.js"></script>
+  <script language="javascript">
+    populateCountries("country", "state"); // first parameter is id of country drop-down and second parameter is id of state drop-down
+    populateCountries("country2");
+    populateCountries("country2");
+  </script>
 
     <script type="text/javascript">
 
