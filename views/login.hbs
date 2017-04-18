@@ -54,17 +54,18 @@
       <input type="text" placeholder="Email Address" name="email"/>
       <input type="password" placeholder="Password"  name="password"/>
       <button>Login</button>
+      <h1>{{error}}</h1>
     </form>
   </div>
   <div class="form">
     <h2>Create an account</h2>
-    <form method="post" action="/api/foundations/register">
+    <form method="post" action="/api/foundations/register" enctype="multipart/form-data">
       <input type="text" placeholder="Foundation Name" name="name"/>
       <input type="email" placeholder="Email Address" name="email"/>
       <input type="password" placeholder="Password" name="password"/>
-      <input type="password" placeholder="Repeat Password" name="repeatPassword"/>
       <input type="address" placeholder="Address" name="address"/>
       <input type="text" placeholder="Description" name="description"/>
+
       <button>Register</button>
     </form>
   </div>
@@ -77,6 +78,8 @@
 
 
     <script type="text/javascript">
+
+
     // toggles open the registration form on login page
     $('.toggle').click(function(){
       // Switches the Icon

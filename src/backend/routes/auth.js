@@ -5,9 +5,6 @@ var Donation = require('../models/donations');
 var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
-var rollbar = require('rollbar');
-rollbar.init(process.env.ROLLBAR_ACCESS_TOKEN);
-rollbar.reportMessage("Hello world!");
 
 module.exports = function(passport) {
 
