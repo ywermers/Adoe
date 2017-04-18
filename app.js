@@ -1,20 +1,28 @@
+
+
+//Express setup and handle bars
 var express=require('express');
 var bodyParser=require('body-parser');
 var exphbs = require('express-handlebars');
 var path = require('path');
 var logger=require('morgan');
 
+
+//Foundation authentication passport
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
+//Session cookies for foundation authentication
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
+//Models
 var Donation = require('./src/backend/models/donations');
 var Foundation = require('./src/backend/models/foundation');
 var Fundraiser = require('./src/backend/models/fundraiser');
 var User = require('./src/backend/models/user');
 
+//Routes
 var userRoutes = require('./src/backend/routes/user');
 var foundationRoutes = require('./src/backend/routes/foundations');
 var auth = require('./src/backend/routes/auth');
@@ -23,6 +31,8 @@ var hashPassword = require('./src/backend/hashPassword');
 var connect = process.env.MONGODB_URI
 var app = express();
 
+// const fileUpload = require('express-fileupload');
+// app.use(fileUpload());
 
 // view engine setup
 app.engine('.hbs',exphbs({ extname: '.hbs'}));
@@ -42,7 +52,7 @@ app.use("/img",express.static("img"));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -56,9 +66,7 @@ mongoose.connection.on('error', function(){
   console.log(process.env.MONGODB_URI)
 })
 mongoose.Promise = global.Promise;
-var port = process.env.PORT || 3001;
-console.log('listening on port ' + port)
-app.listen(port);
+
 
 app.use(session({
   secret: process.env.SECRET,
@@ -114,9 +122,9 @@ passport.use(new LocalStrategy({
   }
 ));
 
-app.use('/', auth(passport));
-app.use('/', userRoutes);
-app.use('/', foundationRoutes )
+app.use(auth(passport));
+app.use(userRoutes);
+app.use(foundationRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -148,5 +156,10 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+var port = process.env.PORT || 3001;
+console.log('listening on port ' + port)
+app.listen(port);
+
 
 module.exports = app

@@ -72,9 +72,9 @@ router.post('/api/users/login',function(req,res){
   User.findOne({email:req.body.email, password: req.body.password}, function(err,user){
     if(err) console.log(err);
     if(user){
-      console.log('user found!!!',user)
+      console.log('user found!!!',user);
         user.tokenize(function(token, updated){
-          console.log('token saved', updated)
+          console.log('token saved', updated);
           res.json({success: true, token:token});
         })
     }else if(!user){
@@ -96,8 +96,6 @@ router.post('/api/users/chargeCard',function(req,res){
       user = tempUser;
       return Foundation.findOne({_id: req.body.foundationToken})
     }).then((tempFoundation) =>{
-      console.log('user', user);
-      console.log('foundation', tempFoundation);
       foundation = tempFoundation
       return stripe.tokens.create({
         customer: user.stripe.customerID,
@@ -105,7 +103,6 @@ router.post('/api/users/chargeCard',function(req,res){
         stripe_account: foundation.stripeUserId
       })
     }).then((token) => {
-      console.log(token);
       return stripe.charges.create({
         amount: req.body.amount,
         currency: "usd",
@@ -115,7 +112,7 @@ router.post('/api/users/chargeCard',function(req,res){
           stripe_account: foundation.stripeUserId
         });
     }).then((charge)=>{
-      res.json(charge)
+      res.json({"success": true,  "charge":charge})
     }).catch((err) => {
       res.status(500).json({err:err, message: "cannot charge this account"});
     })
@@ -130,9 +127,8 @@ router.post('/api/users/newsfeed',function(req,res) {
   var foundations = []
  stripe.accounts.list({limit:100})
   .then((stripe_accounts_list)=>{
-    console.log("stripe_accounts", stripe_accounts_list)
-    var array_userIds = stripe_accounts_list.data.map((x) => x.id)
-    return Foundation.find({stripeUserId : {$in:array_userIds}})
+    var array_userIds = stripe_accounts_list.data.map((x) => x.id);
+    return Foundation.find({stripeUserId : {$in:array_userIds}});
   }).then((foundations) =>{
     var foundationsJson = foundations.map((foundation)=>{
       return {
@@ -142,10 +138,10 @@ router.post('/api/users/newsfeed',function(req,res) {
         "description": foundation.description,
         "logoURL": foundation.logoURL
       }
-    })
+    });
     res.json({success: true, foundations: foundationsJson});
   }).catch(err => console.log(err))
-})
+});
 
 
 module.exports = router;
