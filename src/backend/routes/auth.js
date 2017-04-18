@@ -31,11 +31,11 @@ router.get('/api/foudnations.stripe',function(req,res) {
   res.render("stripe")
 })
 
-
   router.post('/api/foundations/register', function(req,res){
     console.log("REGISTER", req.body)
-    if(req.body.password !== req.body.repeatPassword) throw new Error("passwords don't match")
+    // if(req.body.password !== req.body.repeatPassword) throw new Error("passwords don't match")
     var password = hashPassword(req.body.password)
+
     var foundation = new Foundation({
       name : req.body.name,
       email :  req.body.email,
@@ -56,7 +56,7 @@ router.get('/api/foudnations.stripe',function(req,res) {
     })
     .catch((err) => {
         if(err.code===11000) {
-          res.render("login",{error:'im so so so sorryr but there is already an account signed up with this email!'})
+          res.render("login",{error:'Please register again with a different email or get help with your password.'})
         }
         else {
       res.status(500).json(err)

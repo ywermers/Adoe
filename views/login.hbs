@@ -39,6 +39,8 @@
 </head>
 
 <body>
+  <!-- country and state drop down menu -->
+    <script src="countries.js"></script>
 
 <div class="pen-title">
   <h1>Adoe</h1><span><a>CHARITABLE GIVING MADE EASY</a></span>
@@ -62,8 +64,16 @@
     <form method="post" action="/api/foundations/register">
       <input type="text" placeholder="Foundation Name" name="name"/>
       <input type="email" placeholder="Email Address" name="email"/>
+      <!-- TODO: toggle to show and not show password -->
       <input type="password" placeholder="Password" name="password"/>
-      <input type="address" placeholder="Address" name="address"/>
+      <input type="phone" placeholder="Phone Number" name="phoneNumber"/>
+      <input type="address" placeholder="Street Address" name="streetAddress"/>
+      <input type="address" placeholder="City" name="city"/>
+      <input type="address" placeholder="State" name="ustate"/>
+      <input type="address" placeholder="Zip Code" name="zipCode"/>
+      <input type="address" placeholder="Country" name="country"/>
+      <select id="country" name="country"></select>
+
       <input type="text" placeholder="Description" name="description"/>
       <button>Register</button>
     </form>

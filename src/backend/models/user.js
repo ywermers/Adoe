@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var validatorPackage = require('node-mongoose-validator');
 
 var Schema = mongoose.Schema;
 
@@ -10,7 +9,8 @@ var userSchema  = mongoose.Schema({
   },
   name: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   email: {
     type: String,
@@ -85,7 +85,7 @@ userSchema.methods.tokenize = function(cb){
 }
 
 // validaor package that doesn't really work for emails...
-userSchema.path('email').validate(validatorPackage.isEmail(), 'Please provide a valid email address');
+// userSchema.path('email').validate(validatorPackage.isEmail(), 'Please provide a valid email address');
 
 var User = mongoose.model('User', userSchema);
 
