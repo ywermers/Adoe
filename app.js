@@ -67,7 +67,6 @@ mongoose.connection.on('error', function(){
 })
 mongoose.Promise = global.Promise;
 
-
 app.use(session({
   secret: process.env.SECRET,
   cookie: {

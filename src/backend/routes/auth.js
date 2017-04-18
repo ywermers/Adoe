@@ -37,7 +37,7 @@ module.exports = function(passport) {
 
   router.post('/api/foundations/login', passport.authenticate('local'), function(req,res){
     console.log("authenticated correcty")
-    res.redirect('/api/foundations/stripe');
+    res.redirect('/api/foundations/home');
   });
 
   router.get('/api/foundations/logout', function(req, res){
@@ -45,10 +45,10 @@ module.exports = function(passport) {
     res.redirect('/login');
   });
 
+router.get('/api/foudnations.stripe',function(req,res) {
+  res.render("stripe")
+})
 
-  router.get('/api/foundations/register', function(req,res){
-    res.render('register')
-  });
 
   router.post('/api/foundations/register', upload.single("derek"), function(req,res){
     console.log("REGISTER", req.body);
@@ -71,10 +71,15 @@ module.exports = function(passport) {
     foundation.save()
     .then((x)=>{
       console.log('foundation saved')
-      res.redirect('/api/foundations/login')
+      res.render('stripe')
     })
     .catch((err) => {
+        if(err.code===11000) {
+          res.render("login",{error:'im so so so sorryr but there is already an account signed up with this email!'})
+        }
+        else {
       res.status(500).json(err)
+    }
     });
   });
 
