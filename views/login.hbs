@@ -59,13 +59,17 @@
   </div>
   <div class="form">
     <h2>Create an account</h2>
-    <form method="post" action="/api/foundations/register">
+    <form method="post" action="/api/foundations/register" enctype="multipart/form-data">
       <input type="text" placeholder="Foundation Name" name="name"/>
       <input type="email" placeholder="Email Address" name="email"/>
       <input type="password" placeholder="Password" name="password"/>
       <input type="address" placeholder="Address" name="address"/>
       <input type="text" placeholder="Description" name="description"/>
-      <button>Register</button>
+        <div class="form-group">
+          <label>Images For Events</label>
+          <input type="file" name="derek" class="form-control">
+        </div>
+      <button type="submit">Register</button>
     </form>
   </div>
   <!-- <div class="cta"><a href="https://media.giphy.com/media/Vq5djeWOqbmSc/giphy.gif">Forgot your password?</a></div> -->
