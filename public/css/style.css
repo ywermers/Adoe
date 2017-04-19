@@ -190,10 +190,21 @@ body {
 }
 
 /*dropzone*/
-
-
-#dropzone { margin-bottom: 3rem; }
-
+/*#dropzone { margin-bottom: 3rem; }
 .dropzone { border: 2px dashed #0087F7; border-radius: 5px; background: white; }
 .dropzone .dz-message { font-weight: 400; }
-.dropzone .dz-message .note { font-size: 0.8em; font-weight: 200; display: block; margin-top: 1.4rem; }
+.dropzone .dz-message .note { font-size: 0.8em; font-weight: 200; display: block; margin-top: 1.4rem; }*/
+
+/*image upload*/
+.form-module input .form-control {
+  outline: none;
+  display: block;
+  width: 100%;
+  border: 1px dotted #ffff00;
+  margin: 0 0 20px;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  font-wieght: 400;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+}
