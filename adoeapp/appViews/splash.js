@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet, NavigatorIOS, Image} from 'rea
 var Welcome = require('./Welcome');
 
 export default class splash extends Component {
+
   goToWelcome() {
     this.props.navigator.push({
       component: Welcome,

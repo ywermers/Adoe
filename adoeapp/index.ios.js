@@ -25,7 +25,8 @@ var Newsfeed = require('./appViews/Newsfeed');
 export default class adoeapp extends Component {
   render() {
     return (
-      < Newsfeed
+      < Newsfeed 
+
        />
     );
   }
