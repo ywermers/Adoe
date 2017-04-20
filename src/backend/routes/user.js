@@ -114,7 +114,6 @@ router.post('/api/users/chargeCard',function(req,res){
           stripe_account: foundation.stripeUserId
         });
     }).then((charge)=>{
-      console.log('charge', charge);
       var donation = new Donation({
         "amount": charge.amount,
         "amount_refunded": 0,

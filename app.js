@@ -31,6 +31,7 @@ var hashPassword = require('./src/backend/hashPassword');
 var connect = process.env.MONGODB_URI
 var app = express();
 
+
 // view engine setup
 app.engine('.hbs',exphbs({ extname: '.hbs'}));
 app.set('views', path.join(__dirname, 'views'));
@@ -60,7 +61,6 @@ mongoose.connection.on('error', function(){
   console.log(process.env.MONGODB_URI)
 })
 mongoose.Promise = global.Promise;
-
 
 app.use(session({
   secret: process.env.SECRET,
