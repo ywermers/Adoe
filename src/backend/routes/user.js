@@ -44,6 +44,7 @@ router.post('/api/users/addcreditcard',function(req,res){
 
 
 router.post('/api/users/register', function(req,res){
+  console.log('register user route');
   var user = new User({
     name : req.body.name,
     email :  req.body.email,
@@ -64,6 +65,7 @@ router.post('/api/users/register', function(req,res){
   }).then(function(customer){
     return user.update({stripe: {customerID: customer.id}},{w:1}).exec()
   }).then(function(update){
+    console.log('user registered')
     res.json({success: true})
   }).catch((err) => res.status(500).json(err))
 })
@@ -124,17 +126,43 @@ router.post('/api/users/chargeCard',function(req,res){
     }).then((donation) =>{
       console.log('donation', donation);
       console.log('user', user);
-      var donationArray = user.donationID.push(donation._id);
-      console.log('dobnationArray',donationArray)
-      return user.update({donationID : user.donationID.push(donation._id)}, {w:1}).exec()
+      return user.update({$push : {donationID : donation._id} }, {w:1}).exec()
     }).then((updated) =>{
       res.json({"success": true})
-
     }).catch((err) => {
       res.status(500).json({err:err, message: "cannot charge this account"});
     });
 });
 
+//pass authToken returns json tax receipt
+router.post('/api/users/taxReceipts', function(req, res){
+  var donations;
+   User.findOne({authToken: req.body.authToken})
+     .then((user) => {
+       return Donation.find({_id : {$in: user.donationID}})
+     }).then((tempDonations) => {
+       donations = tempDonations;
+       var foundationIds = donations.map(donation=>donation.foundationId)
+      return Foundation.find({_id : {$in: foundationIds}})
+    }).then((foundations) =>{
+        var returnJson = donations.map((donation)=>{
+          var taxReceipt = {
+            amount : donation.amount,
+            date : donation.createdTime,
+            foundation: null
+          }
+          for(var i =0; i<foundations.length; i++){
+            if(donation.foundationId.equals(foundations[i]._id)){
+              taxReceipt.foundation = foundations[i].name
+            }
+          }
+          return taxReceipt
+        });
+         res.json({success: true, taxReceipts: returnJson});
+    }).catch((err)=>{
+      res.status(500).json({success: false, err: err});
+    })
+})
 //send authToken
 //stripe.accounts.list will only receive max 100 foundations
 //future pagination will have to be implemented
