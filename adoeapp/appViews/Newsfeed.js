@@ -17,6 +17,8 @@ import {
 } from 'react-native';
 import SearchBar from 'react-native-material-design-searchbar';
 var ScrollingMenu = require('react-native-scrolling-menu');
+var Drawer = require('react-native-drawer')
+
 
 class Newsfeed extends Component {
 
@@ -28,9 +30,16 @@ constructor(props) {
    this.state = { text: '                      SearchBar' };
 
  }
+ closeControlPanel = () => {
+    this._drawer.close()
+  };
+  openControlPanel = () => {
+    this._drawer.open()
+  };
 
   render () {
     return (
+
 <View stlye={styles.main}>
 
     <View style={{width:375, height: 105, backgroundColor: '#058ed9'}}>
@@ -39,6 +48,7 @@ constructor(props) {
         <Image
           style={styles.menuicon}
           source={require('../assets/menu.png')}
+
         />
       </TouchableOpacity>
     </View>
@@ -67,12 +77,27 @@ constructor(props) {
      </View>
 
   <View style={{flex:1}}>
+
      <TextInput style={styles.searchBar}
         style={{height: 40, fontSize: 23, color: '#a39a92', borderColor: '#058ed9', borderWidth: 4}}
         onChangeText={(text) => this.setState({text})}
         value={this.state.text}
       />
     </View>
+
+  <View style={styles.foundationslist}>
+    <ScrollView>
+      <TouchableOpacity style={styles.foundationsbuttons}>
+      <Image
+        style={styles.hfb}
+        source={require('../foundation/buttonSample.png')}
+      />
+      </TouchableOpacity>
+
+    </ScrollView>
+
+</View>
+
   </View>
     )
   };
@@ -84,9 +109,11 @@ var styles = StyleSheet.create({
     color: '#f4ebd9',
     alignSelf: 'center'
   },
+
   buttons: {
     paddingLeft: 10
   },
+
   button1: {
     height: 50,
     width: 70,
@@ -102,6 +129,7 @@ var styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5
   },
+
   button2: {
     height: 50,
     width: 70,
@@ -114,9 +142,8 @@ var styles = StyleSheet.create({
     top: 1,
     left: 10,
     borderRadius:10,
-
-
   },
+
   button3: {
     height: 50,
     width: 70,
@@ -130,6 +157,7 @@ var styles = StyleSheet.create({
     left: 10,
     borderRadius:10
   },
+
   menuicon: {
     alignItems: "flex-start",
     height: 40,
@@ -137,6 +165,13 @@ var styles = StyleSheet.create({
     left: 10,
     top: 45
   },
+  hfb:{
+    justifyContent: "center",
+    height: 138,
+    width:375,
+    bottom: 6
+  },
+
   searchBar: {
     top: 200
   }
