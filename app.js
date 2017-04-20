@@ -31,8 +31,6 @@ var hashPassword = require('./src/backend/hashPassword');
 var connect = process.env.MONGODB_URI
 var app = express();
 
-// const fileUpload = require('express-fileupload');
-// app.use(fileUpload());
 
 // view engine setup
 app.engine('.hbs',exphbs({ extname: '.hbs'}));
@@ -45,9 +43,6 @@ app.set('view engine', 'hbs');
 // app.use(express.static(path.join(__dirname, '/public')));
 app.use("/public",express.static("public"));
 app.use("/img",express.static("img"));
-
-
-
 
 
 app.use(logger('dev'));

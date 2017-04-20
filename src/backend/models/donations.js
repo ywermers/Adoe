@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-
+var Schema = mongoose.Schema;
 
 var donationSchema = mongoose.Schema({
   createdTime:{
@@ -19,7 +19,7 @@ var donationSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, //this might error
     required: true
   },
-  foundationid:{
+  foundationId:{
     type: mongoose.Schema.Types.ObjectId,
     required:true
   },
@@ -31,6 +31,4 @@ var donationSchema = mongoose.Schema({
 
 const Donation = mongoose.model('Donation', donationSchema);
 
-module.exports = {
-  Donation
-}
+module.exports = Donation
