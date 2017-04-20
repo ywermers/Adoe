@@ -106,7 +106,7 @@ Below are the live server specifications for accessing our "Adoe" internal API.
 ### `POST` Newsfeed
 `url: https://polar-sands-99108.herokuapp.com/api/users/newsfeed`
 
-* This request will give you an array of all foundatioins, each foundation in an object
+* This request will give you an array of all foundations, each foundation in an object
 
 #### Input 
 ```javascript
@@ -122,13 +122,39 @@ Below are the live server specifications for accessing our "Adoe" internal API.
   "email": String,
   "phoneNumber": String,
   "description": String,
-  "logo": String,
+  "logo": String
   }
 ]
 ```
 **Failure Responses**:
 
 * 400 - `{"success":false, "error": "Invalid authentication token"}`
+
+### `POST` Tax Receipts
+`url: https://polar-sands-99108.herokuapp.com/api/users/taxReceipts`
+
+* This request will return an array of donations for user to use for taxes
+
+#### Input 
+```javascript
+{
+ "authToken": String, //user authentication token
+}
+```
+**Success Response**: 200 - 
+``` javascript 
+[
+ {
+  "foundation": String,
+  "date": String,
+  "amount": String
+  }
+]
+```
+**Failure Responses**:
+
+* 400 - `{"success":false, "error": "Invalid authentication token"}`
+
 
 ## Foundations
 
