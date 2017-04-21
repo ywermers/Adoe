@@ -18,6 +18,8 @@ import {
 import SearchBar from 'react-native-material-design-searchbar';
 var ScrollingMenu = require('react-native-scrolling-menu');
 var Drawer = require('react-native-drawer')
+var HumanFund= require('../foundation/HumanFund')
+
 
 
 class Newsfeed extends Component {
@@ -37,12 +39,19 @@ constructor(props) {
     this._drawer.open()
   };
 
+  goToHumanFund() {
+    this.props.navigator.push({
+      component: HumanFund,
+      title: 'The Human Foundation',
+    })
+  }
+
   render () {
     return (
 
 <View stlye={styles.main}>
 
-    <View style={{width:375, height: 105, backgroundColor: '#058ed9'}}>
+    <View style={{width:375, height: 150, backgroundColor: '#058ed9'}}>
       <View style={{justifyContent: 'flex-start'}}>
       <TouchableOpacity>
         <Image
@@ -87,7 +96,7 @@ constructor(props) {
 
   <View style={styles.foundationslist}>
     <ScrollView>
-      <TouchableOpacity style={styles.foundationsbuttons}>
+      <TouchableOpacity style={styles.foundationsbuttons} onPress={this.goToHumanFund.bind(this)}>
       <Image
         style={styles.hfb}
         source={require('../foundation/buttonSample.png')}
@@ -127,7 +136,9 @@ var styles = StyleSheet.create({
     left: 10,
     borderRadius:10,
     paddingLeft: 5,
-    paddingRight: 5
+    paddingRight: 5,
+    top: 40,
+    left: 1
   },
 
   button2: {
@@ -142,6 +153,7 @@ var styles = StyleSheet.create({
     top: 1,
     left: 10,
     borderRadius:10,
+    top: 40
   },
 
   button3: {
@@ -155,7 +167,9 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     top: 1,
     left: 10,
-    borderRadius:10
+    borderRadius:10,
+    top: 40,
+    left: 20
   },
 
   menuicon: {
@@ -163,13 +177,14 @@ var styles = StyleSheet.create({
     height: 40,
     width:40,
     left: 10,
-    top: 45
+    top: 86
   },
   hfb:{
     justifyContent: "center",
     height: 138,
     width:375,
-    bottom: 6
+    bottom: 70
+
   },
 
   searchBar: {

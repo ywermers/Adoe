@@ -7,26 +7,19 @@ import {
   Alert,
   Button,
   TouchableHighlight,
+  navigator,
   TouchableOpacity,
   ScrollView,
   TextInput,
   ListView,
   Text
 } from 'react-native';
-var donation = require('../appViews/donation')
 
-
-class HumanFund extends Component {
-  goTodonate() {
-    this.props.navigator.push({
-      component: donation,
-      title: 'Donate',
-    })
-  }
+class donate extends Component {
   render() {
     return (
       <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
-        <TouchableOpacity style={styles.donationbutton} onPress={this.goTodonate.bind(this)}>
+        <TouchableOpacity style={styles.donationbutton}>
           <Text style={styles.buttonText}>
             Donate
           </Text>
@@ -46,11 +39,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
-  },
-  buttonText: {
-    justifyContent: 'center',
-    left: 163
   }
 });
-
-module.exports = HumanFund;
