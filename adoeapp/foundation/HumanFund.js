@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   ScrollView,
+  navigator,
   TextInput,
   ListView,
   Text

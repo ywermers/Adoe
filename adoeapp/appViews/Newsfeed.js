@@ -42,7 +42,7 @@ constructor(props) {
   goToHumanFund() {
     this.props.navigator.push({
       component: HumanFund,
-      title: 'The Human Foundation',
+      title: '',
     })
   }
 

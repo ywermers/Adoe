@@ -18,7 +18,7 @@ import {
 class donate extends Component {
   render() {
     return (
-      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+      <View style={{alignItems: 'center'}}>
         <TouchableOpacity style={styles.donationbutton}>
           <Text style={styles.buttonText}>
             Donate
@@ -32,12 +32,13 @@ class donate extends Component {
 const styles = StyleSheet.create({
   donationbutton: {
     height: 36,
+    width: 40,
     backgroundColor: '#058ed9',
     borderColor: '#058ed9',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  }
+    top: 1
+  },
+
 });
