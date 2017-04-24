@@ -30,13 +30,6 @@ class Welcome extends Component {
     })
   }
 
-  goToNews() {
-    this.props.navigator.push({
-      component: News,
-      title: 'News',
-    })
-  }
-
   goToNewsfeed() {
     this.props.navigator.push({
       component: Newsfeed,
@@ -67,21 +60,6 @@ class Welcome extends Component {
         <TouchableOpacity onPress={this.goToSignup.bind(this)} style={styles.button}>
           <Text style={styles.buttonText}>
             Sign up
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.goToNews.bind(this)} style={styles.button}>
-          <Text style={styles.buttonText}>
-            News
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.goToCredit.bind(this)} style={styles.lisabutton}>
-          <Text style={styles.buttonText}>
-            Credit
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.goToNewsfeed.bind(this)} style={styles.lisabutton}>
-          <Text style={styles.buttonText}>
-            HOLLY
           </Text>
         </TouchableOpacity>
       </View>

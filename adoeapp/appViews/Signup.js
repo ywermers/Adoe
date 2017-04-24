@@ -82,9 +82,7 @@ var Signup = React.createClass({
 
 
 
-      <Text style={styles.description}>
-        Sign up through Facebook
-      </Text>
+
 
       <TouchableOpacity style={styles.fbbutton}
           underlayColor='#99d9f4'>
@@ -169,16 +167,17 @@ var styles = StyleSheet.create({
   textBig: {
     fontSize: 36,
     textAlign: 'center',
-    margin: 10,
+    margin: 8,
   },
   description: {
-    marginBottom: 20,
-    fontSize: 18,
+    top: 18,
+    marginBottom: 18,
+    fontSize: 16,
     textAlign: 'center',
     color: '#656565'
   },
   container: {
-    padding: 30,
+    padding: 12,
     marginTop: 45,
     alignItems: 'center'
   },
@@ -198,25 +197,26 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   fbbutton: {
-    height: 36,
+    height: 33,
+    top: 20,
     backgroundColor: 'blue',
     borderColor: 'blue',
     borderWidth: 1,
     borderRadius: 8,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    marginBottom: 5
+    marginBottom: 3
   },
   searchInput: {
     height: 40,
     width: 300,
-    padding: 10,
+    padding: 12,
     marginRight: 5,
     marginBottom: 10,
     fontSize: 18,
     borderWidth: 1,
     borderColor: '#48BBEC',
-    borderRadius: 8,
+    borderRadius: 10,
     color: '#48BBEC'
   },
   image: {

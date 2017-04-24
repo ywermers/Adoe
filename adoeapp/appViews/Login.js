@@ -9,13 +9,14 @@ import {
   TouchableOpacity,
   ListView,
   TextInput,
+  navigator,
   AsyncStorage,
   Text
 } from 'react-native';
 
 var News = require('./News');
 var Signup = require('./Signup');
-
+var Newsfeed= require('./Newsfeed')
 export default class Login extends Component {
 
   constructor(props){
@@ -51,7 +52,7 @@ export default class Login extends Component {
           authToken: responseJson.token
         }));
         this.props.navigator.push({
-          component: News,
+          component: Newsfeed,
           title: 'News'
         })
       } else {
@@ -85,8 +86,8 @@ export default class Login extends Component {
 
   goToNews() {
     this.props.navigator.push({
-      component: News,
-      title: 'News',
+      component: Newsfeed,
+      title: '',
     })
   }
 
@@ -117,7 +118,7 @@ export default class Login extends Component {
       value={this.state.password}
       />
 
-      <TouchableOpacity style={styles.button}
+      <TouchableOpacity style={styles.button} onPress={this.goToNews}
       underlayColor='#99d9f4' onPress={this.login.bind(this)} >
       <Text style={styles.buttonText}>Login!</Text>
       </TouchableOpacity>
@@ -125,6 +126,12 @@ export default class Login extends Component {
       <TouchableOpacity onPress={this.goToSignup}>
       <Text style={styles.description} >
       Don&rsquo;t have an account? Sign up here.
+      </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={this.goToNews.bind(this)}>
+      <Text style={styles.demobutton} >
+      demo
       </Text>
       </TouchableOpacity>
 
@@ -172,6 +179,16 @@ var styles = StyleSheet.create({
     borderColor: '#48BBEC',
     borderRadius: 8,
     color: '#48BBEC'
+  },
+  demobutton: {
+    height: 36,
+    backgroundColor: '#FFFFFF',
+    borderColor: '#FFFFFF',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   }
 });
 
