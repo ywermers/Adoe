@@ -16,38 +16,34 @@ import {
   Text
 } from 'react-native';
 import SearchBar from 'react-native-material-design-searchbar';
+import Modal from 'react-native-modal';
 var ScrollingMenu = require('react-native-scrolling-menu');
 var Drawer = require('react-native-drawer')
 var HumanFund= require('../foundation/HumanFund')
 
 
 
-class Newsfeed extends Component {
+export default class Newsfeed extends Component {
 
 onClick(itemIndex) {
   console.log("Selected: " + items[itemNum]);
 }
 constructor(props) {
    super(props);
-   this.state = { text: '                      SearchBar' };
-
- }
- closeControlPanel = () => {
-    this._drawer.close()
-  };
-  openControlPanel = () => {
-    this._drawer.open()
-  };
-
-  goToHumanFund() {
-    this.props.navigator.push({
-      component: HumanFund,
-      title: '',
-    })
+   this.state = { text: '  SearchBar' };
+}
+state = {
+    isModalVisible: false
   }
 
-  render () {
-    return (
+  _showModal = () => this.setState({ isModalVisible: true })
+
+  _hideModal = () => this.setState({ isModalVisible: false })
+
+
+
+render () {
+  return (
 
 <View stlye={styles.main}>
 
@@ -57,60 +53,64 @@ constructor(props) {
         <Image
           style={styles.menuicon}
           source={require('../assets/menu.png')}
-
         />
       </TouchableOpacity>
     </View>
 
     <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-
-        <TouchableOpacity style={styles.button1}>
-          <Text style={styles.buttonText}>
+      <TouchableOpacity style={styles.button1}>
+        <Text style={styles.buttonText}>
             Feed
-          </Text>
-        </TouchableOpacity>
+        </Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button2}>
-          <Text style={styles.buttonText}>
-            News
-          </Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.button2}>
+        <Text style={styles.buttonText}>
+          News
+        </Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button3}>
-          <Text style={styles.buttonText}>
-            Me
-          </Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.button3}>
+        <Text style={styles.buttonText}>
+          Me
+        </Text>
+      </TouchableOpacity>
 
       </View>
-     </View>
+    </View>
 
   <View style={{flex:1}}>
 
      <TextInput style={styles.searchBar}
         style={{height: 40, fontSize: 23, color: '#a39a92', borderColor: '#058ed9', borderWidth: 4}}
         onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
-      />
-    </View>
+        value={this.state.text} />
+  </View>
 
   <View style={styles.foundationslist}>
     <ScrollView>
-      <TouchableOpacity style={styles.foundationsbuttons} onPress={this.goToHumanFund.bind(this)}>
+      <TouchableOpacity onPress={this.showModal}>
       <Image
         style={styles.hfb}
         source={require('../foundation/buttonSample.png')}
       />
       </TouchableOpacity>
-
+      <Modal isVisible={this.state.isModalVisible}>
+          <View style={{ flex: 1 }}>
+            <Text>Hello!</Text>
+          </View>
+      </Modal>
     </ScrollView>
-
+  </View>
 </View>
 
-  </View>
-    )
-  };
+    );
+  }
 }
+
+
+
+
 
 var styles = StyleSheet.create({
   buttonText: {
