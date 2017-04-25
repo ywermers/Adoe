@@ -71,7 +71,7 @@ module.exports = function(passport) {
     foundation.save()
     .then((x)=>{
       console.log('foundation saved')
-      res.render('stripe')
+      res.render('login')
     })
     .catch((err) => {
         if(err.code===11000) {
