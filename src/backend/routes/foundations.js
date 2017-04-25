@@ -67,7 +67,8 @@ router.get('/api/foundations/api/oauth',function(req,res) {
        stripeUserId: body.stripe_user_id,
        stripePublishable: body.stripe_publishable_key})
     .then((updated) =>{
-      console.log('updtaed')
+      console.log('updtaed');
+      res.render('index')
     }).catch((err) => {
       res.status(500).json(err);
     })
