@@ -45,12 +45,13 @@ module.exports = function(passport) {
     res.redirect('/login');
   });
 
-router.get('/api/foudnations.stripe',function(req,res) {
+  router.get('/api/foudnations.stripe',function(req,res) {
   res.render("stripe")
 })
 
-  router.post('/api/foundations/register', function(req,res){
-
+  router.post('/api/foundations/register',upload.single('foundationLogo'), function(req,res){
+    console.log('body', req.body);
+    console.log('file', req.file);
     var password = hashPassword(req.body.password)
     var foundation = new Foundation({
       name : req.body.name,
