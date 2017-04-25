@@ -176,6 +176,7 @@ router.post('/api/users/newsfeed',function(req,res) {
     var foundationsJson = foundations.map((foundation)=>{
       return {
         "name": foundation.name,
+        "id": foundation._id,
         "email": foundation.email,
         "phoneNumber": foundation.phoneNumber,
         "description": foundation.description,
