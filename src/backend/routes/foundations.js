@@ -19,18 +19,11 @@ router.use(function(req, res, next){
   }
 });
 
-router.get('/api/foundations/home', function(req, res, next){
-  Foundation.findOne({_id:req.session.passport.user})
-  .then((foundation)=> {
-    if(!foundation.stripeUserId) {
-      res.render('home',{name:req.user.name,foundation:'you need to sing up with stripe!!!'});
-    }
-    else {
-      res.render('home',{name:req.user.name});
-    }
-  })
+router.get('/api/foundations/main', function(req, res) {
+  res.render('index');
+})
 
-});
+
 
 router.post('/api/foundations/updateDescription', function(req, res, next){
   Foundation.findOneAndUpdate({_id: req.session.passport.user},
@@ -43,11 +36,6 @@ router.post('/api/foundations/updateDescription', function(req, res, next){
   })
 
 
-
-router.get('/api/foundations/account', function(req, res, next){
-  console.log(req.user)
-    res.render('account',{name:req.user.name,email:req.user.email,description:req.user.description});
-});
 
 router.get('/api/foundations/api/oauth',function(req,res) {
             res.redirect('https://connect.stripe.com/oauth/authorize' + '?' + qs.stringify({
