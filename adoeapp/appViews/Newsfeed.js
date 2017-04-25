@@ -31,7 +31,7 @@ onClick(itemIndex) {
 }
 constructor(props) {
    super(props);
-   this.state = { text: '  SearchBar' };
+   this.state = { text: '                         SearchBar' };
 }
 componentWillMount(){
   var user = AsyncStorage.getItem('user');
@@ -95,7 +95,7 @@ render () {
         </View>
         <View style={styles.search}>
         <TextInput
-              style={{height: 40, fontSize: 23, color: 'white', borderColor: '#058ed9', borderWidth: 4}}
+              style={{height: 40, fontSize: 23, color: '#483d3f', borderColor: '#058ed9', backgroundColor:'#f4ebd9',  borderWidth: 4}}
               onChangeText={(text) => this.setState({text})}
               value={this.state.text} />
         </View>
@@ -103,10 +103,79 @@ render () {
 
       <View style={styles.newsFeed}>
       <ScrollView>
+          <TouchableOpacity>
+            <Image
+            style={styles.hfb}
+            source={require('../foundation/humanfundpic.png')}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
           <Image
             style={styles.hfb}
-            source={require('../foundation/buttonSample.png')}
+            source={require('../foundation/space.png')}
           />
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <Image
+            style={styles.hfb}
+            source={require('../foundation/styasmeen.png')}
+          />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+            style={styles.hfb}
+            source={require('../foundation/humanfundpic.png')}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <Image
+            style={styles.hfb}
+            source={require('../foundation/space.png')}
+          />
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <Image
+            style={styles.hfb}
+            source={require('../foundation/styasmeen.png')}
+          />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+            style={styles.hfb}
+            source={require('../foundation/humanfundpic.png')}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <Image
+            style={styles.hfb}
+            source={require('../foundation/space.png')}
+          />
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <Image
+            style={styles.hfb}
+            source={require('../foundation/styasmeen.png')}
+          />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+            style={styles.hfb}
+            source={require('../foundation/humanfundpic.png')}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <Image
+            style={styles.hfb}
+            source={require('../foundation/space.png')}
+          />
+          </TouchableOpacity>
+          <TouchableOpacity>
+          <Image
+            style={styles.hfb}
+            source={require('../foundation/styasmeen.png')}
+          />
+          </TouchableOpacity>
+
         </ScrollView>
       </View>
 
@@ -190,12 +259,12 @@ var styles = StyleSheet.create({
     backgroundColor: '#058ed9',
     width: 375,
     height: 150,
-    flex: 1
+    flex: 2
   },
   newsFeed: {
-    backgroundColor: 'red',
-    width: 375,
-    height: 500
+    backgroundColor: '#f4ebd9',
+    flex: 5
+
   },
   buttons: {
     flex: 3,
@@ -222,26 +291,26 @@ var styles = StyleSheet.create({
     borderRadius: 80,
     marginBottom: 10,
     justifyContent: 'center',
-    top: 1,
+    top: 7,
     left: 50,
-    marginLeft:10,
+    marginLeft:7,
     borderRadius:10,
 
   },
   menuicon: {
     height: 40,
     width:40,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   hfb:{
-    justifyContent: "center",
-    height: 138,
+    height: 200,
     width:375
 
   },
 
   searchBar: {
-    top: 200
+    top: 200,
+    backgroundColor: "#f4ebd9"
   }
 
 
