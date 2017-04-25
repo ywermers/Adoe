@@ -5,6 +5,7 @@ var Donation = require('../models/donations');
 var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
+var path=require('path')
 
 // AWS S3 boiler plate information
 var aws = require('aws-sdk')
@@ -35,19 +36,19 @@ module.exports = function(passport) {
     res.render('login');
   });
 
+
+
   router.post('/api/foundations/login', passport.authenticate('local'), function(req,res){
-    console.log("authenticated correcty")
-    res.redirect('/api/foundations/home');
+    console.log("authenticated correcty");
+    res.redirect('/api/foundations/main');
+    // res.sendFile('/build/index.html', {root: __dirname});
+    // res.sendFile(path.join(__dirname, '../../../public/build/index.html'))
   });
 
   router.get('/api/foundations/logout', function(req, res){
     req.logout();
     res.redirect('/login');
   });
-
-  router.get('/api/foudnations.stripe',function(req,res) {
-  res.render("stripe")
-})
 
   router.post('/api/foundations/register',upload.single('foundationLogo'), function(req,res){
     console.log('body', req.body);

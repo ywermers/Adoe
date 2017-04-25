@@ -33,7 +33,7 @@ var app = express();
 
 
 // view engine setup
-app.engine('.hbs',exphbs({ extname: '.hbs'}));
+app.engine('.hbs', exphbs({ extname: '.hbs'}));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -41,7 +41,7 @@ app.set('view engine', 'hbs');
 // app.use("/styles",express.static(__dirname + "/public"));
 // app.use(express.static(__dirname + '/public'));
 // app.use(express.static(path.join(__dirname, '/public')));
-app.use("/public",express.static("public"));
+app.use("/public", express.static("public"));
 app.use("/img",express.static("img"));
 
 
