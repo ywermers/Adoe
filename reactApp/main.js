@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Link from 'react-router'
 
 
 
@@ -139,7 +140,6 @@ class App extends React.Component {
         {this.state.main==="about"&& <About/>}
         {this.state.main==="fundraisers"&& <Fundraisers fundraisers={this.state.fundraisers}/>}
         {this.state.main==="subscribers"&& <Subscribers subscribers={this.state.subscribers}/>}
-
       <div id="right" style={right}></div>
   </div>
     )
@@ -195,6 +195,7 @@ class Account extends React.Component {
     })
   }
 
+
   button() {
   this.setState({
     modal:true
@@ -212,11 +213,11 @@ class Account extends React.Component {
           <h3 onClick={this.logo.bind(this)}>Logo</h3><h3 onClick={this.description.bind(this)}>description</h3><h3 onClick={this.stripe.bind(this)}>Stripe</h3>
           </div>
           <div id="top right" style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'flex-end',marginBottom:'10'}}>
-          <button onClick={this.toggleModal.bind(this)}>{this.state.buttonText}</button>
+          <div><a href="/api/foundations/api/oauth">Stripe</a></div>
           </div>
         </div>
         <div id="body" style={body}>
-        {this.state.isOpen===true&&this.state.description&&<DescriptionModal onClose={this.toggleModal.bind(this)} show={this.state.isOpen} info={this.props.accountInfo}/>}
+        {this.state.description&&<div>description</div>}
         {this.state.logo===true&&<div><img src="https://www.bcrfcure.org/sites/all/themes/bcrf/logo.svg"></img></div>}
         {this.state.description===true&&<div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center'}}>{this.state.info}</div>}
         {this.state.stripe===true&&<div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center'}}></div>}
