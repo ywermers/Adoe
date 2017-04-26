@@ -24549,6 +24549,17 @@ var App = function (_React$Component) {
   }
 
   _createClass(App, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      fetch("/api/foundations/test", {}).then(function (response) {
+        return response.json();
+      }).then(function (responseJson) {
+        console.log(responseJson);
+      }).catch(function (error) {
+        console.log('error oh noo', error);
+      });
+    }
+  }, {
     key: 'account',
     value: function account() {
       this.setState({
@@ -24729,14 +24740,24 @@ var Account = function (_React$Component2) {
           _react2.default.createElement(
             'div',
             { id: 'top right', style: { flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginBottom: '10' } },
-            _react2.default.createElement(
-              'div',
-              null,
+            this.state.stripe && _react2.default.createElement(
+              'a',
+              { href: '/api/foundations/oauth/callback' },
               _react2.default.createElement(
-                'a',
-                { href: '/api/foundations/api/oauth' },
+                'button',
+                null,
                 'Stripe'
               )
+            ),
+            this.state.description && _react2.default.createElement(
+              'button',
+              null,
+              'Edit'
+            ),
+            this.state.logo && _react2.default.createElement(
+              'button',
+              null,
+              'Upload picture'
             )
           )
         ),

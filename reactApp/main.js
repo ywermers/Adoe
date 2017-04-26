@@ -104,6 +104,20 @@ class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+               fetch("/api/foundations/test", {
+                  })
+                  .then((response) => response.json())
+                  .then((responseJson)=> {
+                    console.log(responseJson)
+                  })
+                  .catch((error) => {
+                    console.log('error oh noo',error)
+                  })
+        }
+
+
+
 
   account() {
     this.setState({
@@ -213,7 +227,9 @@ class Account extends React.Component {
           <h3 onClick={this.logo.bind(this)}>Logo</h3><h3 onClick={this.description.bind(this)}>description</h3><h3 onClick={this.stripe.bind(this)}>Stripe</h3>
           </div>
           <div id="top right" style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'flex-end',marginBottom:'10'}}>
-          <div><a href="/api/foundations/api/oauth">Stripe</a></div>
+              {this.state.stripe&&<a href="/api/foundations/oauth/callback"><button>Stripe</button></a>}
+              {this.state.description&&<button>Edit</button>}
+              {this.state.logo&&<button>Upload picture</button>}
           </div>
         </div>
         <div id="body" style={body}>

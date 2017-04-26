@@ -35,6 +35,10 @@ router.post('/api/foundations/updateDescription', function(req, res, next){
     })
   })
 
+  router.get('/api/foundations/test',function(req,res) {
+    res.json({ user: 'tobi' })
+  })
+
 
 
 router.get('/api/foundations/api/oauth',function(req,res) {
