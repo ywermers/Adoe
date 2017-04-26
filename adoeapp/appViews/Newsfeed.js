@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import SearchBar from 'react-native-material-design-searchbar';
 import Modal from 'react-native-modal';
+import FoundationPage from './FoundationPage'
 var ScrollingMenu = require('react-native-scrolling-menu');
 var Drawer = require('react-native-drawer')
 var HumanFund= require('../foundation/HumanFund')
@@ -32,6 +33,7 @@ onClick(itemIndex) {
 constructor(props) {
    super(props);
    this.state = { text: '                         SearchBar' };
+   this.state.foundations = null
 }
 componentWillMount(){
   var user = AsyncStorage.getItem('user');
@@ -49,7 +51,9 @@ componentWillMount(){
   .then((responseJson) => {
     console.log('response',responseJson);
       if(responseJson.success){
-        console.log(response.foundations);
+        this.setState({
+          foundations: responseJson.foundations,
+        })
       } else {
       console.log('newfeed error');
       this.setState({
@@ -59,15 +63,42 @@ componentWillMount(){
     console.log('responseJson', responseJson)
   })
   .catch((err) => {
-    console.log('error', err)
+    console.log('unicorn', err)
   });
 }
 
+foundationNavigation(foundation){
+console.log('foundation', foundation);
+    this.props.navigator.push({
+      component: FoundationPage,
+      title: 'FoundationPage',
+      passProps: {
+        foundation: foundation
+      }
+    })
+}
 
 render () {
+console.log('foundations',this.state.foundations);
+var foundationsList= null;
+if(this.state.foundations){
+   foundationsList = this.state.foundations.map((foundation ,i) =>{
+    return (<View key={i} style={styles.newsFeedContainer}>
+    <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
+      <Image
+      style={styles.foundationLogos}
+      source={{uri: foundation.logoURL}}>
+        <Text style={styles.newsFeedText}>
+          {foundation.name}
+        </Text>
+      </Image>
+    </TouchableOpacity>
+    </View>)
+  });
+    console.log('foundationsList', foundationsList);
+}
   return (
-    <View style = {{flex:1, flexDirection:'column', alignItems:'center'}}>
-
+    <View style={{flex:1, flexDirection:'column', alignItems:'center'}}>
       <View style={styles.top}>
         <View style={styles.buttons}>
             <TouchableOpacity>
@@ -102,81 +133,9 @@ render () {
       </View>
 
       <View style={styles.newsFeed}>
-      <ScrollView>
-          <TouchableOpacity>
-            <Image
-            style={styles.hfb}
-            source={require('../foundation/humanfundpic.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-          <Image
-            style={styles.hfb}
-            source={require('../foundation/space.png')}
-          />
-          </TouchableOpacity>
-          <TouchableOpacity>
-          <Image
-            style={styles.hfb}
-            source={require('../foundation/styasmeen.png')}
-          />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-            style={styles.hfb}
-            source={require('../foundation/humanfundpic.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-          <Image
-            style={styles.hfb}
-            source={require('../foundation/space.png')}
-          />
-          </TouchableOpacity>
-          <TouchableOpacity>
-          <Image
-            style={styles.hfb}
-            source={require('../foundation/styasmeen.png')}
-          />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-            style={styles.hfb}
-            source={require('../foundation/humanfundpic.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-          <Image
-            style={styles.hfb}
-            source={require('../foundation/space.png')}
-          />
-          </TouchableOpacity>
-          <TouchableOpacity>
-          <Image
-            style={styles.hfb}
-            source={require('../foundation/styasmeen.png')}
-          />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-            style={styles.hfb}
-            source={require('../foundation/humanfundpic.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-          <Image
-            style={styles.hfb}
-            source={require('../foundation/space.png')}
-          />
-          </TouchableOpacity>
-          <TouchableOpacity>
-          <Image
-            style={styles.hfb}
-            source={require('../foundation/styasmeen.png')}
-          />
-          </TouchableOpacity>
-
-        </ScrollView>
+         <ScrollView automaticallyAdjustContentInsets={false}>
+            {foundationsList ? <View>{foundationsList}</View> : null}
+          </ScrollView>
       </View>
 
     </View>
@@ -262,26 +221,24 @@ var styles = StyleSheet.create({
     flex: 2
   },
   newsFeed: {
-    backgroundColor: '#f4ebd9',
-    flex: 5
-
+    backgroundColor: '#483d3f',
+    flex: 5,
   },
   buttons: {
     flex: 3,
     flexDirection:'row',
-    marginLeft: 12,
+    paddingLeft: 12,
+    paddingBottom: 12,
     alignItems: 'flex-end'
   },
   search: {
     flex:1,
   },
-
   buttonText: {
     fontSize: 20,
     color: '#f4ebd9',
     alignSelf: 'center'
   },
-
   button: {
     height: 50,
     width: 70,
@@ -295,25 +252,30 @@ var styles = StyleSheet.create({
     left: 50,
     marginLeft:7,
     borderRadius:10,
-
+  },
+  newsFeedContainer: {
+    // flex: 1
+  },
+  foundationLogos:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 200,
+    width: 375
+  },
+  newsFeedText: {
+    color: 'white',
+    fontSize: 40,
+    backgroundColor: 'rgba(0,0,0,0)'
   },
   menuicon: {
     height: 40,
     width:40,
     marginBottom: 8,
   },
-  hfb:{
-    height: 200,
-    width:375
-
-  },
-
   searchBar: {
-    top: 200,
     backgroundColor: "#f4ebd9"
   }
-
-
 });
 
 

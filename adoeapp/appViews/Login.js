@@ -14,9 +14,9 @@ import {
   Text
 } from 'react-native';
 
-var News = require('./News');
-var Signup = require('./Signup');
-var Newsfeed= require('./Newsfeed')
+import News from './News'
+import Signup from './Signup'
+import Newsfeed from './Newsfeed'
 export default class Login extends Component {
 
   constructor(props){
