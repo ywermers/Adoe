@@ -40,15 +40,15 @@ render () {
         <View style={styles.topContainer}>
         <Image
         style={styles.foundationLogo}
-        source={require('../foundation/space.png')}>
+        source={{uri: this.props.foundation.logoURL}}>
         </Image>
             <Text style={styles.foundationTitle}>
-            Foundation Title
+            {this.props.foundation.name}
             </Text>
         </View>
 
         <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionText}> TEST TEST</Text>
+            <Text style={styles.descriptionText}> {this.props.foundation.description}</Text>
         </View>
         <View style={styles.donateButtonContainer}>
 

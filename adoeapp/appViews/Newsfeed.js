@@ -19,7 +19,7 @@ import {
 import SearchBar from 'react-native-material-design-searchbar';
 import Modal from 'react-native-modal';
 import { Container, Content, List, ListItem, Thumbnail, Body, Drawer } from 'native-base';
-var ScrollingMenu = require('react-native-scrolling-menu');
+import  ScrollingMenu from 'react-native-scrolling-menu';
 // var Drawer = require('react-native-drawer')
 var HumanFund= require('../foundation/HumanFund')
 var SideBar = require('./SideBar')
@@ -73,7 +73,7 @@ foundationNavigation(foundation){
 console.log('foundation', Foundation);
     this.props.navigator.push({
       component: Foundation,
-      title: 'foundationPage',
+      title: foundation.name,
       passProps: {
         foundation: foundation
       }
@@ -109,7 +109,7 @@ render () {
   }
   return (
     <Drawer ref={(ref) => { this.drawer = ref; }}
-      content={<SideBar navigator={this.navigator} />}
+      content={<SideBar navigator={this.props.navigator} />}
       onClose={() => closeDrawer()} >
       <View style={{flex:1, flexDirection:'column', alignItems:'center'}}>
         <View style={styles.top}>

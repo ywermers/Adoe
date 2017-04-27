@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  navigator,
   ListView,
   Text
 } from 'react-native';
