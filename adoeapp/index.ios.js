@@ -28,7 +28,7 @@ export default class adoeapp extends Component {
     return (
       <NavigatorIOS
         initialRoute={{
-          component: FoundationPage,
+          component: Newsfeed,
           title: '',
         }}
         style={{flex: 1}}

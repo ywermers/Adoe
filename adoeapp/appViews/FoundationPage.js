@@ -34,15 +34,21 @@ console.log('testing');
 }
 
 render () {
-
+    console.log('foundation', this.props)
   return (
     <View style={styles.pageContainer} >
-        <View styles={styles.topContainer}>
-
+        <View style={styles.topContainer}>
+        <Image
+        style={styles.foundationLogo}
+        source={require('../foundation/space.png')}>
+        </Image>
+            <Text style={styles.foundationTitle}>
+            Foundation Title
+            </Text>
         </View>
 
         <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionContainertext}> This foundation gives back to the community </Text>
+            <Text style={styles.descriptionText}> TEST TEST</Text>
         </View>
         <View style={styles.donateButtonContainer}>
 
@@ -51,13 +57,13 @@ render () {
 
 
 
-
-          <TouchableOpacity onPress={this.donate.bind(this)}>
-            <View style={styles.donateButton}>
-              <Text style={styles.donateText}> DONATE </Text>
-            </View>
-          </TouchableOpacity>
-
+          <View style={styles.donateButtonContainer}>
+            <TouchableOpacity style={styles.donateButton} onPress={this.donate.bind(this)}>
+              <View>
+                <Text style={styles.donateText}> DONATE </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
     </View>
     );
@@ -68,24 +74,49 @@ render () {
   //  <View style={{width:375, height: 150, backgroundColor: '#058ed9', justifyContent: 'flex-start'}}>
 var styles = StyleSheet.create({
   pageContainer: {
+    marginTop: 60,
     flex: 1,
+    flexDirection: 'column',
     backgroundColor: '#058ed9'
   },
+  topContainer: {
+    flex:1,
+    flexDirection: 'row',
+    backgroundColor: '#058ed9'
+  },
+  foundationLogo: {
+    flex: 2,
+    backgroundColor: 'black',
+    height: 153,
+    width: 70
+  },
+  foundationTitle: {
+    flex: 3,
+    fontSize: 30,
+    color: '#f4ebd9',
+    fontWeight: 'bold',
+    alignSelf: 'center'
+  },
   descriptionContainer:{
-    paddingBottom: 70,
+    flex: 1,
+    paddingBottom: 50,
     paddingTop: 100,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  descriptionContainertext: {
+  descriptionText: {
     color: '#f4ebd9',
-    fontSize: 50,
+    fontSize: 40,
     justifyContent: 'center',
     alignSelf: 'center'
 
   },
-
+  donateButtonContainer:{
+    flex: 1,
+    backgroundColor: '#058ed9'
+  },
   donateButton: {
+    flex: 1,
     height: 50,
     width: 200,
     position: 'absolute',

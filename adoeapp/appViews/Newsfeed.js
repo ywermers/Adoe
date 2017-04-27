@@ -18,15 +18,17 @@ import {
 } from 'react-native';
 import SearchBar from 'react-native-material-design-searchbar';
 import Modal from 'react-native-modal';
-import FoundationPage from './FoundationPage'
+import { Container, Content, List, ListItem, Thumbnail, Body, Drawer } from 'native-base';
 var ScrollingMenu = require('react-native-scrolling-menu');
-var Drawer = require('react-native-drawer')
+// var Drawer = require('react-native-drawer')
 var HumanFund= require('../foundation/HumanFund')
+var SideBar = require('./SideBar')
+var Foundation = require('./FoundationPage')
 
 
 
 export default class Newsfeed extends Component {
-
+drawer = Object
 onClick(itemIndex) {
   console.log("Selected: " + items[itemNum]);
 }
@@ -68,77 +70,87 @@ componentWillMount(){
 }
 
 foundationNavigation(foundation){
-console.log('foundation', foundation);
+console.log('foundation', Foundation);
     this.props.navigator.push({
-      component: FoundationPage,
-      title: 'FoundationPage',
-      passProps: {
-        foundation: foundation
-      }
+      component: Foundation,
+      title: 'foundationPage',
+      passProps
     })
 }
-
 render () {
-console.log('foundations',this.state.foundations);
-var foundationsList= null;
-if(this.state.foundations){
-   foundationsList = this.state.foundations.map((foundation ,i) =>{
-    return (<View key={i} style={styles.newsFeedContainer}>
-    <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
-      <Image
-      style={styles.foundationLogos}
-      source={{uri: foundation.logoURL}}>
-        <Text style={styles.newsFeedText}>
-          {foundation.name}
-        </Text>
-      </Image>
-    </TouchableOpacity>
-    </View>)
-  });
-    console.log('foundationsList', foundationsList);
-}
+  var closeDrawer = () => {
+    this.drawer._root.close()
+  }
+  var openDrawer = () => {
+    console.log(this.drawer);
+    this.drawer._root.open()
+  }
+  console.log('foundations',this.state.foundations);
+  var foundationsList= null;
+  if(this.state.foundations){
+     foundationsList = this.state.foundations.map((foundation ,i) =>{
+      return (<View key={i} style={styles.newsFeedContainer}>
+      <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
+        <Image
+        style={styles.foundationLogos}
+        source={{uri: foundation.logoURL}}>
+          <Text style={styles.newsFeedText}>
+            {foundation.name}
+          </Text>
+        </Image>
+      </TouchableOpacity>
+      </View>)
+    });
+      console.log('foundationsList', foundationsList);
+  }
   return (
-    <View style={{flex:1, flexDirection:'column', alignItems:'center'}}>
-      <View style={styles.top}>
-        <View style={styles.buttons}>
-            <TouchableOpacity>
-              <Image
-                style={styles.menuicon}
-                source={require('../assets/menu.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-                 <Text style={styles.buttonText}>
-                     Feed
-                 </Text>
-           </TouchableOpacity>
-           <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>
-                  News
-                </Text>
+    <Drawer ref={(ref) => { this.drawer = ref; }}
+      content={<SideBar navigator={this.navigator} />}
+      onClose={() => closeDrawer()} >
+      <View style={{flex:1, flexDirection:'column', alignItems:'center'}}>
+        <View style={styles.top}>
+          <View style={styles.buttons}>
+              <TouchableOpacity onPress={() => openDrawer()}>
+                <Image
+                  style={styles.menuicon}
+                  source={require('../assets/menu.png')}
+                />
               </TouchableOpacity>
-
               <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>
-                  Me
-                </Text>
-           </TouchableOpacity>
-        </View>
-        <View style={styles.search}>
-        <TextInput
-              style={{height: 40, fontSize: 23, color: '#483d3f', borderColor: '#058ed9', backgroundColor:'#f4ebd9',  borderWidth: 4}}
-              onChangeText={(text) => this.setState({text})}
-              value={this.state.text} />
-        </View>
-      </View>
+                   <Text style={styles.buttonText}>
+                       Feed
+                   </Text>
+             </TouchableOpacity>
+             <TouchableOpacity style={styles.button}>
+                  <Text style={styles.buttonText}>
+                    News
+                  </Text>
+                </TouchableOpacity>
 
-      <View style={styles.newsFeed}>
-         <ScrollView automaticallyAdjustContentInsets={false}>
-            {foundationsList ? <View>{foundationsList}</View> : null}
-          </ScrollView>
-      </View>
+                <TouchableOpacity style={styles.button}>
+                  <Text style={styles.buttonText}>
+                    Me
+                  </Text>
+             </TouchableOpacity>
+          </View>
+          <View style={styles.search}>
+          <TextInput
+                style={{height: 40, fontSize: 23, color: '#483d3f', borderColor: '#058ed9', backgroundColor:'#f4ebd9',  borderWidth: 4}}
+                onChangeText={(text) => this.setState({text})}
+                value={this.state.text} />
+          </View>
+        </View>
 
-    </View>
+        <View style={styles.newsFeed}>
+           <ScrollView automaticallyAdjustContentInsets={false}>
+            <List>
+              {foundationsList ? <View>{foundationsList}</View> : null}
+            </List>
+            </ScrollView>
+        </View>
+
+      </View>
+    </Drawer>
     );
   }
 }
