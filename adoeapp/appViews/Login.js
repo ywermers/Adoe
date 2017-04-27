@@ -14,9 +14,9 @@ import {
   Text
 } from 'react-native';
 
-var News = require('./News');
-var Signup = require('./Signup');
-var Newsfeed= require('./Newsfeed')
+import News from './News'
+import Signup from './Signup'
+import Newsfeed from './Newsfeed'
 export default class Login extends Component {
 
   constructor(props){
@@ -34,7 +34,6 @@ export default class Login extends Component {
     fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -45,7 +44,7 @@ export default class Login extends Component {
     .then((response) => response.json())
     .then((responseJson) => {
       console.log('response',responseJson)
-      if (responseJson.success === true) {
+      if (responseJson.success) {
         AsyncStorage.setItem('user', JSON.stringify({
           email: this.state.email,
           password: this.state.password,
@@ -53,7 +52,7 @@ export default class Login extends Component {
         }));
         this.props.navigator.push({
           component: Newsfeed,
-          title: 'News'
+          title: 'Newsfeed'
         })
       } else {
         this.setState({
