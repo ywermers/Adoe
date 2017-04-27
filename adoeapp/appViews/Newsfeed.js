@@ -74,13 +74,17 @@ console.log('foundation', Foundation);
     this.props.navigator.push({
       component: Foundation,
       title: 'foundationPage',
-      passProps
+      passProps: {
+        foundation: foundation
+      }
     })
 }
+
 render () {
   var closeDrawer = () => {
     this.drawer._root.close()
   }
+
   var openDrawer = () => {
     console.log(this.drawer);
     this.drawer._root.open()
