@@ -8,6 +8,7 @@ var User = require('../models/user');
 var qs = require('querystring');
 var request = require('request');
 
+
 // Fix the foundation oauth return
 
 router.use(function(req, res, next){
@@ -18,13 +19,22 @@ router.use(function(req, res, next){
   }
 });
 
-router.get('/api/foundations/stripe', function(req, res, next){
-   res.render('stripe');
-});
+router.get('/api/foundations/main', function(req, res) {
+  res.render('index');
+})
 
-router.get('/api/fondations/home', function(req, res, next){
-  res.render('home');
-});
+
+
+router.post('/api/foundations/updateDescription', function(req, res, next){
+  Foundation.findOneAndUpdate({_id: req.session.passport.user},
+    {description: req.body.description})
+    .then((updated) =>{
+      res.send('updated');
+    }).catch((err) => {
+      res.status(500).json(err);
+    })
+  })
+
 
 
 router.get('/api/foundations/api/oauth',function(req,res) {
@@ -57,7 +67,7 @@ router.get('/api/foundations/api/oauth',function(req,res) {
        stripeUserId: body.stripe_user_id,
        stripePublishable: body.stripe_publishable_key})
     .then((updated) =>{
-      res.render('stripe');
+      console.log('updtaed')
     }).catch((err) => {
       res.status(500).json(err);
     })

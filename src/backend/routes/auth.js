@@ -5,9 +5,28 @@ var Donation = require('../models/donations');
 var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
+var path=require('path')
+
+// AWS S3 boiler plate information
+var aws = require('aws-sdk')
+var multer = require('multer')
+var multerS3 = require('multer-s3')
+
+// aws.config.loadFromPath('./config.json');
+var s3 = new aws.S3();
+
+var upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'adoe',
+    key: function (req, file, cb) {
+      cb(null, Date.now().toString() + file.originalname);
+    }
+  })
+})
 
 module.exports = function(passport) {
-  
+
   router.use(function(req, res, next){
     console.log("authenticate")
     next();
@@ -17,9 +36,13 @@ module.exports = function(passport) {
     res.render('login');
   });
 
+
+
   router.post('/api/foundations/login', passport.authenticate('local'), function(req,res){
-    console.log("authenticated correcty")
-    res.redirect('/api/foundations/stripe');
+    console.log("authenticated correcty");
+    res.redirect('/api/foundations/main');
+    // res.sendFile('/build/index.html', {root: __dirname});
+    // res.sendFile(path.join(__dirname, '../../../public/build/index.html'))
   });
 
   router.get('/api/foundations/logout', function(req, res){
@@ -27,14 +50,9 @@ module.exports = function(passport) {
     res.redirect('/login');
   });
 
-
-  router.get('/api/foundations/register', function(req,res){
-    res.render('register')
-  });
-
-  router.post('/api/foundations/register', function(req,res){
-    console.log("REGISTER", req.body)
-    if(req.body.password !== req.body.repeatPassword) throw new Error("passwords don't match")
+  router.post('/api/foundations/register',upload.single('foundationLogo'), function(req,res){
+    console.log('body', req.body);
+    console.log('file', req.file);
     var password = hashPassword(req.body.password)
     var foundation = new Foundation({
       name : req.body.name,
@@ -46,16 +64,22 @@ module.exports = function(passport) {
       ustate:req.body.ustate,
       zipCode:req.body.zipCode,
       country:req.body.country,
-      description: req.body.description
+      description: req.body.description,
+      logoURL: req.file.location
     })
     console.log(foundation)
     foundation.save()
     .then((x)=>{
       console.log('foundation saved')
-      res.redirect('/api/foundations/login')
+      res.render('login')
     })
     .catch((err) => {
+        if(err.code===11000) {
+          res.render("login",{error:'im so so so sorryr but there is already an account signed up with this email!'})
+        }
+        else {
       res.status(500).json(err)
+    }
     });
   });
 

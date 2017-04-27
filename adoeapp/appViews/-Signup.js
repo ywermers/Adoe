@@ -21,7 +21,7 @@ import {
 //   };
 // }
 
-import Login from './Login'
+var Login = require('./-Login');
 
 // class Signup extends Component {
 var Signup = React.createClass({
@@ -58,17 +58,16 @@ var Signup = React.createClass({
     .then((responseJson) => {
       console.log('hello!!!',responseJson)
       if (responseJson.success === true) {
-        console.log("SUCCESS", Login)
         this.props.navigator.push({
           component: Login,
-          title: 'Login'
+          title: 'Login',
         })
       } else {
         this.setState({
           responseJsonError: responseJson.error,
         });
       }
-      console.log('responsejson', responseJson)
+      console.log('responsejosn', responseJson)
     })
     .catch((err) => {
       console.log('error', err)
@@ -77,12 +76,15 @@ var Signup = React.createClass({
 
 
   render() {
+
     return (
       <View style={styles.container}>
 
 
 
-
+      <Text style={styles.description}>
+        Sign up through Facebook
+      </Text>
 
       <TouchableOpacity style={styles.fbbutton}
           underlayColor='#99d9f4'>
@@ -167,17 +169,16 @@ var styles = StyleSheet.create({
   textBig: {
     fontSize: 36,
     textAlign: 'center',
-    margin: 8,
+    margin: 10,
   },
   description: {
-    top: 18,
-    marginBottom: 18,
-    fontSize: 16,
+    marginBottom: 20,
+    fontSize: 18,
     textAlign: 'center',
     color: '#656565'
   },
   container: {
-    padding: 12,
+    padding: 30,
     marginTop: 45,
     alignItems: 'center'
   },
@@ -188,8 +189,8 @@ var styles = StyleSheet.create({
   },
   button: {
     height: 36,
-    backgroundColor: '#483d3f',
-    borderColor: '#483d3f',
+    backgroundColor: '#48BBEC',
+    borderColor: '#48BBEC',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
@@ -197,26 +198,25 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   fbbutton: {
-    height: 33,
-    top: 20,
+    height: 36,
     backgroundColor: 'blue',
     borderColor: 'blue',
     borderWidth: 1,
     borderRadius: 8,
     alignSelf: 'stretch',
     justifyContent: 'center',
-    marginBottom: 3
+    marginBottom: 5
   },
   searchInput: {
     height: 40,
     width: 300,
-    padding: 12,
+    padding: 10,
     marginRight: 5,
     marginBottom: 10,
     fontSize: 18,
     borderWidth: 1,
     borderColor: '#48BBEC',
-    borderRadius: 10,
+    borderRadius: 8,
     color: '#48BBEC'
   },
   image: {

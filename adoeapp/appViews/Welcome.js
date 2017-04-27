@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react'
 import {
+  AsyncStorage,
   StyleSheet,
   Image,
   View,
@@ -23,17 +24,52 @@ var Credit = require('./Credit');
 
 class Welcome extends Component {
 
+  componentWillMount(){
+    AsyncStorage.getItem('user')
+    .then((user) => {
+      console.log('user', user);
+      console.log('userEmail', JSON.parse(user).email)
+      fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: JSON.parse(user).email,
+          password: JSON.parse(user).password,
+        })
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log('response',responseJson);
+          if(responseJson.success){
+             AsyncStorage.setItem('user', JSON.stringify({
+              email: JSON.parse(user).email,
+              password: JSON.parse(user).password,
+              authToken: responseJson.token
+            }));
+            this.props.navigator.push({
+              component: Newsfeed,
+              title: 'Newsfeed'
+            })
+          } else {
+          console.log('newfeed error');
+          this.setState({
+            responseJsonError: responseJson.error,
+          });
+        }
+        console.log('responseJson', responseJson)
+      })
+      .catch((err) => {
+        console.log('error', err)
+      });
+    })
+
+  }
   goToCredit() {
     this.props.navigator.push({
       component: Credit,
       title: 'Credit',
-    })
-  }
-
-  goToNews() {
-    this.props.navigator.push({
-      component: News,
-      title: 'News',
     })
   }
 
@@ -69,21 +105,6 @@ class Welcome extends Component {
             Sign up
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.goToNews.bind(this)} style={styles.button}>
-          <Text style={styles.buttonText}>
-            News
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.goToCredit.bind(this)} style={styles.lisabutton}>
-          <Text style={styles.buttonText}>
-            Credit
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.goToNewsfeed.bind(this)} style={styles.lisabutton}>
-          <Text style={styles.buttonText}>
-            HOLLY
-          </Text>
-        </TouchableOpacity>
       </View>
     )
   }
@@ -98,8 +119,8 @@ var styles = StyleSheet.create({
   button: {
     height: 80,
     width: 160,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    backgroundColor: '#a39a92',
+    borderColor: '#a39a92',
     borderWidth: 1,
     borderRadius: 80,
     marginBottom: 10,

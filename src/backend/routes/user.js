@@ -44,6 +44,7 @@ router.post('/api/users/addcreditcard',function(req,res){
 
 
 router.post('/api/users/register', function(req,res){
+  console.log('register user route');
   var user = new User({
     name : req.body.name,
     email :  req.body.email,
@@ -64,6 +65,7 @@ router.post('/api/users/register', function(req,res){
   }).then(function(customer){
     return user.update({stripe: {customerID: customer.id}},{w:1}).exec()
   }).then(function(update){
+    console.log('user registered')
     res.json({success: true})
   }).catch((err) => res.status(500).json(err))
 })
@@ -72,9 +74,9 @@ router.post('/api/users/login',function(req,res){
   User.findOne({email:req.body.email, password: req.body.password}, function(err,user){
     if(err) console.log(err);
     if(user){
-      console.log('user found!!!',user)
+      console.log('user found!!!',user);
         user.tokenize(function(token, updated){
-          console.log('token saved', updated)
+          console.log('token saved', updated);
           res.json({success: true, token:token});
         })
     }else if(!user){
@@ -96,8 +98,6 @@ router.post('/api/users/chargeCard',function(req,res){
       user = tempUser;
       return Foundation.findOne({_id: req.body.foundationToken})
     }).then((tempFoundation) =>{
-      console.log('user', user);
-      console.log('foundation', tempFoundation);
       foundation = tempFoundation
       return stripe.tokens.create({
         customer: user.stripe.customerID,
@@ -105,7 +105,6 @@ router.post('/api/users/chargeCard',function(req,res){
         stripe_account: foundation.stripeUserId
       })
     }).then((token) => {
-      console.log(token);
       return stripe.charges.create({
         amount: req.body.amount,
         currency: "usd",
@@ -115,13 +114,54 @@ router.post('/api/users/chargeCard',function(req,res){
           stripe_account: foundation.stripeUserId
         });
     }).then((charge)=>{
-      res.json(charge)
+      var donation = new Donation({
+        "amount": charge.amount,
+        "amount_refunded": 0,
+        "userId": user._id,
+        "foundationId": foundation._id,
+        "status": charge.status
+      });
+      return donation.save()
+    }).then((donation) =>{
+      console.log('donation', donation);
+      console.log('user', user);
+      return user.update({$push : {donationID : donation._id} }, {w:1}).exec()
+    }).then((updated) =>{
+      res.json({"success": true})
     }).catch((err) => {
       res.status(500).json({err:err, message: "cannot charge this account"});
-    })
-
+    });
 });
 
+//pass authToken returns json tax receipt
+router.post('/api/users/taxReceipts', function(req, res){
+  var donations;
+   User.findOne({authToken: req.body.authToken})
+     .then((user) => {
+       return Donation.find({_id : {$in: user.donationID}})
+     }).then((tempDonations) => {
+       donations = tempDonations;
+       var foundationIds = donations.map(donation=>donation.foundationId)
+      return Foundation.find({_id : {$in: foundationIds}})
+    }).then((foundations) =>{
+        var returnJson = donations.map((donation)=>{
+          var taxReceipt = {
+            amount : donation.amount,
+            date : donation.createdTime,
+            foundation: null
+          }
+          for(var i =0; i<foundations.length; i++){
+            if(donation.foundationId.equals(foundations[i]._id)){
+              taxReceipt.foundation = foundations[i].name
+            }
+          }
+          return taxReceipt
+        });
+         res.json({success: true, taxReceipts: returnJson});
+    }).catch((err)=>{
+      res.status(500).json({success: false, err: err});
+    })
+})
 //send authToken
 //stripe.accounts.list will only receive max 100 foundations
 //future pagination will have to be implemented
@@ -130,22 +170,22 @@ router.post('/api/users/newsfeed',function(req,res) {
   var foundations = []
  stripe.accounts.list({limit:100})
   .then((stripe_accounts_list)=>{
-    console.log("stripe_accounts", stripe_accounts_list)
-    var array_userIds = stripe_accounts_list.data.map((x) => x.id)
-    return Foundation.find({stripeUserId : {$in:array_userIds}})
+    var array_userIds = stripe_accounts_list.data.map((x) => x.id);
+    return Foundation.find({stripeUserId : {$in:array_userIds}});
   }).then((foundations) =>{
     var foundationsJson = foundations.map((foundation)=>{
       return {
         "name": foundation.name,
+        "id": foundation._id,
         "email": foundation.email,
         "phoneNumber": foundation.phoneNumber,
         "description": foundation.description,
         "logoURL": foundation.logoURL
       }
-    })
+    });
     res.json({success: true, foundations: foundationsJson});
   }).catch(err => console.log(err))
-})
+});
 
 
 module.exports = router;

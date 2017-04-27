@@ -9,13 +9,14 @@ import {
   TouchableOpacity,
   ListView,
   TextInput,
+  navigator,
   AsyncStorage,
   Text
 } from 'react-native';
 
-var News = require('./News');
-var Signup = require('./Signup');
-
+import News from './News'
+import Signup from './Signup'
+import Newsfeed from './Newsfeed'
 export default class Login extends Component {
 
   constructor(props){
@@ -33,7 +34,6 @@ export default class Login extends Component {
     fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -44,15 +44,15 @@ export default class Login extends Component {
     .then((response) => response.json())
     .then((responseJson) => {
       console.log('response',responseJson)
-      if (responseJson.success === true) {
+      if (responseJson.success) {
         AsyncStorage.setItem('user', JSON.stringify({
           email: this.state.email,
           password: this.state.password,
           authToken: responseJson.token
         }));
         this.props.navigator.push({
-          component: News,
-          title: 'News'
+          component: Newsfeed,
+          title: 'Newsfeed'
         })
       } else {
         this.setState({
@@ -85,8 +85,8 @@ export default class Login extends Component {
 
   goToNews() {
     this.props.navigator.push({
-      component: News,
-      title: 'News',
+      component: Newsfeed,
+      title: '',
     })
   }
 
@@ -117,7 +117,7 @@ export default class Login extends Component {
       value={this.state.password}
       />
 
-      <TouchableOpacity style={styles.button}
+      <TouchableOpacity style={styles.button} onPress={this.goToNews}
       underlayColor='#99d9f4' onPress={this.login.bind(this)} >
       <Text style={styles.buttonText}>Login!</Text>
       </TouchableOpacity>
@@ -125,6 +125,12 @@ export default class Login extends Component {
       <TouchableOpacity onPress={this.goToSignup}>
       <Text style={styles.description} >
       Don&rsquo;t have an account? Sign up here.
+      </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={this.goToNews.bind(this)}>
+      <Text style={styles.demobutton} >
+      demo
       </Text>
       </TouchableOpacity>
 
@@ -172,6 +178,16 @@ var styles = StyleSheet.create({
     borderColor: '#48BBEC',
     borderRadius: 8,
     color: '#48BBEC'
+  },
+  demobutton: {
+    height: 36,
+    backgroundColor: '#FFFFFF',
+    borderColor: '#FFFFFF',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   }
 });
 
