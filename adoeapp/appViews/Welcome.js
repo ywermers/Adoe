@@ -94,7 +94,7 @@ class Welcome extends Component {
   }
   render() {
     return(
-      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1,backgroundColor: '#a39a92'}}>
         <TouchableOpacity onPress={this.goToLogin.bind(this)} style={styles.button}>
           <Text style={styles.buttonText}>
             Login
@@ -113,14 +113,14 @@ class Welcome extends Component {
 var styles = StyleSheet.create({
   buttonText: {
     fontSize: 40,
-    color: 'white',
+    color: '#f4ebd9',
     alignSelf: 'center'
   },
   button: {
     height: 80,
     width: 160,
-    backgroundColor: '#a39a92',
-    borderColor: '#a39a92',
+    backgroundColor: '#483d3f',
+    borderColor: '#483d3f',
     borderWidth: 1,
     borderRadius: 80,
     marginBottom: 10,

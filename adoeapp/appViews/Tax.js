@@ -22,7 +22,7 @@ export default class Tax extends Component {
 var styles = StyleSheet.create ({
   mainContainer: {
     flex: 1,
-    backgroundColor: 'red'
+    backgroundColor: '#a39a92'
   }
 });
 module.exports = Tax;
