@@ -42,6 +42,9 @@ var foundationSchema  = mongoose.Schema({
     type: String,
     required: true
   },
+  subscribedEmails: {
+    type: Array
+  },
   logoURL: {
     type: String
   },
@@ -58,6 +61,8 @@ var foundationSchema  = mongoose.Schema({
     type: String
   }
 })
+
+
 
 var Foundation = mongoose.model('Foundation', foundationSchema);
 

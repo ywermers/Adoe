@@ -9,6 +9,30 @@ var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET);
 
 var hbs=require('express-handlebars')
 
+//subscribe a users email for foundations to update users
+//pass authToken and foundation id
+router.post('/api/user/subscribe/email', function(req,res){
+  var user;
+  var foundation;
+  User.findOne({authToken: req.body.authToken})
+  .then((tmpUser)=>{
+    user = tmpUser;
+    return Foundation.findOne({_id: req.foundation._id})
+  })
+  .then((tmpfoundation) => {
+    foundation = tmpFoundation
+    foundation.update({$push : { subscribedEmails: user.email} }, {w:1}).exec()
+  })
+  .then((updated) => {
+    user.update({$push :  {subscribedFoundations: foundation.name} }, {w:1}).exec()
+  })
+  .then((updated) => {
+   res.json({success: true});
+  })
+  .catch((err) => {
+    res.status(500).json(err)
+  })
+});
 
 //to addcreditCard pass creditToken and authToken
 router.post('/api/users/addcreditcard',function(req,res){
@@ -101,9 +125,9 @@ router.post('/api/users/chargeCard',function(req,res){
       foundation = tempFoundation
       return stripe.tokens.create({
         customer: user.stripe.customerID,
-      }, {
+      },{
         stripe_account: foundation.stripeUserId
-      })
+      });
     }).then((token) => {
       return stripe.charges.create({
         amount: req.body.amount,

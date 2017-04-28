@@ -67,6 +67,9 @@ var userSchema  = mongoose.Schema({
       type: String
   }
   },
+  subscribedFoundations: {
+      type: String
+  },
   donationID: [{
     type: mongoose.Schema.Types.ObjectId
   }]
