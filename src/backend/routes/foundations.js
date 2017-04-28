@@ -25,19 +25,62 @@ router.get('/api/foundations/main', function(req, res) {
 
 
 
-router.post('/api/foundations/updateDescription', function(req, res, next){
+router.post('/api/foundations/updateName', function(req, res, next){
   Foundation.findOneAndUpdate({_id: req.session.passport.user},
-    {description: req.body.description})
+    {name: req.body.name})
     .then((updated) =>{
-      res.send('updated');
+    console.log('updated name sucessfully no thank to dereeck bc we was AFK');
+    res.json('updated name :)')
     }).catch((err) => {
       res.status(500).json(err);
     })
   })
 
-  router.get('/api/foundations/test',function(req,res) {
-    res.json({ user: 'tobi' })
+
+router.post('/api/foundations/updateEmail', function(req, res, next){
+  Foundation.findOneAndUpdate({_id: req.session.passport.user},
+    {email: req.body.email})
+    .then((updated) =>{
+    console.log('updated name sucessfully no thank to dereeck bc we was AFK');
+    res.json('updated email :)')
+    }).catch((err) => {
+      res.status(500).json(err);
+    })
   })
+  router.post('/api/foundations/updateDescription', function(req, res, next){
+    Foundation.findOneAndUpdate({_id: req.session.passport.user},
+      {description: req.body.info})
+      .then((updated) =>{
+      console.log('updated name sucessfully no thank to dereeck bc we was AFK');
+      res.json('updated name :)')
+      }).catch((err) => {
+        res.status(500).json(err);
+      })
+    })
+
+
+    router.post('/api/foundations/updateAddress', function(req, res, next){
+      console.log(req.body)
+      Foundation.findOneAndUpdate({_id: req.session.passport.user},
+        {streetAddress: req.body.streetAddress, city:req.body.city,country:this.body.country}
+      )
+        .then((updated) =>{
+        res.json('updated address :)')
+        }).catch((err) => {
+          res.status(500).json(err);
+        })
+      })
+
+  router.get('/api/foundations/userdata',function(req,res) {
+        Foundation.findOne({_id:req.session.passport.user}, function(err,user) {
+          if(user) {
+          res.json(user)
+        } else {
+          res.json('error',err)
+        }
+  })
+})
+
 
 
 
