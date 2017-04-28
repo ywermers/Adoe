@@ -94,15 +94,17 @@ render () {
   if(this.state.foundations){
      foundationsList = this.state.foundations.map((foundation ,i) =>{
       return (<View key={i} style={styles.newsFeedContainer}>
+
       <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
         <Image
         style={styles.foundationLogos}
         source={{uri: foundation.logoURL}}>
-          <Text style={styles.newsFeedText}>
-            {foundation.name}
+        <Text style={styles.newsFeedText}>
+          {foundation.name}
           </Text>
-        </Image>
+          </Image>
       </TouchableOpacity>
+
       </View>)
     });
       console.log('foundationsList', foundationsList);
@@ -139,7 +141,7 @@ render () {
           </View>
           <View style={styles.search}>
           <TextInput
-                style={{height: 40, fontSize: 23, color: '#483d3f', borderColor: '#058ed9', backgroundColor:'#f4ebd9',  borderWidth: 4}}
+                style={{height: 40, fontSize: 23, color: '#483d3f', borderColor: '#483d3f', backgroundColor:'#f4ebd9',  borderWidth: 4}}
                 onChangeText={(text) => this.setState({text})}
                 value={this.state.text} />
           </View>
@@ -147,7 +149,7 @@ render () {
 
         <View style={styles.newsFeed}>
            <ScrollView automaticallyAdjustContentInsets={false}>
-            <List>
+            <List style={styles.test}>
               {foundationsList ? <View>{foundationsList}</View> : null}
             </List>
             </ScrollView>
@@ -231,7 +233,7 @@ var styles = StyleSheet.create({
   top: {
     flexDirection:'column',
     justifyContent:'center',
-    backgroundColor: '#058ed9',
+    backgroundColor: '#483d3f',
     width: 375,
     height: 150,
     flex: 2
@@ -239,6 +241,7 @@ var styles = StyleSheet.create({
   newsFeed: {
     backgroundColor: '#483d3f',
     flex: 5,
+
   },
   buttons: {
     flex: 3,
@@ -258,7 +261,7 @@ var styles = StyleSheet.create({
   button: {
     height: 50,
     width: 70,
-    backgroundColor: '#058ed9',
+    backgroundColor: '#483d3f',
     borderColor: '#f4ebd9',
     borderWidth: 1,
     borderRadius: 80,
@@ -277,12 +280,15 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 200,
-    width: 375
+    width: 375,
+    backgroundColor: 'black',
+    opacity: .4
   },
   newsFeedText: {
     color: 'white',
     fontSize: 40,
-    backgroundColor: 'rgba(0,0,0,0)'
+    backgroundColor: 'rgba(0,0,0,0)',
+    opacity: 1
   },
   menuicon: {
     height: 40,
@@ -290,7 +296,7 @@ var styles = StyleSheet.create({
     marginBottom: 8,
   },
   searchBar: {
-    backgroundColor: "#f4ebd9"
+    backgroundColor: "#483d3f"
   }
 });
 

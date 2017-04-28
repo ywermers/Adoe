@@ -73,7 +73,7 @@ var styles = StyleSheet.create ({
     backgroundColor: '#483d3f'
   },
   topcontainer: {
-    backgroundColor: 'pink',
+    backgroundColor: '#483d3f',
     flex: 1,
   },
   topname: {
