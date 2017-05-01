@@ -33,6 +33,7 @@ module.exports = function(passport) {
   });
 
   router.get('/api/foundations/login', function(req,res){
+
     res.render('login');
   });
 
