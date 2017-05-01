@@ -127,7 +127,7 @@ class Main extends React.Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log('got fetch data!',responseJson)
+      console.log('got fetch data!',responseJson.zipCode)
       this.setState({
       accountName: responseJson.name,
       accountInfo:responseJson.description,
@@ -137,7 +137,7 @@ class Main extends React.Component {
       country:responseJson.country,
       city:responseJson.city,
       state:responseJson.ustate,
-      zip:null
+      zip:responseJson.zipCode
     })
   })
     .catch((err) => {

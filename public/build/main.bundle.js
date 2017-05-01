@@ -24797,8 +24797,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var mainDiv = {
   display: 'flex',
-  width: "1300px",
-  height: '620px',
+  width: "1700px",
+  height: '820px',
   fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif',
   backgroundColor: '#F1F5F9'
 };
@@ -24917,7 +24917,7 @@ var Main = function (_React$Component) {
       }).then(function (response) {
         return response.json();
       }).then(function (responseJson) {
-        console.log('got fetch data!', responseJson);
+        console.log('got fetch data!', responseJson.zipCode);
         _this2.setState({
           accountName: responseJson.name,
           accountInfo: responseJson.description,
@@ -24927,7 +24927,7 @@ var Main = function (_React$Component) {
           country: responseJson.country,
           city: responseJson.city,
           state: responseJson.ustate,
-          zip: null
+          zip: responseJson.zipCode
         });
       }).catch(function (err) {
         console.log('error', err);
@@ -25701,7 +25701,7 @@ var AddressModal = function (_React$Component5) {
           ),
           _react2.default.createElement(
             'div',
-            { id: 'but', style: { display: 'flex', justifyContent: 'center', width: '50', marginLeft: '230' } },
+            { id: 'but', style: { display: 'flex', justifyContent: 'center', width: '50', marginLeft: '130' } },
             _react2.default.createElement(
               'button',
               { style: { flex: 1, height: '20', width: '2' }, onClick: this.addressSubmit.bind(this, this.state.street, this.state.city, this.state.state, this.state.country, this.state.zip) },
