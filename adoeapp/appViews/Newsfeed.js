@@ -150,6 +150,7 @@ render () {
         <View style={styles.newsFeed}>
            <ScrollView automaticallyAdjustContentInsets={false}>
             <List style={styles.test}>
+
               {foundationsList ? <View>{foundationsList}</View> : null}
             </List>
             </ScrollView>
