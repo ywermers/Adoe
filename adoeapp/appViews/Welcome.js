@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react'
 import {
+  AsyncStorage,
   StyleSheet,
   Image,
   View,
@@ -23,6 +24,48 @@ var Credit = require('./Credit');
 
 class Welcome extends Component {
 
+  componentWillMount(){
+    AsyncStorage.getItem('user')
+    .then((user) => {
+      console.log('user', user);
+      console.log('userEmail', JSON.parse(user).email)
+      fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: JSON.parse(user).email,
+          password: JSON.parse(user).password,
+        })
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log('response',responseJson);
+          if(responseJson.success){
+             AsyncStorage.setItem('user', JSON.stringify({
+              email: JSON.parse(user).email,
+              password: JSON.parse(user).password,
+              authToken: responseJson.token
+            }));
+            this.props.navigator.push({
+              component: Newsfeed,
+              title: 'Newsfeed'
+            })
+          } else {
+          console.log('newfeed error');
+          this.setState({
+            responseJsonError: responseJson.error,
+          });
+        }
+        console.log('responseJson', responseJson)
+      })
+      .catch((err) => {
+        console.log('error', err)
+      });
+    })
+
+  }
   goToCredit() {
     this.props.navigator.push({
       component: Credit,
@@ -51,7 +94,7 @@ class Welcome extends Component {
   }
   render() {
     return(
-      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1,backgroundColor: '#a39a92'}}>
         <TouchableOpacity onPress={this.goToLogin.bind(this)} style={styles.button}>
           <Text style={styles.buttonText}>
             Login
@@ -70,14 +113,14 @@ class Welcome extends Component {
 var styles = StyleSheet.create({
   buttonText: {
     fontSize: 40,
-    color: 'white',
+    color: '#f4ebd9',
     alignSelf: 'center'
   },
   button: {
     height: 80,
     width: 160,
-    backgroundColor: '#a39a92',
-    borderColor: '#a39a92',
+    backgroundColor: '#483d3f',
+    borderColor: '#483d3f',
     borderWidth: 1,
     borderRadius: 80,
     marginBottom: 10,
