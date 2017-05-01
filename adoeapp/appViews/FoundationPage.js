@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import SearchBar from 'react-native-material-design-searchbar';
 import Modal from 'react-native-modal';
+
 var ScrollingMenu = require('react-native-scrolling-menu');
 var Drawer = require('react-native-drawer')
 
@@ -40,15 +41,17 @@ render () {
         <View style={styles.topContainer}>
         <Image
         style={styles.foundationLogo}
-        source={require('../foundation/space.png')}>
+        source={{uri: this.props.foundation.logoURL}}>
         </Image>
+          <View style={styles.foundationTitleContainer}>
             <Text style={styles.foundationTitle}>
-            Foundation Title
+            {this.props.foundation.name}
             </Text>
+          </View>
         </View>
 
         <View style={styles.descriptionContainer}>
-            <Text style={styles.descriptionText}> TEST TEST</Text>
+            <Text style={styles.descriptionText}> {this.props.foundation.description}</Text>
         </View>
         <View style={styles.donateButtonContainer}>
 
@@ -77,18 +80,26 @@ var styles = StyleSheet.create({
     marginTop: 60,
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#058ed9'
+    backgroundColor: '#a39a92'
   },
   topContainer: {
     flex:1,
     flexDirection: 'row',
-    backgroundColor: '#058ed9'
+    backgroundColor: '#a39a92',
+    justifyContent: 'center'
   },
   foundationLogo: {
     flex: 2,
     backgroundColor: 'black',
-    height: 153,
-    width: 70
+    height: 90,
+    width: 40
+  },
+  foundationTitleContainer: {
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#a39a92',
+    height: 40
   },
   foundationTitle: {
     flex: 3,
@@ -113,7 +124,7 @@ var styles = StyleSheet.create({
   },
   donateButtonContainer:{
     flex: 1,
-    backgroundColor: '#058ed9'
+    backgroundColor: '#a39a92'
   },
   donateButton: {
     flex: 1,

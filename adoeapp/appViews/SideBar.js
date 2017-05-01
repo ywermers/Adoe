@@ -13,12 +13,28 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  navigator,
   ListView,
   Text
 } from 'react-native';
 import { Container, Content, ListItem } from 'native-base';
+var Credit = require('./Credit');
+var Tax = require('./Tax');
 
 export default class SideBar extends Component {
+
+  goToCredit(){
+      this.props.navigator.push({
+        component: Credit,
+        title: 'Card Information',
+      })
+  }
+  goToTax(){
+      this.props.navigator.push({
+        component: Tax,
+        title: 'Tax Reciept',
+      })
+  }
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -30,8 +46,13 @@ export default class SideBar extends Component {
         <View style={styles.optionssection}>
                 <Content>
                   <ListItem>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this.goToCredit.bind(this)}>
                       <Text style={styles.listtext}>Card Information</Text>
+                    </TouchableOpacity>
+                  </ListItem>
+                  <ListItem>
+                    <TouchableOpacity onPress={this.goToTax.bind(this)}>
+                      <Text style={styles.listtext}>Tax Reciept</Text>
                     </TouchableOpacity>
                   </ListItem>
                   <ListItem>
@@ -52,7 +73,7 @@ var styles = StyleSheet.create ({
     backgroundColor: '#483d3f'
   },
   topcontainer: {
-    backgroundColor: 'pink',
+    backgroundColor: '#483d3f',
     flex: 1,
   },
   topname: {
