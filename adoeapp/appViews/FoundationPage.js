@@ -129,7 +129,7 @@ render () {
 
                       <View style={styles.search}>
                         <TextInput
-                            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                            style={{height: 40, borderColor: '#77685d', borderWidth: 2, borderRadius: 5}}
                             onChangeText={(text) => this.setState({text})}
                             value={this.state.text}
                           />
@@ -157,6 +157,7 @@ var styles = StyleSheet.create({
     flexDirection:'column',
     padding: 10
   },
+
   modalButton: {
     justifyContent: 'center',
     backgroundColor: '#a39a92',
