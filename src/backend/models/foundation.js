@@ -21,7 +21,8 @@ var foundationSchema  = mongoose.Schema({
     unique: true
   },
   phoneNumber: {
-    type: String
+    type: String,
+    unique: true
   },
   streetAddress: {
     type: String

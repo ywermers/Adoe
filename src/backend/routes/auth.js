@@ -74,6 +74,7 @@ module.exports = function(passport) {
       res.render('login')
     })
     .catch((err) => {
+      console.error('err', err);
         if(err.code===11000) {
           res.render("login",{error:'im so so so sorryr but there is already an account signed up with this email!'})
         }
