@@ -141,6 +141,11 @@ export default class Login extends Component {
 
 
 var styles = StyleSheet.create({
+
+  container: {
+    backgroundColor: '#483d3f',
+  },
+
   description: {
     marginBottom: 20,
     fontSize: 18,
@@ -154,13 +159,13 @@ var styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    color: 'white',
+    color: '#f4ebd9',
     alignSelf: 'center'
   },
   button: {
     height: 36,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    backgroundColor: '#77685d',
+    borderColor: '#77685d',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,

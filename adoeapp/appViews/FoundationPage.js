@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import SearchBar from 'react-native-material-design-searchbar';
 import Modal from 'react-native-modal';
+
 var ScrollingMenu = require('react-native-scrolling-menu');
 var Drawer = require('react-native-drawer')
 
