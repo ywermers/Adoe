@@ -48,7 +48,6 @@ router.post('/api/users/addcreditcard',function(req,res){
     })
 })
 
-
 router.post('/api/users/register', function(req,res){
   console.log('register user route');
   var user = new User({
