@@ -34,11 +34,14 @@ router.post('/api/users/addcreditcard',function(req,res){
             source: token.id
           }, function(err, customer){
             if(err) console.log(err)
-            if(customer) res.json({success : true})
+            if(customer) {
+              console.log('success true');
+              res.json({success : true})
+            }
           });
         });
       }else if(!user){
-        console.log('user not found')
+        console.log('user not found. success false')
         res.json({success : false})
 
       }
