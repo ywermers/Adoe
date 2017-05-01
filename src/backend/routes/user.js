@@ -29,6 +29,7 @@ router.post('/api/users/addcreditcard',function(req,res){
            "cvc": req.body.cvc
          }
         }, function(err, token) {
+          console.log('err', err);
           stripe.customers.update(user.stripe.customerID, {
             source: token.id
           }, function(err, customer){
@@ -38,6 +39,8 @@ router.post('/api/users/addcreditcard',function(req,res){
         });
       }else if(!user){
         console.log('user not found')
+        res.json({success : false})
+
       }
     })
 })
@@ -92,12 +95,14 @@ router.post('/api/users/chargeCard',function(req,res){
   var platform_fee = parseInt(process.env.PERCENT_FEE) * req.body.amount;
   var user;
   var foundation;
+    console.log('body', req.body);
     User.findOne({authToken: req.body.authToken})
     .then((tempUser) => {
-      console.log('urser1',tempUser);
+      console.log('user1',tempUser);
       user = tempUser;
       return Foundation.findOne({_id: req.body.foundationToken})
     }).then((tempFoundation) =>{
+      console.log('foundation', tempFoundation)
       foundation = tempFoundation
       return stripe.tokens.create({
         customer: user.stripe.customerID,
@@ -129,7 +134,7 @@ router.post('/api/users/chargeCard',function(req,res){
     }).then((updated) =>{
       res.json({"success": true})
     }).catch((err) => {
-      res.status(500).json({err:err, message: "cannot charge this account"});
+        res.status(err.statusCode).json({message: err.message});
     });
 });
 
