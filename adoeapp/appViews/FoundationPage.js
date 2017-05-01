@@ -17,20 +17,45 @@ import {
   Text
 } from 'react-native';
 import SearchBar from 'react-native-material-design-searchbar';
-import Modal from 'react-native-modal';
-
+import Modal from 'react-native-simple-modal';
 var ScrollingMenu = require('react-native-scrolling-menu');
 var Drawer = require('react-native-drawer')
+import { Container, Content, InputGroup, Input } from 'native-base';
 
 export default class Newsfeed extends Component {
 
 constructor(props) {
    super(props);
-
+   this.state = {
+     open: false,
+     text: 'Donation Amount'
+   }
 }
 
-donate(){
-console.log('testing');
+donate(value){
+  var user = AsyncStorage.getItem('user');
+  console.log('value', value);
+  console.log('foundation', this.props.foundation);
+  fetch('https://polar-sands-99108.herokuapp.com/api/users/chargeCard', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      authToken: user.authToken,
+      amount: value,
+      foundationToken: this.props.foundation._id
+    })
+  })
+  .then((response) => response.json())
+  .then((responseJson) => {
+    console.log('response',responseJson);
+
+  })
+  .catch((err) => {
+    console.log('error', err)
+  })
 
 }
 
@@ -61,13 +86,65 @@ render () {
 
 
           <View style={styles.donateButtonContainer}>
-            <TouchableOpacity style={styles.donateButton} onPress={this.donate.bind(this)}>
+            <TouchableOpacity style={styles.donateButton} onPress={() => this.setState({open: true})}>
               <View>
                 <Text style={styles.donateText}> DONATE </Text>
               </View>
             </TouchableOpacity>
           </View>
-        </View>
+         </View>
+      <Modal
+              offset={-100}
+              open={this.state.open}
+                modalDidOpen={() => console.log('modal did open')}
+                modalDidClose={() => this.setState({open: false})}
+              modalStyle={{alignItems: 'center',
+                     justifyContent: 'center',
+                     height: 200,
+                     width: 350,
+                     borderRadius: 4,
+                     margin: 20,
+                     padding: 10,
+                     backgroundColor: '#f4ebd9'}}>
+                <View style={styles.modalContainer}>
+                          <View style={{flexDirection: 'row'}}>
+                                <TouchableOpacity style={styles.modalButton} onPress={this.donate.bind(this, 500)}>
+                                  <View>
+                                    <Text style={styles.dText}>$5</Text>
+                                  </View>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity style={styles.modalButton} onPress={this.donate.bind(this, 1000)}>
+                                  <View>
+                                    <Text style={styles.dText}>$10</Text>
+                                  </View>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity style={styles.modalButton} onPress={this.donate.bind(this, 2500)}>
+                                  <View>
+                                    <Text style={styles.dText}>$25</Text>
+                                  </View>
+                                </TouchableOpacity>
+                            </View>
+
+                      <View style={styles.search}>
+                        <TextInput
+                            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+                            onChangeText={(text) => this.setState({text})}
+                            value={this.state.text}
+                          />
+                      </View>
+                      <View style={styles.modaldonatebutton}>
+                      <TouchableOpacity style={styles.modalButton2}>
+                        <View>
+                          <Text style={styles.dText}>Send</Text>
+                        </View>
+                      </TouchableOpacity>
+                      </View>
+
+                </View>
+      </Modal>
+
     </View>
     );
   }
@@ -76,6 +153,42 @@ render () {
 
   //  <View style={{width:375, height: 150, backgroundColor: '#058ed9', justifyContent: 'flex-start'}}>
 var styles = StyleSheet.create({
+  modalContainer: {
+    flexDirection:'column',
+    padding: 10
+  },
+  modalButton: {
+    justifyContent: 'center',
+    backgroundColor: '#a39a92',
+    borderColor:'#77685d',
+    flexDirection: 'row',
+    borderWidth: 4,
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+    height: 40,
+    width: 80,
+    alignItems: 'center'
+},
+modalButton2: {
+  justifyContent: 'center',
+  backgroundColor: '#a39a92',
+  borderColor:'#77685d',
+  flexDirection: 'row',
+  borderWidth: 4,
+  padding: 10,
+  borderRadius: 5,
+  margin: 10,
+  height: 40,
+  width: 80,
+  alignItems: 'center',
+  alignSelf: 'center'
+},
+  dText: {
+    color: 'white',
+    alignSelf: 'center',
+    fontSize: 20
+  },
   pageContainer: {
     marginTop: 60,
     flex: 1,
