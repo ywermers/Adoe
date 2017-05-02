@@ -100,24 +100,24 @@ class Main extends React.Component {
   constructor(props){
     super(props)
     this.state={
-      main: 'account',
-      accountName: 'Alexs foundation',
-      accountInfo:'bigtoes',
+      main: null,
+      accountName: null,
+      accountInfo:null,
       subscribers: [],
       fundraisers:[],
       donations:[],
-      logo: null,
-      email:'thebigtoeman77@gmail.com',
-      streetAddress:'7 seafrth lane',
-      country:'united states',
-      city:'huntington',
-      state:'new york',
-      zip:'11743'
+      logoURL: null,
+      email:null,
+      streetAddress:null,
+      country:null,
+      city:null,
+      state:null,
+      zip:null
     }
   }
 
   componentWillMount() {
-    console.log('FETCH')
+
     fetch('http://localhost:3001/api/foundations/userdata', {
       method: 'GET',
       credentials: "include",
@@ -127,11 +127,11 @@ class Main extends React.Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log('got fetch data!',responseJson.zipCode)
+      console.log('got fetch data!',responseJson)
       this.setState({
       accountName: responseJson.name,
       accountInfo:responseJson.description,
-      logo: responseJson.logo,
+      logoURL: responseJson.logoURL,
       email:responseJson.email,
       streetAddress:responseJson.streetAddress,
       country:responseJson.country,
@@ -215,6 +215,7 @@ class Main extends React.Component {
       });
     }
     changeInfo(info) {
+
       console.log('updating info...')
       fetch('http://localhost:3001/api/foundations/updateDescription', {
         method: 'POST',
@@ -229,7 +230,7 @@ class Main extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
-          info: info
+          accountInfo: info
         })
         console.log('info updated!')
       })
@@ -239,7 +240,7 @@ class Main extends React.Component {
     }
 
     changeAddress(street,city,state,country,zip) {
-      console.log(street,city,state,country,zip)
+      console.log('TRUTLES',street,city,state,country,zip)
       console.log('updating address...')
       fetch('http://localhost:3001/api/foundations/updateAddress', {
         method: 'POST',
@@ -248,7 +249,11 @@ class Main extends React.Component {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          streetAddress: street
+          streetAddress: street,
+          city:city,
+          state:state,
+          country:country,
+          zip:zip
         })
       })
       .then((response) => response.json())
@@ -256,7 +261,7 @@ class Main extends React.Component {
         this.setState({
           streetAddress: street,
           city:city,
-          ustate:state,
+          state:state,
           country:country,
           zip:zip
         })
@@ -290,17 +295,12 @@ class Main extends React.Component {
 
     }
 
-
-
-
     const fundraisers= {
       cursor:'pointer',
       fontSize:'30',
       color:this.state.main==="fundraisers"&&'blue'
 
     }
-
-
 
 
     return (
@@ -311,8 +311,8 @@ class Main extends React.Component {
           <div style={{flex:1,display:'flex',justifyContent:'flex-start',marginLeft:'100',flexDirection:'column',alignItems:'flex-start'}}><span style={account} onClick={this.account.bind(this)}>Account</span><span style={subscribers} onClick={this.subscribers.bind(this)}>Subscribers</span>
            <span style={fundraisers} onClick={this.fundraisers.bind(this)}>Fundraisers</span></div></div>
       </div>
-        {this.state.main==="account"&& <AccountInfo changeAddress={this.changeAddress.bind(this)} logo={this.state.logo} changeInfo={this.changeInfo.bind(this)} changeEmail={this.changeEmail.bind(this)} changeName={this.changeName.bind(this)}
-          logo={this.state.logo} email={this.state.email} zip={this.state.zip} city={this.state.city} state={this.state.state} fundraisers={this.state.fundraisers} streetAddress={this.state.streetAddress} accountName={this.state.accountName} accountInfo={this.state.accountInfo}/>}
+        {this.state.main==="account"&& <AccountInfo changeAddress={this.changeAddress.bind(this)} logo={this.state.logo} changeInfo={this.changeInfo.bind(this)} changeEmail={this.changeEmail.bind(this)} changeName={this.changeName.bind(this)} country={this.state.country}
+          logoURL={this.state.logoURL} email={this.state.email} zip={this.state.zip} city={this.state.city} state={this.state.state} fundraisers={this.state.fundraisers} streetAddress={this.state.streetAddress} accountName={this.state.accountName} accountInfo={this.state.accountInfo}/>}
         {this.state.main==="about"&& <About/>}
         {this.state.main==="fundraisers"&& <Fundraisers fundraisers={this.state.fundraisers}/>}
         {this.state.main==="subscribers"&& <Subscribers subscribers={this.state.subscribers}/>}
@@ -384,6 +384,14 @@ class Main extends React.Component {
       color:this.state.stripe===true?'blue':'black'
 
     }
+    const buttonStyle= {
+      backgroundColor:'#555ABF',
+      color:'white',
+      height:'30',
+      width:'150',
+      fontSize:'15',
+      borderRadius: '10'
+    }
 
     return (
       <div id="currentApp" style={currentApp}>
@@ -392,7 +400,8 @@ class Main extends React.Component {
           <h2 style={accountInfo} onClick={this.info.bind(this)}>Account Info</h2><h2  style={donations} onClick={this.stripe.bind(this)}>Donations</h2>
           </div>
           <div id="top right" style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'flex-end',marginBottom:'10'}}>
-              {this.state.stripe&&<a href="/api/foundations/oauth/callback"><button>Connect to Stripe</button></a>}
+              {this.state.stripe&&<a href="/api/foundations/oauth/callback"><button style={buttonStyle}>Connect to Stripe</button></a>}
+              {this.state.info&&<a href="/api/foundations/logout">Logout</a>}
           </div>
         </div>
         <div id="body" style={{
@@ -406,8 +415,8 @@ class Main extends React.Component {
         overflowY: this.state.info&&"scroll"
       }}>
         {this.state.info===true&&
-        <Description changeAddress={this.props.changeAddress} changeName={this.props.changeName} changeEmail={this.props.changeEmail} changeInfo={this.props.changeInfo}
-        logo={this.props.logo} email={this.props.email }zip={this.props.zip} state={this.props.state} city={this.props.city} streetAddress={this.props.streetAddress} name={this.props.accountName} info={this.props.accountInfo}/>}
+        <Description changeAddress={this.props.changeAddress} changeName={this.props.changeName} changeEmail={this.props.changeEmail} changeInfo={this.props.changeInfo} country={this.props.country}
+        logoURL={this.props.logoURL} email={this.props.email } zip={this.props.zip} state={this.props.state} city={this.props.city} streetAddress={this.props.streetAddress} name={this.props.accountName} info={this.props.accountInfo}/>}
         {this.state.stripe===true&&<div style={{flex:1,display:'flex',alignItems:'flex-start',justifyContent:'center'}}><div style={{marginTop:'90'}}><h2>You have not yet recevied any donations</h2></div></div>}
         </div>
       </div>
@@ -424,14 +433,17 @@ class Main extends React.Component {
     this.state={
       descriptionshow:false,
       addressshow:false,
+      infoshow:false,
       modal:false,
       addressmodal:false,
+      infomodal:false,
       modalContent:null,
       type:null
     }
   }
 
   openModal(value,type) {
+    console.log('hit')
     this.setState({
       modal:true,
       descriptionshow:false,
@@ -446,10 +458,19 @@ class Main extends React.Component {
     })
   }
 
+  openInfoModal(value,type) {
+    this.setState({
+      infoshow:false,
+      infomodal:true,
+      modalContent: value
+    })
+  }
+
   closeModal(){
     this.setState({
       descriptionshow:true,
-      addressshow:true
+      addressshow:true,
+      infoshow:true
     })
   }
   uploadPic(event){
@@ -457,34 +478,47 @@ class Main extends React.Component {
   }
 
   render() {
+
+
+      const buttonStyle= {
+        backgroundColor:'#555ABF',
+        color:'white',
+        height:'50',
+        width:'150',
+        fontSize:'15',
+        borderRadius: '10'
+      }
+
     return (<div id="master" style={{fontFamily:'Camphor, "Segoe UI", "Open Sans", sans-serif',display:'flex',flex:1,flexDirection:'column',height:1000}}>
-              {this.state.modal&&<DescriptionModal type={this.state.type} modalContent={this.state.modalContent} name={this.props.name} info={this.props.info} closeModal={this.closeModal.bind(this)} show={this.state.descriptionshow} changeEmail={this.props.changeEmail} changeInfo={this.props.changeInfo} changeName={this.props.changeName}/>}
+              {this.state.modal&&<DescriptionModal type={this.state.type} modalContent={this.state.modalContent} name={this.props.name} info={this.props.info} closeModal={this.closeModal.bind(this)} show={this.state.descriptionshow} changeEmail={this.props.changeEmail}  changeName={this.props.changeName}/>}
                 {this.state.addressmodal&&<AddressModal changeAddress={this.props.changeAddress} streetAddress={this.props.streetAddress} city={this.props.city} country={this.props.country} state={this.props.state} zip={this.props.zip} closeModal={this.closeModal.bind(this)} show={this.state.addressshow} />}
+                {this.state.infomodal&&<InfoModal changeInfo={this.props.changeInfo}show={this.state.infoshow} modalContent={this.state.modalContent} closeModal={this.closeModal.bind(this)}/>}
 
               <div style={{flex:1,borderColor:'gray',borderBottomStyle:'solid', borderWidth:'5px',display:'flex',alignItems:'center',fontSize:25,fontFamily:'Arial Black',backgroundColor:'#F6F9FC',paddingLeft:'20'}}>Account</div>
 
               <div id="name" style={{borderBottom:'solid',marginLeft:'20',marginRight:'20',flex:2,borderColor:'gray', borderWidth:'1px',display:'flex'}}>
                 <div style={{flex:1,display:'flex',justifyContent:'flex-start',alignItems:'center',fontWeight:'bold',marginLeft:'20'}}>Foundation Name</div><div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{this.props.name}</div>
-                <div style={{flex:1,display:'flex',justifyContent:'flex-end',marginRight:'20',alignItems:'center'}}><button onClick={this.openModal.bind(this,this.props.name,'name')}>changeName</button></div>
+                <div style={{flex:1,display:'flex',justifyContent:'flex-end',marginRight:'20',alignItems:'center'}}><button style={buttonStyle} onClick={this.openModal.bind(this,this.props.name,'name')}>ChangeName</button></div>
               </div>
 
               <div id="location" style={{borderBottom:'solid',marginLeft:'20',marginRight:'20',flex:3,borderColor:'gray', borderWidth:'1px',display:'flex'}}>
                   <div style={{flex:1,display:'flex',alignItems:'center',fontWeight:'bold',marginLeft:'20'}}>Where are you located?</div> <div style={{display:'flex',flex:1,alignItems:'center',justifyContent:'center',flexDirection:'column'}}>
-                                                        <div style={{marginBottom:'10'}}>{this.props.streetAddress}</div><div style={{marginBottom:'10'}}>{this.props.city}</div><div>{this.props.state}</div><div>{this.props.zip}</div>
+                                                        <div style={{marginBottom:'10'}}>{this.props.streetAddress}</div><div style={{marginBottom:'10'}}>{this.props.city}</div><div style={{marginBottom:'10'}}>{this.props.country}</div>
+                                                        <div>{this.props.state}</div><div>{this.props.zip}</div>
                                                     </div>
-                                                  <div style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'center',marginRight:'20'}}><button style={{height:'20'}} onClick={this.openAddressModal.bind(this)}>changeName</button></div>
+                                                  <div style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'center',marginRight:'20'}}><button style={buttonStyle} onClick={this.openAddressModal.bind(this)}>Change Address</button></div>
               </div>
 
               <div id="mission Statement" style={{borderBottom:'solid',marginLeft:'20',marginRight:'20',borderColor:'gray', borderWidth:'1px',display:'flex',flex:2}}>
                     <div style={{flex:1,display:'flex',justifyContent:'flex-start',alignItems:'center',fontWeight:'bold',marginLeft:'20'}}>Mission Statement/description</div>
                     <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{this.props.info}</div>
-                    <div style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'center',marginRight:'20'}}><button style={{height:20}} onClick={this.openModal.bind(this,this.props.info,'info')}>edit</button></div>
+                    <div style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'center',marginRight:'20'}}><button style={buttonStyle} onClick={this.openInfoModal.bind(this,this.props.info,'info')}>Edit</button></div>
 
               </div>
               <div id="logo" style={{borderBottom:'solid',marginLeft:'20',borderColor:'gray',marginRight:'20',marginRight:'20',borderWidth:'1px',display:'flex',flex:3}}>
                     <div style={{flex:1,display:'flex',marginLeft:'20',justifyContent:'flex-start',fontWeight:'bold',alignItems:'center'}}>Logo/description</div>
-                    <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{this.props.logo}</div>
-                    <div style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'center',marginRight:'20'}}><button style={{height:20}} onClick={this.openModal.bind(this,this.props.info,'info')}>edit</button></div>
+                    <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}><img height="200" width="200" src={this.props.logoURL}></img></div>
+                    <div style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'center',marginRight:'20'}}><button style={buttonStyle} onClick={this.openModal.bind(this,this.props.info,'info')}>upload</button></div>
 
               </div>
 
@@ -524,6 +558,15 @@ class Main extends React.Component {
 
 
   render() {
+    const buttonStyle= {
+      backgroundColor:'#555ABF',
+      color:'white',
+      height:'50',
+      width:'150',
+      fontSize:'15',
+      borderRadius: '10'
+    }
+
     // Render nothing if the "show" prop is false
     if(this.props.show) {
       return null;
@@ -563,7 +606,7 @@ class Main extends React.Component {
             <input defaultValue={this.props.modalContent} onChange={this.handleChange.bind(this)} style={{height:'40',width:'350'}}></input>
           </div>
           <div style={{flex:1,display:'flex',justifyContent:'center'}} className="close">
-            <button onClick={this.ok.bind(this)} style={{height:'20',width:'100'}}>
+            <button style={buttonStyle} onClick={this.ok.bind(this)}>
               Ok
             </button>
           </div>
@@ -572,6 +615,90 @@ class Main extends React.Component {
     );
   }
 }
+
+ class InfoModal extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state={
+      editDescription:this.props.info,
+      newValue:null
+    }
+  }
+
+  handleChange(e) {
+    this.setState({
+      newValue:e.target.value
+    })
+  }
+
+  ok() {
+    this.props.closeModal();
+
+    this.props.changeInfo.bind(null,this.state.newValue)()
+    }
+
+
+
+  render() {
+    const buttonStyle= {
+      backgroundColor:'#555ABF',
+      color:'white',
+      height:'50',
+      width:'150',
+      fontSize:'15',
+      borderRadius: '10'
+    }
+
+    // Render nothing if the "show" prop is false
+    if(this.props.show) {
+      return null;
+    }
+
+
+
+    // The gray background
+    const backdropStyle = {
+      position: 'fixed',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: 'rgba(0,0,0,0.3)',
+      padding: 50
+    };
+
+    // The modal "window"
+    const modalStyle = {
+      backgroundColor: '#fff',
+      borderRadius: 5,
+      maxWidth: 500,
+      minHeight: 300,
+      marginTop:'120',
+      marginLeft:'600',
+      padding: 30,
+      display:'flex',
+      flexDirection:'column'
+    };
+
+    return (
+      <div className="backdrop" style={backdropStyle}>
+        <div className="modal" style={modalStyle}>
+
+          <div id="description" style={{flex:5,display:'flex',justifyContent:'center',alignItems:'center'}}>
+            <input defaultValue={this.props.modalContent} onChange={this.handleChange.bind(this)} style={{height:'40',width:'350'}}></input>
+          </div>
+          <div style={{flex:1,display:'flex',justifyContent:'center'}} className="close">
+            <button style={buttonStyle} onClick={this.ok.bind(this)}>
+              Ok
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+
 
 
  class AddressModal extends React.Component {
@@ -616,12 +743,22 @@ class Main extends React.Component {
 
 
   addressSubmit(street,city,state,country,zip) {
+
     this.props.closeModal();
     this.props.changeAddress(street,city,state,country,zip)
   }
 
 
   render() {
+    const buttonStyle= {
+      backgroundColor:'#555ABF',
+      color:'white',
+      height:'50',
+      width:'150',
+      fontSize:'15',
+      borderRadius: '10'
+    }
+
     // Render nothing if the "show" prop is false
     if(this.props.show) {
       return null;
@@ -660,7 +797,7 @@ class Main extends React.Component {
         <div style={{flex:1}}><input defaultValue={this.props.country} onChange={this.handleChangeCountry.bind(this)} style={{height:'25',width:'250',marginLeft:'130',marginBottom:'20'}}></input> Country</div>
         <div style={{flex:1}}><input defaultValue={this.props.zip} onChange={this.handleChangeZip.bind(this)} style={{height:'25',width:'250',marginLeft:'130',marginBottom:'20'}}></input> Zip</div>
         <div id="but" style={{display:'flex',justifyContent:'center',width:'50',marginLeft:'130'}}>
-        <button style={{flex:1,height:'20',width:'2'}}onClick={this.addressSubmit.bind(this,this.state.street,this.state.city,this.state.state,this.state.country,this.state.zip)} >ok</button></div>
+        <button  style={buttonStyle} onClick={this.addressSubmit.bind(this,this.state.street,this.state.city,this.state.state,this.state.country,this.state.zip)} >ok</button></div>
 
         </div>
       </div>
@@ -673,6 +810,15 @@ class Main extends React.Component {
 
  class Fundraisers extends React.Component {
   render() {
+    const buttonStyle= {
+      backgroundColor:'#555ABF',
+      color:'white',
+      height:'30',
+      width:'150',
+      fontSize:'15',
+      borderRadius: '10'
+    }
+
     return (
       <div id="currentApp" style={currentApp}>
         <div id="top" style={top}>
@@ -680,7 +826,7 @@ class Main extends React.Component {
 
           </div>
           <div id="topright" style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'flex-end',marginBottom:'10'}}>
-            <a href="/api"><button>hello world</button></a>
+            <a href="/api"><button style={buttonStyle}> Create Fundraiser</button></a>
             </div>
         </div>
         <div id="body" style={body}>{this.props.fundraisers.length===0&&<h2 style={{marginTop:'90'}}>You have not created any fundrasiers</h2>}</div>
@@ -692,7 +838,16 @@ class Main extends React.Component {
 export default class Subscribers extends React.Component {
 
   render() {
-    console.log('SUBS',this.props.subscribers)
+    const buttonStyle= {
+      backgroundColor:'#555ABF',
+      color:'white',
+      height:'30',
+      width:'150',
+      fontSize:'15',
+      borderRadius: '10'
+    }
+
+
     return (
       <div id="currentApp" style={currentApp}>
       <div id="top" style={top}>
@@ -700,7 +855,7 @@ export default class Subscribers extends React.Component {
 
         </div>
         <div id="topright" style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'flex-end',marginBottom:'10'}}>
-          <a href="/api"><button>Download email list</button></a>
+          <a href="/api"><button style={buttonStyle}>Download email list</button></a>
           </div>
       </div>
         <div id="body" style={body}>{this.props.subscribers.length===0&&<h2 style={{marginTop:'90'}}>You do not have any subscribers</h2>}</div>

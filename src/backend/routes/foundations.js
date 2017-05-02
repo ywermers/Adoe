@@ -4,6 +4,7 @@ var Donation = require('../models/donations');
 var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
+var path=require('path')
 
 var qs = require('querystring');
 var request = require('request');
@@ -20,7 +21,7 @@ router.use(function(req, res, next){
 });
 
 router.get('/api/foundations/main', function(req, res) {
-  res.render('index');
+res.sendFile(path.join(__dirname, '../../../public/index.html'))
 })
 
 
@@ -49,7 +50,7 @@ router.post('/api/foundations/updateEmail', function(req, res, next){
   })
   router.post('/api/foundations/updateDescription', function(req, res, next){
     Foundation.findOneAndUpdate({_id: req.session.passport.user},
-      {description: req.body.info})
+      {description: req.body.description})
       .then((updated) =>{
       console.log('updated name sucessfully no thank to dereeck bc we was AFK');
       res.json('updated name :)')
@@ -60,10 +61,15 @@ router.post('/api/foundations/updateEmail', function(req, res, next){
 
 
     router.post('/api/foundations/updateAddress', function(req, res, next){
+      console.log('hot')
       console.log(req.body)
       Foundation.findOneAndUpdate({_id: req.session.passport.user},
-        {streetAddress: req.body.streetAddress, city:req.body.city,country:this.body.country}
-      )
+        {streetAddress: req.body.streetAddress,
+        city:req.body.city,
+        ustate:req.body.state,
+        country:req.body.country,
+        zipCode:req.body.zip
+        })
         .then((updated) =>{
         res.json('updated address :)')
         }).catch((err) => {

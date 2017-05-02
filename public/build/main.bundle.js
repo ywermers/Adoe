@@ -24885,19 +24885,19 @@ var Main = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
     _this.state = {
-      main: 'account',
-      accountName: 'Alexs foundation',
-      accountInfo: 'bigtoes',
+      main: null,
+      accountName: null,
+      accountInfo: null,
       subscribers: [],
       fundraisers: [],
       donations: [],
-      logo: null,
-      email: 'thebigtoeman77@gmail.com',
-      streetAddress: '7 seafrth lane',
-      country: 'united states',
-      city: 'huntington',
-      state: 'new york',
-      zip: '11743'
+      logoURL: null,
+      email: null,
+      streetAddress: null,
+      country: null,
+      city: null,
+      state: null,
+      zip: null
     };
     return _this;
   }
@@ -24907,7 +24907,6 @@ var Main = function (_React$Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      console.log('FETCH');
       fetch('http://localhost:3001/api/foundations/userdata', {
         method: 'GET',
         credentials: "include",
@@ -24917,11 +24916,11 @@ var Main = function (_React$Component) {
       }).then(function (response) {
         return response.json();
       }).then(function (responseJson) {
-        console.log('got fetch data!', responseJson.zipCode);
+        console.log('got fetch data!', responseJson);
         _this2.setState({
           accountName: responseJson.name,
           accountInfo: responseJson.description,
-          logo: responseJson.logo,
+          logoURL: responseJson.logoURL,
           email: responseJson.email,
           streetAddress: responseJson.streetAddress,
           country: responseJson.country,
@@ -25032,7 +25031,7 @@ var Main = function (_React$Component) {
         return response.json();
       }).then(function (responseJson) {
         _this5.setState({
-          info: info
+          accountInfo: info
         });
         console.log('info updated!');
       }).catch(function (err) {
@@ -25044,7 +25043,7 @@ var Main = function (_React$Component) {
     value: function changeAddress(street, city, state, country, zip) {
       var _this6 = this;
 
-      console.log(street, city, state, country, zip);
+      console.log('TRUTLES', street, city, state, country, zip);
       console.log('updating address...');
       fetch('http://localhost:3001/api/foundations/updateAddress', {
         method: 'POST',
@@ -25053,7 +25052,11 @@ var Main = function (_React$Component) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          streetAddress: street
+          streetAddress: street,
+          city: city,
+          state: state,
+          country: country,
+          zip: zip
         })
       }).then(function (response) {
         return response.json();
@@ -25061,7 +25064,7 @@ var Main = function (_React$Component) {
         _this6.setState({
           streetAddress: street,
           city: city,
-          ustate: state,
+          state: state,
           country: country,
           zip: zip
         });
@@ -25073,7 +25076,6 @@ var Main = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _React$createElement;
 
       var account = {
         cursor: 'pointer',
@@ -25139,8 +25141,8 @@ var Main = function (_React$Component) {
             )
           )
         ),
-        this.state.main === "account" && _react2.default.createElement(AccountInfo, (_React$createElement = { changeAddress: this.changeAddress.bind(this), logo: this.state.logo, changeInfo: this.changeInfo.bind(this), changeEmail: this.changeEmail.bind(this), changeName: this.changeName.bind(this)
-        }, _defineProperty(_React$createElement, 'logo', this.state.logo), _defineProperty(_React$createElement, 'email', this.state.email), _defineProperty(_React$createElement, 'zip', this.state.zip), _defineProperty(_React$createElement, 'city', this.state.city), _defineProperty(_React$createElement, 'state', this.state.state), _defineProperty(_React$createElement, 'fundraisers', this.state.fundraisers), _defineProperty(_React$createElement, 'streetAddress', this.state.streetAddress), _defineProperty(_React$createElement, 'accountName', this.state.accountName), _defineProperty(_React$createElement, 'accountInfo', this.state.accountInfo), _React$createElement)),
+        this.state.main === "account" && _react2.default.createElement(AccountInfo, { changeAddress: this.changeAddress.bind(this), logo: this.state.logo, changeInfo: this.changeInfo.bind(this), changeEmail: this.changeEmail.bind(this), changeName: this.changeName.bind(this), country: this.state.country,
+          logoURL: this.state.logoURL, email: this.state.email, zip: this.state.zip, city: this.state.city, state: this.state.state, fundraisers: this.state.fundraisers, streetAddress: this.state.streetAddress, accountName: this.state.accountName, accountInfo: this.state.accountInfo }),
         this.state.main === "about" && _react2.default.createElement(About, null),
         this.state.main === "fundraisers" && _react2.default.createElement(Fundraisers, { fundraisers: this.state.fundraisers }),
         this.state.main === "subscribers" && _react2.default.createElement(Subscribers, { subscribers: this.state.subscribers })
@@ -25221,6 +25223,14 @@ var AccountInfo = function (_React$Component2) {
         color: this.state.stripe === true ? 'blue' : 'black'
 
       };
+      var buttonStyle = {
+        backgroundColor: '#555ABF',
+        color: 'white',
+        height: '30',
+        width: '150',
+        fontSize: '15',
+        borderRadius: '10'
+      };
 
       return _react2.default.createElement(
         'div',
@@ -25250,9 +25260,14 @@ var AccountInfo = function (_React$Component2) {
               { href: '/api/foundations/oauth/callback' },
               _react2.default.createElement(
                 'button',
-                null,
+                { style: buttonStyle },
                 'Connect to Stripe'
               )
+            ),
+            this.state.info && _react2.default.createElement(
+              'a',
+              { href: '/api/foundations/logout' },
+              'Logout'
             )
           )
         ),
@@ -25268,8 +25283,8 @@ var AccountInfo = function (_React$Component2) {
               borderStyle: "groove",
               overflowY: this.state.info && "scroll"
             } },
-          this.state.info === true && _react2.default.createElement(Description, { changeAddress: this.props.changeAddress, changeName: this.props.changeName, changeEmail: this.props.changeEmail, changeInfo: this.props.changeInfo,
-            logo: this.props.logo, email: this.props.email, zip: this.props.zip, state: this.props.state, city: this.props.city, streetAddress: this.props.streetAddress, name: this.props.accountName, info: this.props.accountInfo }),
+          this.state.info === true && _react2.default.createElement(Description, { changeAddress: this.props.changeAddress, changeName: this.props.changeName, changeEmail: this.props.changeEmail, changeInfo: this.props.changeInfo, country: this.props.country,
+            logoURL: this.props.logoURL, email: this.props.email, zip: this.props.zip, state: this.props.state, city: this.props.city, streetAddress: this.props.streetAddress, name: this.props.accountName, info: this.props.accountInfo }),
           this.state.stripe === true && _react2.default.createElement(
             'div',
             { style: { flex: 1, display: 'flex', alignItems: 'flex-start', justifyContent: 'center' } },
@@ -25302,8 +25317,10 @@ var Description = function (_React$Component3) {
     _this8.state = {
       descriptionshow: false,
       addressshow: false,
+      infoshow: false,
       modal: false,
       addressmodal: false,
+      infomodal: false,
       modalContent: null,
       type: null
     };
@@ -25313,6 +25330,7 @@ var Description = function (_React$Component3) {
   _createClass(Description, [{
     key: 'openModal',
     value: function openModal(value, type) {
+      console.log('hit');
       this.setState({
         modal: true,
         descriptionshow: false,
@@ -25329,11 +25347,21 @@ var Description = function (_React$Component3) {
       });
     }
   }, {
+    key: 'openInfoModal',
+    value: function openInfoModal(value, type) {
+      this.setState({
+        infoshow: false,
+        infomodal: true,
+        modalContent: value
+      });
+    }
+  }, {
     key: 'closeModal',
     value: function closeModal() {
       this.setState({
         descriptionshow: true,
-        addressshow: true
+        addressshow: true,
+        infoshow: true
       });
     }
   }, {
@@ -25346,11 +25374,21 @@ var Description = function (_React$Component3) {
     value: function render() {
       var _ref;
 
+      var buttonStyle = {
+        backgroundColor: '#555ABF',
+        color: 'white',
+        height: '50',
+        width: '150',
+        fontSize: '15',
+        borderRadius: '10'
+      };
+
       return _react2.default.createElement(
         'div',
         { id: 'master', style: { fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif', display: 'flex', flex: 1, flexDirection: 'column', height: 1000 } },
-        this.state.modal && _react2.default.createElement(DescriptionModal, { type: this.state.type, modalContent: this.state.modalContent, name: this.props.name, info: this.props.info, closeModal: this.closeModal.bind(this), show: this.state.descriptionshow, changeEmail: this.props.changeEmail, changeInfo: this.props.changeInfo, changeName: this.props.changeName }),
+        this.state.modal && _react2.default.createElement(DescriptionModal, { type: this.state.type, modalContent: this.state.modalContent, name: this.props.name, info: this.props.info, closeModal: this.closeModal.bind(this), show: this.state.descriptionshow, changeEmail: this.props.changeEmail, changeName: this.props.changeName }),
         this.state.addressmodal && _react2.default.createElement(AddressModal, { changeAddress: this.props.changeAddress, streetAddress: this.props.streetAddress, city: this.props.city, country: this.props.country, state: this.props.state, zip: this.props.zip, closeModal: this.closeModal.bind(this), show: this.state.addressshow }),
+        this.state.infomodal && _react2.default.createElement(InfoModal, { changeInfo: this.props.changeInfo, show: this.state.infoshow, modalContent: this.state.modalContent, closeModal: this.closeModal.bind(this) }),
         _react2.default.createElement(
           'div',
           { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', alignItems: 'center', fontSize: 25, fontFamily: 'Arial Black', backgroundColor: '#F6F9FC', paddingLeft: '20' } },
@@ -25374,8 +25412,8 @@ var Description = function (_React$Component3) {
             { style: { flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: '20', alignItems: 'center' } },
             _react2.default.createElement(
               'button',
-              { onClick: this.openModal.bind(this, this.props.name, 'name') },
-              'changeName'
+              { style: buttonStyle, onClick: this.openModal.bind(this, this.props.name, 'name') },
+              'ChangeName'
             )
           )
         ),
@@ -25403,6 +25441,11 @@ var Description = function (_React$Component3) {
             ),
             _react2.default.createElement(
               'div',
+              { style: { marginBottom: '10' } },
+              this.props.country
+            ),
+            _react2.default.createElement(
+              'div',
               null,
               this.props.state
             ),
@@ -25417,8 +25460,8 @@ var Description = function (_React$Component3) {
             { style: { flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginRight: '20' } },
             _react2.default.createElement(
               'button',
-              { style: { height: '20' }, onClick: this.openAddressModal.bind(this) },
-              'changeName'
+              { style: buttonStyle, onClick: this.openAddressModal.bind(this) },
+              'Change Address'
             )
           )
         ),
@@ -25440,8 +25483,8 @@ var Description = function (_React$Component3) {
             { style: { flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginRight: '20' } },
             _react2.default.createElement(
               'button',
-              { style: { height: 20 }, onClick: this.openModal.bind(this, this.props.info, 'info') },
-              'edit'
+              { style: buttonStyle, onClick: this.openInfoModal.bind(this, this.props.info, 'info') },
+              'Edit'
             )
           )
         ),
@@ -25456,15 +25499,15 @@ var Description = function (_React$Component3) {
           _react2.default.createElement(
             'div',
             { style: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' } },
-            this.props.logo
+            _react2.default.createElement('img', { height: '200', width: '200', src: this.props.logoURL })
           ),
           _react2.default.createElement(
             'div',
             { style: { flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginRight: '20' } },
             _react2.default.createElement(
               'button',
-              { style: { height: 20 }, onClick: this.openModal.bind(this, this.props.info, 'info') },
-              'edit'
+              { style: buttonStyle, onClick: this.openModal.bind(this, this.props.info, 'info') },
+              'upload'
             )
           )
         )
@@ -25514,6 +25557,15 @@ var DescriptionModal = function (_React$Component4) {
   }, {
     key: 'render',
     value: function render() {
+      var buttonStyle = {
+        backgroundColor: '#555ABF',
+        color: 'white',
+        height: '50',
+        width: '150',
+        fontSize: '15',
+        borderRadius: '10'
+      };
+
       // Render nothing if the "show" prop is false
       if (this.props.show) {
         return null;
@@ -25559,7 +25611,7 @@ var DescriptionModal = function (_React$Component4) {
             { style: { flex: 1, display: 'flex', justifyContent: 'center' }, className: 'close' },
             _react2.default.createElement(
               'button',
-              { onClick: this.ok.bind(this), style: { height: '20', width: '100' } },
+              { style: buttonStyle, onClick: this.ok.bind(this) },
               'Ok'
             )
           )
@@ -25571,24 +25623,122 @@ var DescriptionModal = function (_React$Component4) {
   return DescriptionModal;
 }(_react2.default.Component);
 
-var AddressModal = function (_React$Component5) {
-  _inherits(AddressModal, _React$Component5);
+var InfoModal = function (_React$Component5) {
+  _inherits(InfoModal, _React$Component5);
+
+  function InfoModal(props) {
+    _classCallCheck(this, InfoModal);
+
+    var _this10 = _possibleConstructorReturn(this, (InfoModal.__proto__ || Object.getPrototypeOf(InfoModal)).call(this, props));
+
+    _this10.state = {
+      editDescription: _this10.props.info,
+      newValue: null
+    };
+    return _this10;
+  }
+
+  _createClass(InfoModal, [{
+    key: 'handleChange',
+    value: function handleChange(e) {
+      this.setState({
+        newValue: e.target.value
+      });
+    }
+  }, {
+    key: 'ok',
+    value: function ok() {
+      this.props.closeModal();
+
+      this.props.changeInfo.bind(null, this.state.newValue)();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var buttonStyle = {
+        backgroundColor: '#555ABF',
+        color: 'white',
+        height: '50',
+        width: '150',
+        fontSize: '15',
+        borderRadius: '10'
+      };
+
+      // Render nothing if the "show" prop is false
+      if (this.props.show) {
+        return null;
+      }
+
+      // The gray background
+      var backdropStyle = {
+        position: 'fixed',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        padding: 50
+      };
+
+      // The modal "window"
+      var modalStyle = {
+        backgroundColor: '#fff',
+        borderRadius: 5,
+        maxWidth: 500,
+        minHeight: 300,
+        marginTop: '120',
+        marginLeft: '600',
+        padding: 30,
+        display: 'flex',
+        flexDirection: 'column'
+      };
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'backdrop', style: backdropStyle },
+        _react2.default.createElement(
+          'div',
+          { className: 'modal', style: modalStyle },
+          _react2.default.createElement(
+            'div',
+            { id: 'description', style: { flex: 5, display: 'flex', justifyContent: 'center', alignItems: 'center' } },
+            _react2.default.createElement('input', { defaultValue: this.props.modalContent, onChange: this.handleChange.bind(this), style: { height: '40', width: '350' } })
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1, display: 'flex', justifyContent: 'center' }, className: 'close' },
+            _react2.default.createElement(
+              'button',
+              { style: buttonStyle, onClick: this.ok.bind(this) },
+              'Ok'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return InfoModal;
+}(_react2.default.Component);
+
+var AddressModal = function (_React$Component6) {
+  _inherits(AddressModal, _React$Component6);
 
   function AddressModal(props) {
     _classCallCheck(this, AddressModal);
 
-    var _this10 = _possibleConstructorReturn(this, (AddressModal.__proto__ || Object.getPrototypeOf(AddressModal)).call(this, props));
+    var _this11 = _possibleConstructorReturn(this, (AddressModal.__proto__ || Object.getPrototypeOf(AddressModal)).call(this, props));
 
-    _this10.state = {
-      editDescription: _this10.props.info,
+    _this11.state = {
+      editDescription: _this11.props.info,
       newValue: null,
-      street: _this10.props.streetAddress,
-      state: _this10.props.state,
-      country: _this10.props.country,
-      zip: _this10.props.zip,
-      city: _this10.props.city
+      street: _this11.props.streetAddress,
+      state: _this11.props.state,
+      country: _this11.props.country,
+      zip: _this11.props.zip,
+      city: _this11.props.city
     };
-    return _this10;
+    return _this11;
   }
 
   _createClass(AddressModal, [{
@@ -25629,12 +25779,22 @@ var AddressModal = function (_React$Component5) {
   }, {
     key: 'addressSubmit',
     value: function addressSubmit(street, city, state, country, zip) {
+
       this.props.closeModal();
       this.props.changeAddress(street, city, state, country, zip);
     }
   }, {
     key: 'render',
     value: function render() {
+      var buttonStyle = {
+        backgroundColor: '#555ABF',
+        color: 'white',
+        height: '50',
+        width: '150',
+        fontSize: '15',
+        borderRadius: '10'
+      };
+
       // Render nothing if the "show" prop is false
       if (this.props.show) {
         return null;
@@ -25704,7 +25864,7 @@ var AddressModal = function (_React$Component5) {
             { id: 'but', style: { display: 'flex', justifyContent: 'center', width: '50', marginLeft: '130' } },
             _react2.default.createElement(
               'button',
-              { style: { flex: 1, height: '20', width: '2' }, onClick: this.addressSubmit.bind(this, this.state.street, this.state.city, this.state.state, this.state.country, this.state.zip) },
+              { style: buttonStyle, onClick: this.addressSubmit.bind(this, this.state.street, this.state.city, this.state.state, this.state.country, this.state.zip) },
               'ok'
             )
           )
@@ -25716,8 +25876,8 @@ var AddressModal = function (_React$Component5) {
   return AddressModal;
 }(_react2.default.Component);
 
-var Fundraisers = function (_React$Component6) {
-  _inherits(Fundraisers, _React$Component6);
+var Fundraisers = function (_React$Component7) {
+  _inherits(Fundraisers, _React$Component7);
 
   function Fundraisers() {
     _classCallCheck(this, Fundraisers);
@@ -25728,6 +25888,15 @@ var Fundraisers = function (_React$Component6) {
   _createClass(Fundraisers, [{
     key: 'render',
     value: function render() {
+      var buttonStyle = {
+        backgroundColor: '#555ABF',
+        color: 'white',
+        height: '30',
+        width: '150',
+        fontSize: '15',
+        borderRadius: '10'
+      };
+
       return _react2.default.createElement(
         'div',
         { id: 'currentApp', style: currentApp },
@@ -25743,8 +25912,8 @@ var Fundraisers = function (_React$Component6) {
               { href: '/api' },
               _react2.default.createElement(
                 'button',
-                null,
-                'hello world'
+                { style: buttonStyle },
+                ' Create Fundraiser'
               )
             )
           )
@@ -25765,8 +25934,8 @@ var Fundraisers = function (_React$Component6) {
   return Fundraisers;
 }(_react2.default.Component);
 
-var Subscribers = function (_React$Component7) {
-  _inherits(Subscribers, _React$Component7);
+var Subscribers = function (_React$Component8) {
+  _inherits(Subscribers, _React$Component8);
 
   function Subscribers() {
     _classCallCheck(this, Subscribers);
@@ -25777,7 +25946,15 @@ var Subscribers = function (_React$Component7) {
   _createClass(Subscribers, [{
     key: 'render',
     value: function render() {
-      console.log('SUBS', this.props.subscribers);
+      var buttonStyle = {
+        backgroundColor: '#555ABF',
+        color: 'white',
+        height: '30',
+        width: '150',
+        fontSize: '15',
+        borderRadius: '10'
+      };
+
       return _react2.default.createElement(
         'div',
         { id: 'currentApp', style: currentApp },
@@ -25793,7 +25970,7 @@ var Subscribers = function (_React$Component7) {
               { href: '/api' },
               _react2.default.createElement(
                 'button',
-                null,
+                { style: buttonStyle },
                 'Download email list'
               )
             )
