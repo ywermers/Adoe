@@ -24907,7 +24907,7 @@ var Main = function (_React$Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      fetch('http://localhost:3001/api/foundations/userdata', {
+      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/userdata', {
         method: 'GET',
         credentials: "include",
         headers: {
@@ -24966,7 +24966,7 @@ var Main = function (_React$Component) {
       var _this3 = this;
 
       console.log('updating name...');
-      fetch('http://localhost:3001/api/foundations/updateName', {
+      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateName', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -24992,7 +24992,7 @@ var Main = function (_React$Component) {
       var _this4 = this;
 
       console.log('updating email...');
-      fetch('http://localhost:3001/api/foundations/updateEmail', {
+      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateEmail', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -25018,7 +25018,7 @@ var Main = function (_React$Component) {
       var _this5 = this;
 
       console.log('updating info...');
-      fetch('http://localhost:3001/api/foundations/updateDescription', {
+      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateDescription', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -25045,7 +25045,7 @@ var Main = function (_React$Component) {
 
       console.log('TRUTLES', street, city, state, country, zip);
       console.log('updating address...');
-      fetch('http://localhost:3001/api/foundations/updateAddress', {
+      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateAddress', {
         method: 'POST',
         credentials: "include",
         headers: {
