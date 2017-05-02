@@ -20,6 +20,7 @@ import SearchBar from 'react-native-material-design-searchbar';
 import Modal from 'react-native-modal';
 import { Container, Content, List, ListItem, Thumbnail, Body, Drawer } from 'native-base';
 import  ScrollingMenu from 'react-native-scrolling-menu';
+import Autocomplete from 'react-native-autocomplete-input'
 // var Drawer = require('react-native-drawer')
 var HumanFund= require('../foundation/HumanFund')
 var SideBar = require('./SideBar')
@@ -34,8 +35,14 @@ onClick(itemIndex) {
 }
 constructor(props) {
    super(props);
-   this.state = { text: '                         SearchBar' };
-   this.state.foundations = null
+   this.state= {
+     str: '',
+     text: '',
+     foundations:null,
+     query:""
+   }
+
+
 }
 componentWillMount(){
   var user = AsyncStorage.getItem('user');
@@ -79,8 +86,37 @@ console.log('foundation', Foundation);
       }
     })
 }
+_filterData(value){
+  if (value === "") {
+    return [];
+  }
+  var len =value.length;
+  var final = false;
+  var store = ["red"]
+  if(this.state.foundations){
+    var foundationTitles= this.state.foundations.map((foundation)=> {
+      return foundation.name});
+    store = foundationTitles;
+  }
+  var filtered = store.filter((str)=> {
+  if(str === value) {
+    final = true;
+  }
+  return value.toLowerCase() === str.substring(0, len).toLowerCase();
+})
+if (final) {
+  return []
+}
+return filtered
+
+}
 
 render () {
+
+  const { query } = this.state;
+  const data = this._filterData(query) //make function for filter data
+
+
   var closeDrawer = () => {
     this.drawer._root.close()
   }
@@ -90,30 +126,23 @@ render () {
     this.drawer._root.open()
   }
   console.log('foundations',this.state.foundations);
-  var foundationsList= null;
+  var foundationsList;
   if(this.state.foundations){
      foundationsList = this.state.foundations.map((foundation ,i) =>{
       return (<View key={i} style={styles.newsFeedContainer}>
 
               <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
-
-              <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                  <Text style={{color: 'white', fontSize: 40, alignSelf: 'center', backgroundColor: 'none'}}>
-                      {foundation.name}
-                  </Text>
-                  <Image  style={{
-                          height: 200,
-                          width: 375,
-                        opacity: .4}}
-                          source={{uri: foundation.logoURL}}>
-
-                  </Image>
-
-              </View>
-              </TouchableOpacity>
-
+         <Image
+         style={styles.foundationLogos}
+         source={{uri: foundation.logoURL}}>
+         <Text style={styles.newsFeedText}>
+           {foundation.name}
+           </Text>
+           </Image>
+       </TouchableOpacity>
       </View>)
     });
+
       console.log('foundationsList', foundationsList);
   }
   return (
@@ -147,11 +176,18 @@ render () {
              </TouchableOpacity>
           </View>
           <View style={styles.search}>
-          
-          <TextInput
-                style={{height: 40, fontSize: 23, color: '#483d3f', borderColor: '#483d3f', backgroundColor:'#f4ebd9',  borderWidth: 4}}
-                onChangeText={(text) => this.setState({text})}
-                value={this.state.text} />
+
+          <Autocomplete
+            data={data}
+            defaultValue={query}
+            onChangeText={text => this.setState({ query: text })}
+            renderItem={data => (
+              <TouchableOpacity onPress={() => this.setState({ query: data })}>
+              <Text>{data}</Text>
+              </TouchableOpacity>
+              )}
+            />
+
           </View>
         </View>
 

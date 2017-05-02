@@ -1,0 +1,30 @@
+// <TextInput
+//       style={{height: 40, fontSize: 23, color: '#483d3f', borderColor: '#483d3f', backgroundColor:'#f4ebd9',  borderWidth: 4}}
+//       onChangeText={(text) => this.setState({text})}
+//       placeholder = {'search bar'}
+//       padding={5}
+//       value={this.state.text} />
+
+
+
+
+<View style={styles.newsFeed}>
+   <ScrollView automaticallyAdjustContentInsets={false}>
+    <List style={styles.test}>
+
+      {foundationsList ? <View>{foundationsList}</View> : null}
+    </List>
+    </ScrollView>
+</View>
+
+<Autocomplete
+
+  data={data}
+  defaultValue={query}
+  onChangeText={text => this.setState({ query: text })}
+  renderItem={data => (
+    <TouchableOpacity onPress={() => this.setState({ query: data })}>
+    <Text>{data}</Text>
+    </TouchableOpacity>
+    )}
+  />
