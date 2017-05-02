@@ -16,6 +16,7 @@ import {
   ListView,
   Text
 } from 'react-native';
+import Credit from './Credit'
 import SearchBar from 'react-native-material-design-searchbar';
 import Modal from 'react-native-simple-modal';
 var ScrollingMenu = require('react-native-scrolling-menu');
@@ -27,11 +28,17 @@ export default class Newsfeed extends Component {
 constructor(props) {
    super(props);
    this.state = {
-     open: false,
+     cardInformationModal: false,
+     donationModalOpen: false,
      text: 'Donation Amount'
    }
 }
-
+goToCredit() {
+  this.props.navigator.push({
+    component: Credit,
+    title: 'Card Information'
+  })
+}
 donate(value){
   var user = AsyncStorage.getItem('user');
   console.log('value', value);
@@ -51,7 +58,13 @@ donate(value){
   .then((response) => response.json())
   .then((responseJson) => {
     console.log('response',responseJson);
-
+    if(responseJson.err.message === "The  customer must have and active payment source attached"){
+      console.log('navigate to card information')
+      this.setState({
+        donationModalOpen: false,
+        cardInformationModal: true
+      })
+    }
   })
   .catch((err) => {
     console.log('error', err)
@@ -80,24 +93,20 @@ render () {
         </View>
         <View style={styles.donateButtonContainer}>
 
-
-
-
-
-
           <View style={styles.donateButtonContainer}>
-            <TouchableOpacity style={styles.donateButton} onPress={() => this.setState({open: true})}>
+            <TouchableOpacity style={styles.donateButton} onPress={() => this.setState({donationModalOpen: true})}>
               <View>
                 <Text style={styles.donateText}> DONATE </Text>
               </View>
             </TouchableOpacity>
           </View>
          </View>
+
       <Modal
               offset={-100}
-              open={this.state.open}
+              open={this.state.donationModalOpen}
                 modalDidOpen={() => console.log('modal did open')}
-                modalDidClose={() => this.setState({open: false})}
+                modalDidClose={() => this.setState({donationModalOpen: false})}
               modalStyle={{alignItems: 'center',
                      justifyContent: 'center',
                      height: 200,
@@ -138,6 +147,35 @@ render () {
                       <TouchableOpacity style={styles.modalButton2}>
                         <View>
                           <Text style={styles.dText}>Send</Text>
+                        </View>
+                      </TouchableOpacity>
+                      </View>
+
+                </View>
+      </Modal>
+
+      <Modal
+              offset={-100}
+              open={this.state.cardInformationModal}
+                modalDidOpen={() => console.log('modal did open')}
+                modalDidClose={() => this.setState({cardInformationModal: false})}
+              modalStyle={{alignItems: 'center',
+                     justifyContent: 'center',
+                     height: 200,
+                     width: 350,
+                     borderRadius: 4,
+                     margin: 20,
+                     padding: 10,
+                     backgroundColor: '#f4ebd9'}}>
+                <View style={styles.modalContainer}>
+
+                      <View style={styles.search}>
+                          <Text> "Oh NO it appears you don't have your credit card on file do you want to enter one now?"</Text>
+                      </View>
+                      <View style={styles.modaldonatebutton}>
+                      <TouchableOpacity style={styles.modalButton2} onPress ={this.goToCredit.bind(this)}>
+                        <View>
+                          <Text style={styles.dText}>OK!</Text>
                         </View>
                       </TouchableOpacity>
                       </View>
