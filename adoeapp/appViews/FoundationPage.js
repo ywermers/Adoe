@@ -30,7 +30,7 @@ constructor(props) {
    this.state = {
      cardInformationModal: false,
      donationModalOpen: false,
-     text: 'Donation Amount'
+     text: ' $'
    }
 }
 goToCredit() {
@@ -242,20 +242,27 @@ modalButton2: {
   },
   foundationLogo: {
     flex: 2,
+    top: 25,
     backgroundColor: 'black',
-    height: 90,
-    width: 40
+    height: 100,
+    width: 60,
+    borderRadius: 50,
+    borderColor: 'white',
+    borderWidth: 3
   },
   foundationTitleContainer: {
     flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#a39a92',
-    height: 40
+    height: 40,
+    backgroundColor: "#77685d",
+    borderRadius: 20,
+    top: 25
   },
   foundationTitle: {
-    flex: 3,
-    fontSize: 30,
+    flex: 4,
+    fontSize: 20,
     color: '#f4ebd9',
     fontWeight: 'bold',
     alignSelf: 'center'

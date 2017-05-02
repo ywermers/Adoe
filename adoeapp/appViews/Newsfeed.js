@@ -95,15 +95,22 @@ render () {
      foundationsList = this.state.foundations.map((foundation ,i) =>{
       return (<View key={i} style={styles.newsFeedContainer}>
 
-      <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
-        <Image
-        style={styles.foundationLogos}
-        source={{uri: foundation.logoURL}}>
-        <Text style={styles.newsFeedText}>
-          {foundation.name}
-          </Text>
-          </Image>
-      </TouchableOpacity>
+              <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
+
+              <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <Text style={{color: 'white', fontSize: 40, alignSelf: 'center', backgroundColor: 'none'}}>
+                      {foundation.name}
+                  </Text>
+                  <Image  style={{
+                          height: 200,
+                          width: 375,
+                        opacity: .4}}
+                          source={{uri: foundation.logoURL}}>
+
+                  </Image>
+
+              </View>
+              </TouchableOpacity>
 
       </View>)
     });
@@ -140,6 +147,7 @@ render () {
              </TouchableOpacity>
           </View>
           <View style={styles.search}>
+          
           <TextInput
                 style={{height: 40, fontSize: 23, color: '#483d3f', borderColor: '#483d3f', backgroundColor:'#f4ebd9',  borderWidth: 4}}
                 onChangeText={(text) => this.setState({text})}
@@ -275,6 +283,9 @@ var styles = StyleSheet.create({
   },
   newsFeedContainer: {
     // flex: 1
+    justifyContent: 'center',
+    flex: 1
+
   },
   foundationLogos:{
     flex: 1,
@@ -283,13 +294,15 @@ var styles = StyleSheet.create({
     height: 200,
     width: 375,
     backgroundColor: 'black',
-    opacity: .4
+    opacity: .4,
   },
   newsFeedText: {
     color: 'white',
     fontSize: 40,
     backgroundColor: 'rgba(0,0,0,0)',
-    opacity: 1
+    opacity: 1,
+    justifyContent: 'center',
+    alignSelf: 'center'
   },
   menuicon: {
     height: 40,
