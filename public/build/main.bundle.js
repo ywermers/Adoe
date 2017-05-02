@@ -24885,19 +24885,19 @@ var Main = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
     _this.state = {
-      main: 'account',
-      accountName: 'Alexs foundation',
-      accountInfo: 'bigtoes',
+      main: null,
+      accountName: null,
+      accountInfo: null,
       subscribers: [],
       fundraisers: [],
       donations: [],
-      logo: null,
-      email: 'thebigtoeman77@gmail.com',
-      streetAddress: '7 seafrth lane',
-      country: 'united states',
-      city: 'huntington',
-      state: 'new york',
-      zip: '11743'
+      logoURL: null,
+      email: null,
+      streetAddress: null,
+      country: null,
+      city: null,
+      state: null,
+      zip: null
     };
     return _this;
   }
@@ -24907,7 +24907,6 @@ var Main = function (_React$Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      console.log('FETCH');
       fetch('http://localhost:3001/api/foundations/userdata', {
         method: 'GET',
         credentials: "include",
@@ -24917,11 +24916,11 @@ var Main = function (_React$Component) {
       }).then(function (response) {
         return response.json();
       }).then(function (responseJson) {
-        console.log('got fetch data!', responseJson.zipCode);
+        console.log('got fetch data!', responseJson);
         _this2.setState({
           accountName: responseJson.name,
           accountInfo: responseJson.description,
-          logo: responseJson.logo,
+          logoURL: responseJson.logoURL,
           email: responseJson.email,
           streetAddress: responseJson.streetAddress,
           country: responseJson.country,
@@ -25032,7 +25031,7 @@ var Main = function (_React$Component) {
         return response.json();
       }).then(function (responseJson) {
         _this5.setState({
-          info: info
+          accountInfo: info
         });
         console.log('info updated!');
       }).catch(function (err) {
@@ -25044,7 +25043,7 @@ var Main = function (_React$Component) {
     value: function changeAddress(street, city, state, country, zip) {
       var _this6 = this;
 
-      console.log(street, city, state, country, zip);
+      console.log('TRUTLES', street, city, state, country, zip);
       console.log('updating address...');
       fetch('http://localhost:3001/api/foundations/updateAddress', {
         method: 'POST',
@@ -25053,7 +25052,11 @@ var Main = function (_React$Component) {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          streetAddress: street
+          streetAddress: street,
+          city: city,
+          state: state,
+          country: country,
+          zip: zip
         })
       }).then(function (response) {
         return response.json();
@@ -25061,7 +25064,7 @@ var Main = function (_React$Component) {
         _this6.setState({
           streetAddress: street,
           city: city,
-          ustate: state,
+          state: state,
           country: country,
           zip: zip
         });
@@ -25073,7 +25076,6 @@ var Main = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _React$createElement;
 
       var account = {
         cursor: 'pointer',
@@ -25139,8 +25141,8 @@ var Main = function (_React$Component) {
             )
           )
         ),
-        this.state.main === "account" && _react2.default.createElement(AccountInfo, (_React$createElement = { changeAddress: this.changeAddress.bind(this), logo: this.state.logo, changeInfo: this.changeInfo.bind(this), changeEmail: this.changeEmail.bind(this), changeName: this.changeName.bind(this)
-        }, _defineProperty(_React$createElement, 'logo', this.state.logo), _defineProperty(_React$createElement, 'email', this.state.email), _defineProperty(_React$createElement, 'zip', this.state.zip), _defineProperty(_React$createElement, 'city', this.state.city), _defineProperty(_React$createElement, 'state', this.state.state), _defineProperty(_React$createElement, 'fundraisers', this.state.fundraisers), _defineProperty(_React$createElement, 'streetAddress', this.state.streetAddress), _defineProperty(_React$createElement, 'accountName', this.state.accountName), _defineProperty(_React$createElement, 'accountInfo', this.state.accountInfo), _React$createElement)),
+        this.state.main === "account" && _react2.default.createElement(AccountInfo, { changeAddress: this.changeAddress.bind(this), logo: this.state.logo, changeInfo: this.changeInfo.bind(this), changeEmail: this.changeEmail.bind(this), changeName: this.changeName.bind(this), country: this.state.country,
+          logoURL: this.state.logoURL, email: this.state.email, zip: this.state.zip, city: this.state.city, state: this.state.state, fundraisers: this.state.fundraisers, streetAddress: this.state.streetAddress, accountName: this.state.accountName, accountInfo: this.state.accountInfo }),
         this.state.main === "about" && _react2.default.createElement(About, null),
         this.state.main === "fundraisers" && _react2.default.createElement(Fundraisers, { fundraisers: this.state.fundraisers }),
         this.state.main === "subscribers" && _react2.default.createElement(Subscribers, { subscribers: this.state.subscribers })
@@ -25268,8 +25270,8 @@ var AccountInfo = function (_React$Component2) {
               borderStyle: "groove",
               overflowY: this.state.info && "scroll"
             } },
-          this.state.info === true && _react2.default.createElement(Description, { changeAddress: this.props.changeAddress, changeName: this.props.changeName, changeEmail: this.props.changeEmail, changeInfo: this.props.changeInfo,
-            logo: this.props.logo, email: this.props.email, zip: this.props.zip, state: this.props.state, city: this.props.city, streetAddress: this.props.streetAddress, name: this.props.accountName, info: this.props.accountInfo }),
+          this.state.info === true && _react2.default.createElement(Description, { changeAddress: this.props.changeAddress, changeName: this.props.changeName, changeEmail: this.props.changeEmail, changeInfo: this.props.changeInfo, country: this.props.country,
+            logoURL: this.props.logoURL, email: this.props.email, zip: this.props.zip, state: this.props.state, city: this.props.city, streetAddress: this.props.streetAddress, name: this.props.accountName, info: this.props.accountInfo }),
           this.state.stripe === true && _react2.default.createElement(
             'div',
             { style: { flex: 1, display: 'flex', alignItems: 'flex-start', justifyContent: 'center' } },
@@ -25346,6 +25348,11 @@ var Description = function (_React$Component3) {
     value: function render() {
       var _ref;
 
+      var buttonStyle = {
+        backgroundColor: '#555ABF'
+
+      };
+
       return _react2.default.createElement(
         'div',
         { id: 'master', style: { fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif', display: 'flex', flex: 1, flexDirection: 'column', height: 1000 } },
@@ -25374,7 +25381,7 @@ var Description = function (_React$Component3) {
             { style: { flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight: '20', alignItems: 'center' } },
             _react2.default.createElement(
               'button',
-              { onClick: this.openModal.bind(this, this.props.name, 'name') },
+              { style: buttonStyle, onClick: this.openModal.bind(this, this.props.name, 'name') },
               'changeName'
             )
           )
@@ -25400,6 +25407,11 @@ var Description = function (_React$Component3) {
               'div',
               { style: { marginBottom: '10' } },
               this.props.city
+            ),
+            _react2.default.createElement(
+              'div',
+              { style: { marginBottom: '10' } },
+              this.props.country
             ),
             _react2.default.createElement(
               'div',
@@ -25456,7 +25468,7 @@ var Description = function (_React$Component3) {
           _react2.default.createElement(
             'div',
             { style: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' } },
-            this.props.logo
+            _react2.default.createElement('img', { height: '200', width: '200', src: this.props.logoURL })
           ),
           _react2.default.createElement(
             'div',
@@ -25629,6 +25641,7 @@ var AddressModal = function (_React$Component5) {
   }, {
     key: 'addressSubmit',
     value: function addressSubmit(street, city, state, country, zip) {
+
       this.props.closeModal();
       this.props.changeAddress(street, city, state, country, zip);
     }
@@ -25777,7 +25790,7 @@ var Subscribers = function (_React$Component7) {
   _createClass(Subscribers, [{
     key: 'render',
     value: function render() {
-      console.log('SUBS', this.props.subscribers);
+
       return _react2.default.createElement(
         'div',
         { id: 'currentApp', style: currentApp },
