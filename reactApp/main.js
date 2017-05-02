@@ -401,6 +401,7 @@ class Main extends React.Component {
           </div>
           <div id="top right" style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'flex-end',marginBottom:'10'}}>
               {this.state.stripe&&<a href="/api/foundations/oauth/callback"><button style={buttonStyle}>Connect to Stripe</button></a>}
+              {this.state.info&&<a href="/api/foundations/logout">Logout</a>}
           </div>
         </div>
         <div id="body" style={{
@@ -432,14 +433,17 @@ class Main extends React.Component {
     this.state={
       descriptionshow:false,
       addressshow:false,
+      infoshow:false,
       modal:false,
       addressmodal:false,
+      infomodal:false,
       modalContent:null,
       type:null
     }
   }
 
   openModal(value,type) {
+    console.log('hit')
     this.setState({
       modal:true,
       descriptionshow:false,
@@ -454,10 +458,19 @@ class Main extends React.Component {
     })
   }
 
+  openInfoModal(value,type) {
+    this.setState({
+      infoshow:false,
+      infomodal:true,
+      modalContent: value
+    })
+  }
+
   closeModal(){
     this.setState({
       descriptionshow:true,
-      addressshow:true
+      addressshow:true,
+      infoshow:true
     })
   }
   uploadPic(event){
@@ -477,8 +490,9 @@ class Main extends React.Component {
       }
 
     return (<div id="master" style={{fontFamily:'Camphor, "Segoe UI", "Open Sans", sans-serif',display:'flex',flex:1,flexDirection:'column',height:1000}}>
-              {this.state.modal&&<DescriptionModal type={this.state.type} modalContent={this.state.modalContent} name={this.props.name} info={this.props.info} closeModal={this.closeModal.bind(this)} show={this.state.descriptionshow} changeEmail={this.props.changeEmail} changeInfo={this.props.changeInfo} changeName={this.props.changeName}/>}
+              {this.state.modal&&<DescriptionModal type={this.state.type} modalContent={this.state.modalContent} name={this.props.name} info={this.props.info} closeModal={this.closeModal.bind(this)} show={this.state.descriptionshow} changeEmail={this.props.changeEmail}  changeName={this.props.changeName}/>}
                 {this.state.addressmodal&&<AddressModal changeAddress={this.props.changeAddress} streetAddress={this.props.streetAddress} city={this.props.city} country={this.props.country} state={this.props.state} zip={this.props.zip} closeModal={this.closeModal.bind(this)} show={this.state.addressshow} />}
+                {this.state.infomodal&&<InfoModal changeInfo={this.props.changeInfo}show={this.state.infoshow} modalContent={this.state.modalContent} closeModal={this.closeModal.bind(this)}/>}
 
               <div style={{flex:1,borderColor:'gray',borderBottomStyle:'solid', borderWidth:'5px',display:'flex',alignItems:'center',fontSize:25,fontFamily:'Arial Black',backgroundColor:'#F6F9FC',paddingLeft:'20'}}>Account</div>
 
@@ -498,7 +512,7 @@ class Main extends React.Component {
               <div id="mission Statement" style={{borderBottom:'solid',marginLeft:'20',marginRight:'20',borderColor:'gray', borderWidth:'1px',display:'flex',flex:2}}>
                     <div style={{flex:1,display:'flex',justifyContent:'flex-start',alignItems:'center',fontWeight:'bold',marginLeft:'20'}}>Mission Statement/description</div>
                     <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{this.props.info}</div>
-                    <div style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'center',marginRight:'20'}}><button style={buttonStyle} onClick={this.openModal.bind(this,this.props.info,'info')}>Edit</button></div>
+                    <div style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'center',marginRight:'20'}}><button style={buttonStyle} onClick={this.openInfoModal.bind(this,this.props.info,'info')}>Edit</button></div>
 
               </div>
               <div id="logo" style={{borderBottom:'solid',marginLeft:'20',borderColor:'gray',marginRight:'20',marginRight:'20',borderWidth:'1px',display:'flex',flex:3}}>
@@ -544,6 +558,15 @@ class Main extends React.Component {
 
 
   render() {
+    const buttonStyle= {
+      backgroundColor:'#555ABF',
+      color:'white',
+      height:'50',
+      width:'150',
+      fontSize:'15',
+      borderRadius: '10'
+    }
+
     // Render nothing if the "show" prop is false
     if(this.props.show) {
       return null;
@@ -583,7 +606,7 @@ class Main extends React.Component {
             <input defaultValue={this.props.modalContent} onChange={this.handleChange.bind(this)} style={{height:'40',width:'350'}}></input>
           </div>
           <div style={{flex:1,display:'flex',justifyContent:'center'}} className="close">
-            <button onClick={this.ok.bind(this)} style={buttonStyle}>
+            <button style={buttonStyle} onClick={this.ok.bind(this)}>
               Ok
             </button>
           </div>
@@ -592,6 +615,90 @@ class Main extends React.Component {
     );
   }
 }
+
+ class InfoModal extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state={
+      editDescription:this.props.info,
+      newValue:null
+    }
+  }
+
+  handleChange(e) {
+    this.setState({
+      newValue:e.target.value
+    })
+  }
+
+  ok() {
+    this.props.closeModal();
+
+    this.props.changeInfo.bind(null,this.state.newValue)()
+    }
+
+
+
+  render() {
+    const buttonStyle= {
+      backgroundColor:'#555ABF',
+      color:'white',
+      height:'50',
+      width:'150',
+      fontSize:'15',
+      borderRadius: '10'
+    }
+
+    // Render nothing if the "show" prop is false
+    if(this.props.show) {
+      return null;
+    }
+
+
+
+    // The gray background
+    const backdropStyle = {
+      position: 'fixed',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      backgroundColor: 'rgba(0,0,0,0.3)',
+      padding: 50
+    };
+
+    // The modal "window"
+    const modalStyle = {
+      backgroundColor: '#fff',
+      borderRadius: 5,
+      maxWidth: 500,
+      minHeight: 300,
+      marginTop:'120',
+      marginLeft:'600',
+      padding: 30,
+      display:'flex',
+      flexDirection:'column'
+    };
+
+    return (
+      <div className="backdrop" style={backdropStyle}>
+        <div className="modal" style={modalStyle}>
+
+          <div id="description" style={{flex:5,display:'flex',justifyContent:'center',alignItems:'center'}}>
+            <input defaultValue={this.props.modalContent} onChange={this.handleChange.bind(this)} style={{height:'40',width:'350'}}></input>
+          </div>
+          <div style={{flex:1,display:'flex',justifyContent:'center'}} className="close">
+            <button style={buttonStyle} onClick={this.ok.bind(this)}>
+              Ok
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+
 
 
  class AddressModal extends React.Component {
@@ -643,6 +750,15 @@ class Main extends React.Component {
 
 
   render() {
+    const buttonStyle= {
+      backgroundColor:'#555ABF',
+      color:'white',
+      height:'50',
+      width:'150',
+      fontSize:'15',
+      borderRadius: '10'
+    }
+
     // Render nothing if the "show" prop is false
     if(this.props.show) {
       return null;
@@ -681,7 +797,7 @@ class Main extends React.Component {
         <div style={{flex:1}}><input defaultValue={this.props.country} onChange={this.handleChangeCountry.bind(this)} style={{height:'25',width:'250',marginLeft:'130',marginBottom:'20'}}></input> Country</div>
         <div style={{flex:1}}><input defaultValue={this.props.zip} onChange={this.handleChangeZip.bind(this)} style={{height:'25',width:'250',marginLeft:'130',marginBottom:'20'}}></input> Zip</div>
         <div id="but" style={{display:'flex',justifyContent:'center',width:'50',marginLeft:'130'}}>
-        <button style={buttonStyle} onClick={this.addressSubmit.bind(this,this.state.street,this.state.city,this.state.state,this.state.country,this.state.zip)} >ok</button></div>
+        <button  style={buttonStyle} onClick={this.addressSubmit.bind(this,this.state.street,this.state.city,this.state.state,this.state.country,this.state.zip)} >ok</button></div>
 
         </div>
       </div>

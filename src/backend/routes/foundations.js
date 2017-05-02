@@ -4,6 +4,7 @@ var Donation = require('../models/donations');
 var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
+var path=require('path')
 
 var qs = require('querystring');
 var request = require('request');
@@ -20,7 +21,7 @@ router.use(function(req, res, next){
 });
 
 router.get('/api/foundations/main', function(req, res) {
-  res.render('index');
+res.sendFile(path.join(__dirname, '../../../public/index.html'))
 })
 
 
