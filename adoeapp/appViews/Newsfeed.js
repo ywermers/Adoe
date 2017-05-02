@@ -149,8 +149,10 @@ render () {
     <Drawer ref={(ref) => { this.drawer = ref; }}
       content={<SideBar navigator={this.props.navigator} />}
       onClose={() => closeDrawer()} >
-      <View style={{flex:1, flexDirection:'column', alignItems:'center'}}>
+
+    <View style={{flex:1}}>
         <View style={styles.top}>
+
           <View style={styles.buttons}>
               <TouchableOpacity onPress={() => openDrawer()}>
                 <Image
@@ -158,11 +160,14 @@ render () {
                   source={require('../assets/menu.png')}
                 />
               </TouchableOpacity>
+
+
               <TouchableOpacity style={styles.button}>
                    <Text style={styles.buttonText}>
                        Feed
                    </Text>
              </TouchableOpacity>
+
              <TouchableOpacity style={styles.button}>
                   <Text style={styles.buttonText}>
                     News
@@ -174,8 +179,11 @@ render () {
                     Me
                   </Text>
              </TouchableOpacity>
-          </View>
-          <View style={styles.search}>
+
+            </View>
+      </View>
+
+      <View style={styles.search}>
 
           <Autocomplete
             data={data}
@@ -188,17 +196,16 @@ render () {
               )}
             />
 
-          </View>
-        </View>
+      </View>
 
-        <View style={styles.newsFeed}>
+      <View style={styles.newsFeed}>
            <ScrollView automaticallyAdjustContentInsets={false}>
             <List style={styles.test}>
 
               {foundationsList ? <View>{foundationsList}</View> : null}
             </List>
             </ScrollView>
-        </View>
+    </View>
 
       </View>
     </Drawer>
