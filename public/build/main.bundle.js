@@ -24885,7 +24885,7 @@ var Main = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
     _this.state = {
-      main: null,
+      main: 'account',
       accountName: null,
       accountInfo: null,
       subscribers: [],
@@ -25163,7 +25163,7 @@ var AccountInfo = function (_React$Component2) {
 
     _this7.state = {
       logo: false,
-      description: false,
+      description: true,
       stripe: false,
       isOpen: false,
       buttonText: ''

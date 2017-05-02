@@ -100,7 +100,7 @@ class Main extends React.Component {
   constructor(props){
     super(props)
     this.state={
-      main: null,
+      main: 'account',
       accountName: null,
       accountInfo:null,
       subscribers: [],
@@ -328,7 +328,7 @@ class Main extends React.Component {
     super(props)
     this.state={
       logo:false,
-      description:false,
+      description:true,
       stripe:false,
       isOpen:false,
       buttonText:''
