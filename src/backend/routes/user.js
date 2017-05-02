@@ -101,6 +101,7 @@ router.post('/api/users/chargeCard',function(req,res){
     User.findOne({authToken: req.body.authToken})
     .then((tempUser) => {
       console.log('user1',tempUser);
+      if(!tempUser){res.status(500).json({success: false, message:"user not found"})}
       user = tempUser;
       return Foundation.findOne({_id: req.body.foundationToken})
     }).then((tempFoundation) =>{
