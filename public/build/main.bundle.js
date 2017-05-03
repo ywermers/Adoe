@@ -24931,6 +24931,20 @@ var Main = function (_React$Component) {
       }).catch(function (err) {
         console.log('error', err);
       });
+
+      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/donations', {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (responseJson) {
+        console.log('got donations!', responseJson);
+      }).catch(function (err) {
+        console.log('error', err);
+      });
     }
   }, {
     key: 'account',
@@ -25043,8 +25057,6 @@ var Main = function (_React$Component) {
     value: function changeAddress(street, city, state, country, zip) {
       var _this6 = this;
 
-      console.log('TRUTLES', street, city, state, country, zip);
-      console.log('updating address...');
       fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateAddress', {
         method: 'POST',
         credentials: "include",
