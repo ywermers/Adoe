@@ -87,6 +87,8 @@ router.post('/api/users/login',function(req,res){
   })
 })
 
+
+
 //To charge a card pass authToken, foundationToken, and amount
 router.post('/api/users/chargeCard',function(req,res){
   var platform_fee = parseInt(process.env.PERCENT_FEE) * req.body.amount;
@@ -118,6 +120,7 @@ router.post('/api/users/chargeCard',function(req,res){
         "amount": charge.amount,
         "amount_refunded": 0,
         "userId": user._id,
+        "userName":user.name,
         "foundationId": foundation._id,
         "status": charge.status
       });

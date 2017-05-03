@@ -11,6 +11,10 @@ var donationSchema = mongoose.Schema({
     type:Number,
     required: true
   },
+  userName:{
+      type:String,
+      required:true
+  },
   amount_refunded:{
     type:Number,
     required: true
