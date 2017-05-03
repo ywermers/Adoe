@@ -129,6 +129,7 @@ router.get('/api/foundations/api/oauth',function(req,res) {
   });
 
   router.get("/api/foundations/oauth/callback", function(req, res) {
+    console.log('hit')
   var code = req.query.code;
   //Make /oauth/token endpoint POST request
   request.post({

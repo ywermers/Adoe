@@ -25257,7 +25257,7 @@ var AccountInfo = function (_React$Component2) {
             { id: 'top right', style: { flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginBottom: '10' } },
             this.state.stripe && _react2.default.createElement(
               'a',
-              { href: '/api/foundations/oauth/callback' },
+              { href: '/api/foundations/api/oauth' },
               _react2.default.createElement(
                 'button',
                 { style: buttonStyle },

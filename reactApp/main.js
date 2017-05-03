@@ -400,7 +400,7 @@ class Main extends React.Component {
           <h2 style={accountInfo} onClick={this.info.bind(this)}>Account Info</h2><h2  style={donations} onClick={this.stripe.bind(this)}>Donations</h2>
           </div>
           <div id="top right" style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'flex-end',marginBottom:'10'}}>
-              {this.state.stripe&&<a href="/api/foundations/oauth/callback"><button style={buttonStyle}>Connect to Stripe</button></a>}
+              {this.state.stripe&&<a href='/api/foundations/api/oauth'><button style={buttonStyle}>Connect to Stripe</button></a>}
               {this.state.info&&<a href="/api/foundations/logout">Logout</a>}
           </div>
         </div>
