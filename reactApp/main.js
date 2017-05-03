@@ -100,7 +100,7 @@ class Main extends React.Component {
   constructor(props){
     super(props)
     this.state={
-      main: null,
+      main: 'account',
       accountName: null,
       accountInfo:null,
       subscribers: [],
@@ -118,7 +118,7 @@ class Main extends React.Component {
 
   componentWillMount() {
 
-    fetch('http://localhost:3001/api/foundations/userdata', {
+    fetch('https://polar-sands-99108.herokuapp.com/api/foundations/userdata', {
       method: 'GET',
       credentials: "include",
       headers: {
@@ -168,7 +168,7 @@ class Main extends React.Component {
 
   changeName(name) {
     console.log('updating name...')
-    fetch('http://localhost:3001/api/foundations/updateName', {
+    fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateName', {
       method: 'POST',
       credentials: "include",
       headers: {
@@ -193,7 +193,7 @@ class Main extends React.Component {
 
     changeEmail(email) {
       console.log('updating email...')
-      fetch('http://localhost:3001/api/foundations/updateEmail', {
+      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateEmail', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -217,7 +217,7 @@ class Main extends React.Component {
     changeInfo(info) {
 
       console.log('updating info...')
-      fetch('http://localhost:3001/api/foundations/updateDescription', {
+      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateDescription', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -242,7 +242,7 @@ class Main extends React.Component {
     changeAddress(street,city,state,country,zip) {
       console.log('TRUTLES',street,city,state,country,zip)
       console.log('updating address...')
-      fetch('http://localhost:3001/api/foundations/updateAddress', {
+      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateAddress', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -328,7 +328,7 @@ class Main extends React.Component {
     super(props)
     this.state={
       logo:false,
-      description:false,
+      description:true,
       stripe:false,
       isOpen:false,
       buttonText:''

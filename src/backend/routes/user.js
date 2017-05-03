@@ -127,6 +127,8 @@ router.post('/api/users/chargeCard',function(req,res){
       console.log('user', user);
       return user.update({$push : {donationID : donation._id} }, {w:1}).exec()
     }).then((updated) =>{
+      return foundation.update({$push : {donationID : donation._id} }, {w:1}).exec()
+    }).then((updated) =>{
       res.json({"success": true})
     }).catch((err) => {
       res.status(500).json({err:err, message: "cannot charge this account"});

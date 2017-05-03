@@ -5,6 +5,7 @@ var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
 var path=require('path')
+var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET)
 
 var qs = require('querystring');
 var request = require('request');
@@ -23,6 +24,33 @@ router.use(function(req, res, next){
 router.get('/api/foundations/main', function(req, res) {
 res.sendFile(path.join(__dirname, '../../../public/index.html'))
 })
+
+
+
+router.get('/api/foundations/donations',function(req,res) {
+  Foundation.findOne({_id:req.session.passport.user}, function(err,foundation) {
+    if(foundation) {
+    console.log(foundation._id);
+    Donation.findOne({foundationId:foundation._id},function(err,user) {
+      console.log('here',user)
+    })
+  }})
+})
+//   })
+//     .then((foundation)=> {
+//       console.log(alldonations);
+//       res.json(alldonations)
+//     })
+//     .catch((err) =>{
+//       console.log('error!!');
+//       res.json(err)
+//     })
+//   } else {
+//     res.json('error !!!?!?!',err)
+//   }
+//   })
+// })
+
 
 
 
