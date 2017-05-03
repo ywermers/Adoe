@@ -53,24 +53,19 @@ router.post('/api/users/addcreditcard',function(req,res){
            "cvc": req.body.cvc
          }
         }, function(err, token) {
-          console.log('err', err);
           stripe.customers.update(user.stripe.customerID, {
             source: token.id
           }, function(err, customer){
             if(err) console.log(err)
-            if(customer) {
-              console.log('success true');
-              res.json({success : true})
-            }
+            if(customer) res.json({success : true})
           });
         });
       }else if(!user){
-        console.log('user not found. success false')
-        res.json({success : false})
-
+        console.log('user not found')
       }
     })
 })
+
 
 router.post('/api/users/register', function(req,res){
   console.log('register user route');
@@ -121,22 +116,25 @@ router.post('/api/users/chargeCard',function(req,res){
   var platform_fee = parseInt(process.env.PERCENT_FEE) * req.body.amount;
   var user;
   var foundation;
-    console.log('body', req.body);
     User.findOne({authToken: req.body.authToken})
     .then((tempUser) => {
-      console.log('user1',tempUser);
-      if(!tempUser){res.status(500).json({success: false, message:"user not found"})}
+      console.log('urser1',tempUser);
       user = tempUser;
+      if(!user){
+        console.log('user not found')
+        throw new Error('user not found');
+      }
       return Foundation.findOne({_id: req.body.foundationToken})
     }).then((tempFoundation) =>{
-      console.log('foundation', tempFoundation)
       foundation = tempFoundation
+      if(!foundation) throw new Error('foundation not found');
       return stripe.tokens.create({
         customer: user.stripe.customerID,
       },{
         stripe_account: foundation.stripeUserId
       });
     }).then((token) => {
+      console.log('token',token);
       return stripe.charges.create({
         amount: req.body.amount,
         currency: "usd",
@@ -159,11 +157,10 @@ router.post('/api/users/chargeCard',function(req,res){
       console.log('user', user);
       return user.update({$push : {donationID : donation._id} }, {w:1}).exec()
     }).then((updated) =>{
-      return foundation.update({$push : {donationID : donation._id} }, {w:1}).exec()
-    }).then((updated) =>{
       res.json({"success": true})
     }).catch((err) => {
-        res.status(err.statusCode).json({message: err.message});
+      console.log('caught error', err)
+      res.status(400).json({err:err.message, message: "cannot charge this account"});
     });
 });
 
@@ -176,7 +173,7 @@ router.post('/api/users/taxReceipts', function(req, res){
      }).then((tempDonations) => {
        donations = tempDonations;
        var foundationIds = donations.map(donation=>donation.foundationId)
-       console.log('ids', foundationIds);
+       console.log('foundationIds');
       return Foundation.find({_id : {$in: foundationIds}})
     }).then((foundations) =>{
       console.log('foundations',foundations);
