@@ -327,7 +327,7 @@ class Main extends React.Component {
           <div style={{flex:1,display:'flex',justifyContent:'flex-start',marginLeft:'100',flexDirection:'column',alignItems:'flex-start'}}><span style={account} onClick={this.account.bind(this)}>Account</span><span style={subscribers} onClick={this.subscribers.bind(this)}>Subscribers</span>
            <span style={fundraisers} onClick={this.fundraisers.bind(this)}>Fundraisers</span></div></div>
       </div>
-        {this.state.main==="account"&& <AccountInfo changeAddress={this.changeAddress.bind(this)} logo={this.state.logo} changeInfo={this.changeInfo.bind(this)} changeEmail={this.changeEmail.bind(this)} changeName={this.changeName.bind(this)} country={this.state.country}
+        {this.state.main==="account"&& <AccountInfo donations={this.state.donations} changeAddress={this.changeAddress.bind(this)} logo={this.state.logo} changeInfo={this.changeInfo.bind(this)} changeEmail={this.changeEmail.bind(this)} changeName={this.changeName.bind(this)} country={this.state.country}
           logoURL={this.state.logoURL} email={this.state.email} zip={this.state.zip} city={this.state.city} state={this.state.state} fundraisers={this.state.fundraisers} streetAddress={this.state.streetAddress} accountName={this.state.accountName} accountInfo={this.state.accountInfo}/>}
         {this.state.main==="about"&& <About/>}
         {this.state.main==="fundraisers"&& <Fundraisers fundraisers={this.state.fundraisers}/>}
@@ -337,6 +337,8 @@ class Main extends React.Component {
     )
   }
 }
+
+
 
 
  class AccountInfo extends React.Component {
@@ -433,8 +435,29 @@ class Main extends React.Component {
         {this.state.info===true&&
         <Description changeAddress={this.props.changeAddress} changeName={this.props.changeName} changeEmail={this.props.changeEmail} changeInfo={this.props.changeInfo} country={this.props.country}
         logoURL={this.props.logoURL} email={this.props.email } zip={this.props.zip} state={this.props.state} city={this.props.city} streetAddress={this.props.streetAddress} name={this.props.accountName} info={this.props.accountInfo}/>}
-        {this.state.stripe===true&&<div style={{flex:1,display:'flex',alignItems:'flex-start',justifyContent:'center'}}><div style={{marginTop:'90'}}><h2>You have not yet recevied any donations</h2></div></div>}
+        {this.state.stripe===true&&<Donations donations={this.props.donations}/>}
         </div>
+      </div>
+    )
+  }
+}
+
+  class Donations extends React.Component {
+
+  render() {
+    const buttonStyle= {
+      backgroundColor:'#555ABF',
+      color:'white',
+      height:'30',
+      width:'150',
+      fontSize:'15',
+      borderRadius: '10'
+    }
+
+
+    return (
+      <div style={{flex:1}}>
+        {this.props.donations}
       </div>
     )
   }

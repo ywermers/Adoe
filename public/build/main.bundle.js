@@ -25153,7 +25153,7 @@ var Main = function (_React$Component) {
             )
           )
         ),
-        this.state.main === "account" && _react2.default.createElement(AccountInfo, { changeAddress: this.changeAddress.bind(this), logo: this.state.logo, changeInfo: this.changeInfo.bind(this), changeEmail: this.changeEmail.bind(this), changeName: this.changeName.bind(this), country: this.state.country,
+        this.state.main === "account" && _react2.default.createElement(AccountInfo, { donations: this.state.donations, changeAddress: this.changeAddress.bind(this), logo: this.state.logo, changeInfo: this.changeInfo.bind(this), changeEmail: this.changeEmail.bind(this), changeName: this.changeName.bind(this), country: this.state.country,
           logoURL: this.state.logoURL, email: this.state.email, zip: this.state.zip, city: this.state.city, state: this.state.state, fundraisers: this.state.fundraisers, streetAddress: this.state.streetAddress, accountName: this.state.accountName, accountInfo: this.state.accountInfo }),
         this.state.main === "about" && _react2.default.createElement(About, null),
         this.state.main === "fundraisers" && _react2.default.createElement(Fundraisers, { fundraisers: this.state.fundraisers }),
@@ -25297,19 +25297,7 @@ var AccountInfo = function (_React$Component2) {
             } },
           this.state.info === true && _react2.default.createElement(Description, { changeAddress: this.props.changeAddress, changeName: this.props.changeName, changeEmail: this.props.changeEmail, changeInfo: this.props.changeInfo, country: this.props.country,
             logoURL: this.props.logoURL, email: this.props.email, zip: this.props.zip, state: this.props.state, city: this.props.city, streetAddress: this.props.streetAddress, name: this.props.accountName, info: this.props.accountInfo }),
-          this.state.stripe === true && _react2.default.createElement(
-            'div',
-            { style: { flex: 1, display: 'flex', alignItems: 'flex-start', justifyContent: 'center' } },
-            _react2.default.createElement(
-              'div',
-              { style: { marginTop: '90' } },
-              _react2.default.createElement(
-                'h2',
-                null,
-                'You have not yet recevied any donations'
-              )
-            )
-          )
+          this.state.stripe === true && _react2.default.createElement(Donations, { donations: this.props.donations })
         )
       );
     }
@@ -25318,15 +25306,47 @@ var AccountInfo = function (_React$Component2) {
   return AccountInfo;
 }(_react2.default.Component);
 
-var Description = function (_React$Component3) {
-  _inherits(Description, _React$Component3);
+var Donations = function (_React$Component3) {
+  _inherits(Donations, _React$Component3);
+
+  function Donations() {
+    _classCallCheck(this, Donations);
+
+    return _possibleConstructorReturn(this, (Donations.__proto__ || Object.getPrototypeOf(Donations)).apply(this, arguments));
+  }
+
+  _createClass(Donations, [{
+    key: 'render',
+    value: function render() {
+      var buttonStyle = {
+        backgroundColor: '#555ABF',
+        color: 'white',
+        height: '30',
+        width: '150',
+        fontSize: '15',
+        borderRadius: '10'
+      };
+
+      return _react2.default.createElement(
+        'div',
+        { style: { flex: 1 } },
+        this.props.donations
+      );
+    }
+  }]);
+
+  return Donations;
+}(_react2.default.Component);
+
+var Description = function (_React$Component4) {
+  _inherits(Description, _React$Component4);
 
   function Description(props) {
     _classCallCheck(this, Description);
 
-    var _this8 = _possibleConstructorReturn(this, (Description.__proto__ || Object.getPrototypeOf(Description)).call(this, props));
+    var _this9 = _possibleConstructorReturn(this, (Description.__proto__ || Object.getPrototypeOf(Description)).call(this, props));
 
-    _this8.state = {
+    _this9.state = {
       descriptionshow: false,
       addressshow: false,
       infoshow: false,
@@ -25336,7 +25356,7 @@ var Description = function (_React$Component3) {
       modalContent: null,
       type: null
     };
-    return _this8;
+    return _this9;
   }
 
   _createClass(Description, [{
@@ -25530,19 +25550,19 @@ var Description = function (_React$Component3) {
   return Description;
 }(_react2.default.Component);
 
-var DescriptionModal = function (_React$Component4) {
-  _inherits(DescriptionModal, _React$Component4);
+var DescriptionModal = function (_React$Component5) {
+  _inherits(DescriptionModal, _React$Component5);
 
   function DescriptionModal(props) {
     _classCallCheck(this, DescriptionModal);
 
-    var _this9 = _possibleConstructorReturn(this, (DescriptionModal.__proto__ || Object.getPrototypeOf(DescriptionModal)).call(this, props));
+    var _this10 = _possibleConstructorReturn(this, (DescriptionModal.__proto__ || Object.getPrototypeOf(DescriptionModal)).call(this, props));
 
-    _this9.state = {
-      editDescription: _this9.props.info,
+    _this10.state = {
+      editDescription: _this10.props.info,
       newValue: null
     };
-    return _this9;
+    return _this10;
   }
 
   _createClass(DescriptionModal, [{
@@ -25635,19 +25655,19 @@ var DescriptionModal = function (_React$Component4) {
   return DescriptionModal;
 }(_react2.default.Component);
 
-var InfoModal = function (_React$Component5) {
-  _inherits(InfoModal, _React$Component5);
+var InfoModal = function (_React$Component6) {
+  _inherits(InfoModal, _React$Component6);
 
   function InfoModal(props) {
     _classCallCheck(this, InfoModal);
 
-    var _this10 = _possibleConstructorReturn(this, (InfoModal.__proto__ || Object.getPrototypeOf(InfoModal)).call(this, props));
+    var _this11 = _possibleConstructorReturn(this, (InfoModal.__proto__ || Object.getPrototypeOf(InfoModal)).call(this, props));
 
-    _this10.state = {
-      editDescription: _this10.props.info,
+    _this11.state = {
+      editDescription: _this11.props.info,
       newValue: null
     };
-    return _this10;
+    return _this11;
   }
 
   _createClass(InfoModal, [{
@@ -25733,24 +25753,24 @@ var InfoModal = function (_React$Component5) {
   return InfoModal;
 }(_react2.default.Component);
 
-var AddressModal = function (_React$Component6) {
-  _inherits(AddressModal, _React$Component6);
+var AddressModal = function (_React$Component7) {
+  _inherits(AddressModal, _React$Component7);
 
   function AddressModal(props) {
     _classCallCheck(this, AddressModal);
 
-    var _this11 = _possibleConstructorReturn(this, (AddressModal.__proto__ || Object.getPrototypeOf(AddressModal)).call(this, props));
+    var _this12 = _possibleConstructorReturn(this, (AddressModal.__proto__ || Object.getPrototypeOf(AddressModal)).call(this, props));
 
-    _this11.state = {
-      editDescription: _this11.props.info,
+    _this12.state = {
+      editDescription: _this12.props.info,
       newValue: null,
-      street: _this11.props.streetAddress,
-      state: _this11.props.state,
-      country: _this11.props.country,
-      zip: _this11.props.zip,
-      city: _this11.props.city
+      street: _this12.props.streetAddress,
+      state: _this12.props.state,
+      country: _this12.props.country,
+      zip: _this12.props.zip,
+      city: _this12.props.city
     };
-    return _this11;
+    return _this12;
   }
 
   _createClass(AddressModal, [{
@@ -25888,8 +25908,8 @@ var AddressModal = function (_React$Component6) {
   return AddressModal;
 }(_react2.default.Component);
 
-var Fundraisers = function (_React$Component7) {
-  _inherits(Fundraisers, _React$Component7);
+var Fundraisers = function (_React$Component8) {
+  _inherits(Fundraisers, _React$Component8);
 
   function Fundraisers() {
     _classCallCheck(this, Fundraisers);
@@ -25946,8 +25966,8 @@ var Fundraisers = function (_React$Component7) {
   return Fundraisers;
 }(_react2.default.Component);
 
-var Subscribers = function (_React$Component8) {
-  _inherits(Subscribers, _React$Component8);
+var Subscribers = function (_React$Component9) {
+  _inherits(Subscribers, _React$Component9);
 
   function Subscribers() {
     _classCallCheck(this, Subscribers);
