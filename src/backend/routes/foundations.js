@@ -4,10 +4,14 @@ var Donation = require('../models/donations');
 var Foundation = require('../models/foundation');
 var Fundraiser = require('../models/fundraiser');
 var User = require('../models/user');
+var path=require('path')
+var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET)
 
 var qs = require('querystring');
 var request = require('request');
 
+var SparkPost = require('sparkpost');
+var sparky = new SparkPost(); // uses process.env.SPARKPOST_API_KEY
 
 // Fix the foundation oauth return
 
@@ -20,20 +24,144 @@ router.use(function(req, res, next){
 });
 
 router.get('/api/foundations/main', function(req, res) {
-  res.render('index');
+res.sendFile(path.join(__dirname, '../../../public/index.html'))
 })
 
 
+router.post('/api/foundations/composeEmail', function(req, res) {
+  var foundation
+  console.log('trying to send an email')
+ Foundation.findOne({_id: req.session.passport.user})
+ .then(tmpFoundation => {
+   foundation = tmpFoundation;
+   console.log('foundation', foundation);
+   console.log('foundation emails length', foundation.subscribedEmails.length)
+   if(!foundation) throw new Error('Couldn\'t find the foundation');
+    else if(!foundation.subscribedEmails.length) throw new Error('no users subscirbed to your foundation');
+   else {
+     return foundation.subscribedEmails.map((email) => {
+     console.log('map emails', email)
+     return {address: email}
+   })
+ }
+ })
+ .then(emails => {
+   console.log('mapped emails', emails)
+   return sparky.transmissions.send({
+     options: {
+       sandbox: true
+     },
+     content: {
+       from: foundation.email + process.env.SPARKPOST_SANDBOX_DOMAIN,
+       subject: req.body.subject ? req.body.subject : ' ',
+       html: '<html><body><p>Testing SparkPost - the world\'s best email service,</p></body></html>'
+     },
+     recipients: emails
+   })
 
-router.post('/api/foundations/updateDescription', function(req, res, next){
+ }).then(data => {
+   console.log('EMAIL SENT');
+   console.log(data);
+   res.status(200).json({success: true});
+ }).catch(err => {
+   console.log('caught', err);
+   res.status(400).json({success: false, message: err.message});
+ })
+
+});
+
+router.get('/api/foundations/main', function(req, res) {
+  res.render('index');
+});
+
+router.get('/api/foundations/donations',function(req,res) {
+  Foundation.findOne({_id:req.session.passport.user}, function(err,foundation) {
+    if(foundation) {
+    console.log(foundation._id);
+    Donation.findOne({foundationId:foundation._id},function(err,user) {
+      console.log('here',user)
+    })
+  }})
+})
+//   })
+//     .then((foundation)=> {
+//       console.log(alldonations);
+//       res.json(alldonations)
+//     })
+//     .catch((err) =>{
+//       console.log('error!!');
+//       res.json(err)
+//     })
+//   } else {
+//     res.json('error !!!?!?!',err)
+//   }
+//   })
+// })
+
+
+
+
+router.post('/api/foundations/updateName', function(req, res, next){
   Foundation.findOneAndUpdate({_id: req.session.passport.user},
-    {description: req.body.description})
+    {name: req.body.name})
     .then((updated) =>{
-      res.send('updated');
+    console.log('updated name sucessfully no thank to dereeck bc we was AFK');
+    res.json('updated name :)')
     }).catch((err) => {
       res.status(500).json(err);
     })
   })
+
+
+router.post('/api/foundations/updateEmail', function(req, res, next){
+  Foundation.findOneAndUpdate({_id: req.session.passport.user},
+    {email: req.body.email})
+    .then((updated) =>{
+    console.log('updated name sucessfully no thank to dereeck bc we was AFK');
+    res.json('updated email :)')
+    }).catch((err) => {
+      res.status(500).json(err);
+    })
+  })
+  router.post('/api/foundations/updateDescription', function(req, res, next){
+    Foundation.findOneAndUpdate({_id: req.session.passport.user},
+      {description: req.body.description})
+      .then((updated) =>{
+      console.log('updated name sucessfully no thank to dereeck bc we was AFK');
+      res.json('updated name :)')
+      }).catch((err) => {
+        res.status(500).json(err);
+      })
+    })
+
+
+    router.post('/api/foundations/updateAddress', function(req, res, next){
+      console.log('hot')
+      console.log(req.body)
+      Foundation.findOneAndUpdate({_id: req.session.passport.user},
+        {streetAddress: req.body.streetAddress,
+        city:req.body.city,
+        ustate:req.body.state,
+        country:req.body.country,
+        zipCode:req.body.zip
+        })
+        .then((updated) =>{
+        res.json('updated address :)')
+        }).catch((err) => {
+          res.status(500).json(err);
+        })
+      })
+
+  router.get('/api/foundations/userdata',function(req,res) {
+        Foundation.findOne({_id:req.session.passport.user}, function(err,user) {
+          if(user) {
+          res.json(user)
+        } else {
+          res.json('error',err)
+        }
+  })
+})
+
 
 
 
@@ -67,7 +195,8 @@ router.get('/api/foundations/api/oauth',function(req,res) {
        stripeUserId: body.stripe_user_id,
        stripePublishable: body.stripe_publishable_key})
     .then((updated) =>{
-      console.log('updtaed')
+      console.log('updtaed');
+      res.render('index')
     }).catch((err) => {
       res.status(500).json(err);
     })

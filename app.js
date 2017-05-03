@@ -1,5 +1,4 @@
 
-
 //Express setup and handle bars
 var express=require('express');
 var bodyParser=require('body-parser');
@@ -60,7 +59,7 @@ mongoose.connection.on('error', function(){
   console.log('mongoose connection NOT successful');
   console.log(process.env.MONGODB_URI)
 })
-mongoose.Promise = global.Promise;
+mongoose.Promise = Promise;
 
 app.use(session({
   secret: process.env.SECRET,

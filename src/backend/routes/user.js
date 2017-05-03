@@ -9,6 +9,30 @@ var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET);
 
 var hbs=require('express-handlebars')
 
+//subscribe a users email for foundations to update users
+//pass authToken and foundation id
+router.post('/api/user/subscribe/email', function(req,res){
+  var user;
+  var foundation;
+  User.findOne({authToken: req.body.authToken})
+  .then((tmpUser)=>{
+    user = tmpUser;
+    return Foundation.findOne({_id: req.foundation._id})
+  })
+  .then((tmpfoundation) => {
+    foundation = tmpFoundation
+    foundation.update({$push : {subscribedEmails: user.email} }, {w:1}).exec()
+  })
+  .then((updated) => {
+    user.update({$push :  {subscribedFoundations: foundation.name} }, {w:1}).exec()
+  })
+  .then((updated) => {
+   res.json({success: true});
+  })
+  .catch((err) => {
+    res.status(500).json(err)
+  })
+});
 
 //to addcreditCard pass creditToken and authToken
 router.post('/api/users/addcreditcard',function(req,res){
@@ -92,7 +116,7 @@ router.post('/api/users/login',function(req,res){
   })
 })
 
-//To charge a card pass authToken, foundationToken, and amount
+//To charge a card pass authToken, foundationId, and amount
 router.post('/api/users/chargeCard',function(req,res){
   var platform_fee = parseInt(process.env.PERCENT_FEE) * req.body.amount;
   var user;
@@ -109,9 +133,9 @@ router.post('/api/users/chargeCard',function(req,res){
       foundation = tempFoundation
       return stripe.tokens.create({
         customer: user.stripe.customerID,
-      }, {
+      },{
         stripe_account: foundation.stripeUserId
-      })
+      });
     }).then((token) => {
       return stripe.charges.create({
         amount: req.body.amount,
@@ -135,6 +159,8 @@ router.post('/api/users/chargeCard',function(req,res){
       console.log('user', user);
       return user.update({$push : {donationID : donation._id} }, {w:1}).exec()
     }).then((updated) =>{
+      return foundation.update({$push : {donationID : donation._id} }, {w:1}).exec()
+    }).then((updated) =>{
       res.json({"success": true})
     }).catch((err) => {
         res.status(err.statusCode).json({message: err.message});
@@ -150,8 +176,11 @@ router.post('/api/users/taxReceipts', function(req, res){
      }).then((tempDonations) => {
        donations = tempDonations;
        var foundationIds = donations.map(donation=>donation.foundationId)
+       console.log('ids', foundationIds);
       return Foundation.find({_id : {$in: foundationIds}})
     }).then((foundations) =>{
+      console.log('foundations',foundations);
+      console.log('donations', donations);
         var returnJson = donations.map((donation)=>{
           var taxReceipt = {
             amount : donation.amount,
@@ -159,6 +188,8 @@ router.post('/api/users/taxReceipts', function(req, res){
             foundation: null
           }
           for(var i =0; i<foundations.length; i++){
+            console.log('foundID', donation.foundationId);
+            console.log('foundations',foundations[i]);
             if(donation.foundationId.equals(foundations[i]._id)){
               taxReceipt.foundation = foundations[i].name
             }

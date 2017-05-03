@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 
-class Lisa extends Component {
+class Credit extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -32,12 +32,12 @@ class Lisa extends Component {
       // var authToken = await AsyncStorage.getItem(authToken)
       //
       AsyncStorage.getItem('user')
-      .then(result => {
+      .then((result) => {
         console.log('asyncStorage', result)
         var parsedResult = JSON.parse(result);
         var authToken = parsedResult.authToken;
         console.log(authToken)
-        fetch('https://polar-sands-99108.herokuapp.com/api/users/addcreditcard/', {
+        return fetch('https://polar-sands-99108.herokuapp.com/api/users/addcreditcard/', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -53,14 +53,12 @@ class Lisa extends Component {
           })
         })
       })
-      .then((response) => {
-        console.log('lisa is so loved')
-        console.log(response)
-        response.json()})
+      .then((response) => response.json())
       .then((responseJson) => {
         console.log('response', responseJson)
         if (responseJson.success === true) {
           console.log('card added')
+          this.props.navigator.pop();
         } else {
           this.setState({
             responseJsonError: responseJson.error
@@ -174,4 +172,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = Lisa;
+module.exports = Credit;

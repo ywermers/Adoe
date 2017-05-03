@@ -20,6 +20,7 @@ import SearchBar from 'react-native-material-design-searchbar';
 import Modal from 'react-native-modal';
 import { Container, Content, List, ListItem, Thumbnail, Body, Drawer } from 'native-base';
 import  ScrollingMenu from 'react-native-scrolling-menu';
+import Autocomplete from 'react-native-autocomplete-input'
 // var Drawer = require('react-native-drawer')
 var HumanFund= require('../foundation/HumanFund')
 var SideBar = require('./SideBar')
@@ -34,8 +35,14 @@ onClick(itemIndex) {
 }
 constructor(props) {
    super(props);
-   this.state = { text: '                         SearchBar' };
-   this.state.foundations = null
+   this.state= {
+     str: '',
+     text: '',
+     foundations:null,
+     query:""
+   }
+
+
 }
 componentWillMount(){
   var user = AsyncStorage.getItem('user');
@@ -79,8 +86,37 @@ console.log('foundation', Foundation);
       }
     })
 }
+_filterData(value){
+  if (value === "") {
+    return [];
+  }
+  var len =value.length;
+  var final = false;
+  var store = ["red"]
+  if(this.state.foundations){
+    var foundationTitles= this.state.foundations.map((foundation)=> {
+      return foundation.name});
+    store = foundationTitles;
+  }
+  var filtered = store.filter((str)=> {
+  if(str === value) {
+    final = true;
+  }
+  return value.toLowerCase() === str.substring(0, len).toLowerCase();
+})
+if (final) {
+  return []
+}
+return filtered
+
+}
 
 render () {
+
+  const { query } = this.state;
+  const data = this._filterData(query) //make function for filter data
+
+
   var closeDrawer = () => {
     this.drawer._root.close()
   }
@@ -90,29 +126,33 @@ render () {
     this.drawer._root.open()
   }
   console.log('foundations',this.state.foundations);
-  var foundationsList= null;
+  var foundationsList;
   if(this.state.foundations){
      foundationsList = this.state.foundations.map((foundation ,i) =>{
       return (<View key={i} style={styles.newsFeedContainer}>
-      <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
-        <Image
-        style={styles.foundationLogos}
-        source={{uri: foundation.logoURL}}>
-          <Text style={styles.newsFeedText}>
-            {foundation.name}
-          </Text>
-        </Image>
-      </TouchableOpacity>
+
+              <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
+         <Image
+         style={styles.foundationLogos}
+         source={{uri: foundation.logoURL}}>
+         <Text style={styles.newsFeedText}>
+           {foundation.name}
+           </Text>
+           </Image>
+       </TouchableOpacity>
       </View>)
     });
+
       console.log('foundationsList', foundationsList);
   }
   return (
     <Drawer ref={(ref) => { this.drawer = ref; }}
       content={<SideBar navigator={this.props.navigator} />}
       onClose={() => closeDrawer()} >
-      <View style={{flex:1, flexDirection:'column', alignItems:'center'}}>
+
+    <View style={{flex:1}}>
         <View style={styles.top}>
+
           <View style={styles.buttons}>
               <TouchableOpacity onPress={() => openDrawer()}>
                 <Image
@@ -120,11 +160,14 @@ render () {
                   source={require('../assets/menu.png')}
                 />
               </TouchableOpacity>
+
+
               <TouchableOpacity style={styles.button}>
                    <Text style={styles.buttonText}>
                        Feed
                    </Text>
              </TouchableOpacity>
+
              <TouchableOpacity style={styles.button}>
                   <Text style={styles.buttonText}>
                     News
@@ -136,22 +179,33 @@ render () {
                     Me
                   </Text>
              </TouchableOpacity>
-          </View>
-          <View style={styles.search}>
-          <TextInput
-                style={{height: 40, fontSize: 23, color: '#483d3f', borderColor: '#058ed9', backgroundColor:'#f4ebd9',  borderWidth: 4}}
-                onChangeText={(text) => this.setState({text})}
-                value={this.state.text} />
-          </View>
-        </View>
 
-        <View style={styles.newsFeed}>
+            </View>
+      </View>
+
+      <View style={styles.search}>
+
+          <Autocomplete
+            data={data}
+            defaultValue={query}
+            onChangeText={text => this.setState({ query: text })}
+            renderItem={data => (
+              <TouchableOpacity onPress={() => this.setState({ query: data })}>
+              <Text>{data}</Text>
+              </TouchableOpacity>
+              )}
+            />
+
+      </View>
+
+      <View style={styles.newsFeed}>
            <ScrollView automaticallyAdjustContentInsets={false}>
-            <List>
+            <List style={styles.test}>
+
               {foundationsList ? <View>{foundationsList}</View> : null}
             </List>
             </ScrollView>
-        </View>
+    </View>
 
       </View>
     </Drawer>
@@ -231,7 +285,7 @@ var styles = StyleSheet.create({
   top: {
     flexDirection:'column',
     justifyContent:'center',
-    backgroundColor: '#058ed9',
+    backgroundColor: '#483d3f',
     width: 375,
     height: 150,
     flex: 2
@@ -239,6 +293,7 @@ var styles = StyleSheet.create({
   newsFeed: {
     backgroundColor: '#483d3f',
     flex: 5,
+
   },
   buttons: {
     flex: 3,
@@ -258,7 +313,7 @@ var styles = StyleSheet.create({
   button: {
     height: 50,
     width: 70,
-    backgroundColor: '#058ed9',
+    backgroundColor: '#483d3f',
     borderColor: '#f4ebd9',
     borderWidth: 1,
     borderRadius: 80,
@@ -271,18 +326,26 @@ var styles = StyleSheet.create({
   },
   newsFeedContainer: {
     // flex: 1
+    justifyContent: 'center',
+    flex: 1
+
   },
   foundationLogos:{
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     height: 200,
-    width: 375
+    width: 375,
+    backgroundColor: 'black',
+    opacity: .4,
   },
   newsFeedText: {
     color: 'white',
     fontSize: 40,
-    backgroundColor: 'rgba(0,0,0,0)'
+    backgroundColor: 'rgba(0,0,0,0)',
+    opacity: 1,
+    justifyContent: 'center',
+    alignSelf: 'center'
   },
   menuicon: {
     height: 40,
@@ -290,7 +353,7 @@ var styles = StyleSheet.create({
     marginBottom: 8,
   },
   searchBar: {
-    backgroundColor: "#f4ebd9"
+    backgroundColor: "#483d3f"
   }
 });
 
