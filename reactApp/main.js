@@ -143,6 +143,23 @@ class Main extends React.Component {
     .catch((err) => {
       console.log('error', err)
     });
+
+    fetch('https://polar-sands-99108.herokuapp.com/api/foundations/donations', {
+      method: 'GET',
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      console.log('got donations!',responseJson)
+
+  })
+    .catch((err) => {
+      console.log('error', err)
+    });
+
   }
 
   account() {
@@ -240,8 +257,7 @@ class Main extends React.Component {
     }
 
     changeAddress(street,city,state,country,zip) {
-      console.log('TRUTLES',street,city,state,country,zip)
-      console.log('updating address...')
+
       fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateAddress', {
         method: 'POST',
         credentials: "include",
