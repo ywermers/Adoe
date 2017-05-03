@@ -9,26 +9,9 @@ var qs = require('querystring');
 var request = require('request');
 
 var SparkPost = require('sparkpost');
-var client = new SparkPost();
+var sparky = new SparkPost(); // uses process.env.SPARKPOST_API_KEY
 
-client.transmissions.send({
-    content: {
-      from: 'testing@sparkpostbox.com',
-      subject: 'Hello, World!',
-      html:'<html><body><p>Testing SparkPost - the world\'s most awesomest email service!</p></body></html>'
-    },
-    recipients: [
-      {address: 'mathewson17@live.ca'}
-    ]
-  })
-  .then(data => {
-    console.log('Woohoo! You just sent your first mailing!');
-    console.log(data);
-  })
-  .catch(err => {
-    console.log('Whoops! Something went wrong');
-    console.log(err);
-  });
+// Fix the foundation oauth return
 
 router.use(function(req, res, next){
   if(!req.user) {
@@ -38,36 +21,64 @@ router.use(function(req, res, next){
   }
 });
 
+
+router.post('/api/foundations/composeEmail', function(req, res) {
+  var foundation
+  console.log('trying to send an email')
+ Foundation.findOne({_id: req.session.passport.user})
+ .then(tmpFoundation => {
+   foundation = tmpFoundation;
+   console.log('foundation', foundation);
+   console.log('foundation emails length', foundation.subscribedEmails.length)
+   if(!foundation) throw new Error('Couldn\'t find the foundation');
+    else if(!foundation.subscribedEmails.length) throw new Error('no users subscirbed to your foundation');
+   else {
+     return foundation.subscribedEmails.map((email) => {
+     console.log('map emails', email)
+     return {address: email}
+   })
+ }
+ })
+ .then(emails => {
+   console.log('mapped emails', emails)
+   return sparky.transmissions.send({
+     options: {
+       sandbox: true
+     },
+     content: {
+       from: foundation.email + process.env.SPARKPOST_SANDBOX_DOMAIN,
+       subject: req.body.subject ? req.body.subject : ' ',
+       html: '<html><body><p>Testing SparkPost - the world\'s best email service,</p></body></html>'
+     },
+     recipients: emails
+   })
+
+ }).then(data => {
+   console.log('EMAIL SENT');
+   console.log(data);
+   res.status(200).json({success: true});
+ }).catch(err => {
+   console.log('caught', err);
+   res.status(400).json({success: false, message: err.message});
+ })
+
+});
+
 router.get('/api/foundations/main', function(req, res) {
   res.render('index');
-})
+});
 
-
-
-router.post('/api/foundations/updateDescription', function(req, res){
+router.post('/api/foundations/updateDescription', function(req, res, next){
   Foundation.findOneAndUpdate({_id: req.session.passport.user},
     {description: req.body.description})
     .then((updated) =>{
       res.send('updated');
     }).catch((err) => {
       res.status(500).json(err);
-    });
-  });
+    })
+  })
 
 
-router.post('/api/foundations/subscribedEmails', function(req, res){
-
-
-});
-
-router.post('/api/foundations/sendEmail', function(req, res) {
-  console.log('foundation', req.session.passport)
-  // var data = {
-  //   from: req.session.passport.user
-  // }
-  // mailgun.messages().send()
-  //
-});
 
 router.get('/api/foundations/api/oauth',function(req,res) {
             res.redirect('https://connect.stripe.com/oauth/authorize' + '?' + qs.stringify({

@@ -21,7 +21,7 @@ router.post('/api/user/subscribe/email', function(req,res){
   })
   .then((tmpfoundation) => {
     foundation = tmpFoundation
-    foundation.update({$push : { subscribedEmails: user.email} }, {w:1}).exec()
+    foundation.update({$push : {subscribedEmails: user.email} }, {w:1}).exec()
   })
   .then((updated) => {
     user.update({$push :  {subscribedFoundations: foundation.name} }, {w:1}).exec()
@@ -111,7 +111,7 @@ router.post('/api/users/login',function(req,res){
   })
 })
 
-//To charge a card pass authToken, foundationToken, and amount
+//To charge a card pass authToken, foundationId, and amount
 router.post('/api/users/chargeCard',function(req,res){
   var platform_fee = parseInt(process.env.PERCENT_FEE) * req.body.amount;
   var user;
@@ -166,8 +166,11 @@ router.post('/api/users/taxReceipts', function(req, res){
      }).then((tempDonations) => {
        donations = tempDonations;
        var foundationIds = donations.map(donation=>donation.foundationId)
+       console.log('ids', foundationIds);
       return Foundation.find({_id : {$in: foundationIds}})
     }).then((foundations) =>{
+      console.log('foundations',foundations);
+      console.log('donations', donations);
         var returnJson = donations.map((donation)=>{
           var taxReceipt = {
             amount : donation.amount,
@@ -175,6 +178,8 @@ router.post('/api/users/taxReceipts', function(req, res){
             foundation: null
           }
           for(var i =0; i<foundations.length; i++){
+            console.log('foundID', donation.foundationId);
+            console.log('foundations',foundations[i]);
             if(donation.foundationId.equals(foundations[i]._id)){
               taxReceipt.foundation = foundations[i].name
             }
