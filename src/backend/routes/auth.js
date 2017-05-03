@@ -76,7 +76,7 @@ module.exports = function(passport) {
     .catch((err) => {
       console.error('err', err);
         if(err.code===11000) {
-          res.render("login",{error:'im so so so sorryr but there is already an account signed up with this email!'})
+          res.render("login",{error:'account with this email already exists'})
         }
         else {
       res.status(500).json(err)

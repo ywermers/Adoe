@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Link from 'react-router'
 import FileInput from 'react-file-input';
+
+
 //
 // import AccountInfo from './components/Account/AccountInfo.js'
 // import About from './components/About.js'
@@ -11,8 +13,8 @@ import FileInput from 'react-file-input';
 
 const mainDiv = {
    display:'flex',
-   width:"1700px",
-   height:'820px',
+   width:"1360px",
+   height:'640px',
    fontFamily:'Camphor, "Segoe UI", "Open Sans", sans-serif',
    backgroundColor:'#F1F5F9'
  };
@@ -118,7 +120,7 @@ class Main extends React.Component {
 
   componentWillMount() {
 
-    fetch('https://polar-sands-99108.herokuapp.com/api/foundations/userdata', {
+    fetch('http://localhost:3001/api/foundations/userdata', {
       method: 'GET',
       credentials: "include",
       headers: {
@@ -143,6 +145,25 @@ class Main extends React.Component {
     .catch((err) => {
       console.log('error', err)
     });
+
+    fetch('http://localhost:3001/api/foundations/donations', {
+      method: 'GET',
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        donations:responseJson
+      })
+
+  })
+    .catch((err) => {
+      console.log('error', err)
+    });
+
   }
 
   account() {
@@ -168,7 +189,7 @@ class Main extends React.Component {
 
   changeName(name) {
     console.log('updating name...')
-    fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateName', {
+    fetch('http://localhost:3001/api/foundations/updateName', {
       method: 'POST',
       credentials: "include",
       headers: {
@@ -193,7 +214,7 @@ class Main extends React.Component {
 
     changeEmail(email) {
       console.log('updating email...')
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateEmail', {
+      fetch('http://localhost:3001/api/foundations/updateEmail', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -217,7 +238,7 @@ class Main extends React.Component {
     changeInfo(info) {
 
       console.log('updating info...')
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateDescription', {
+      fetch('http://localhost:3001/api/foundations/updateDescription', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -240,9 +261,8 @@ class Main extends React.Component {
     }
 
     changeAddress(street,city,state,country,zip) {
-      console.log('TRUTLES',street,city,state,country,zip)
-      console.log('updating address...')
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateAddress', {
+
+      fetch('http://localhost:3001/api/foundations/updateAddress', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -311,7 +331,7 @@ class Main extends React.Component {
           <div style={{flex:1,display:'flex',justifyContent:'flex-start',marginLeft:'100',flexDirection:'column',alignItems:'flex-start'}}><span style={account} onClick={this.account.bind(this)}>Account</span><span style={subscribers} onClick={this.subscribers.bind(this)}>Subscribers</span>
            <span style={fundraisers} onClick={this.fundraisers.bind(this)}>Fundraisers</span></div></div>
       </div>
-        {this.state.main==="account"&& <AccountInfo changeAddress={this.changeAddress.bind(this)} logo={this.state.logo} changeInfo={this.changeInfo.bind(this)} changeEmail={this.changeEmail.bind(this)} changeName={this.changeName.bind(this)} country={this.state.country}
+        {this.state.main==="account"&& <AccountInfo donations={this.state.donations} changeAddress={this.changeAddress.bind(this)} logo={this.state.logo} changeInfo={this.changeInfo.bind(this)} changeEmail={this.changeEmail.bind(this)} changeName={this.changeName.bind(this)} country={this.state.country}
           logoURL={this.state.logoURL} email={this.state.email} zip={this.state.zip} city={this.state.city} state={this.state.state} fundraisers={this.state.fundraisers} streetAddress={this.state.streetAddress} accountName={this.state.accountName} accountInfo={this.state.accountInfo}/>}
         {this.state.main==="about"&& <About/>}
         {this.state.main==="fundraisers"&& <Fundraisers fundraisers={this.state.fundraisers}/>}
@@ -321,6 +341,8 @@ class Main extends React.Component {
     )
   }
 }
+
+
 
 
  class AccountInfo extends React.Component {
@@ -393,6 +415,17 @@ class Main extends React.Component {
       borderRadius: '10'
     }
 
+    const bodyStyling ={
+      flex:15,
+      display:'flex',
+      borderStyleLeft:'groove',
+      borderColorLeft:'red',
+      backgroundColor:"#F6F9FC",
+      fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif',
+      borderStyle:"groove",
+      overflowY: !this.state.info&&this.props.donations.length<5?"hidden":"scroll"
+    }
+
     return (
       <div id="currentApp" style={currentApp}>
         <div id="top" style={top}>
@@ -400,25 +433,55 @@ class Main extends React.Component {
           <h2 style={accountInfo} onClick={this.info.bind(this)}>Account Info</h2><h2  style={donations} onClick={this.stripe.bind(this)}>Donations</h2>
           </div>
           <div id="top right" style={{flex:1,display:'flex',justifyContent:'flex-end',alignItems:'flex-end',marginBottom:'10'}}>
-              {this.state.stripe&&<a href="/api/foundations/oauth/callback"><button style={buttonStyle}>Connect to Stripe</button></a>}
+              {this.state.stripe&&<a href='/api/foundations/api/oauth'><button style={buttonStyle}>Connect to Stripe</button></a>}
               {this.state.info&&<a href="/api/foundations/logout">Logout</a>}
           </div>
         </div>
-        <div id="body" style={{
-        flex:15,
-        display:'flex',
-        borderStyleLeft:'groove',
-        borderColorLeft:'red',
-        backgroundColor:"#F6F9FC",
-        fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif',
-        borderStyle:"groove",
-        overflowY: this.state.info&&"scroll"
-      }}>
+        <div id="body" style={bodyStyling}>
         {this.state.info===true&&
         <Description changeAddress={this.props.changeAddress} changeName={this.props.changeName} changeEmail={this.props.changeEmail} changeInfo={this.props.changeInfo} country={this.props.country}
         logoURL={this.props.logoURL} email={this.props.email } zip={this.props.zip} state={this.props.state} city={this.props.city} streetAddress={this.props.streetAddress} name={this.props.accountName} info={this.props.accountInfo}/>}
-        {this.state.stripe===true&&<div style={{flex:1,display:'flex',alignItems:'flex-start',justifyContent:'center'}}><div style={{marginTop:'90'}}><h2>You have not yet recevied any donations</h2></div></div>}
+        {this.state.stripe===true&&<Donations donations={this.props.donations}/>}
         </div>
+      </div>
+    )
+  }
+}
+
+  class Donations extends React.Component {
+
+  render() {
+    var donationsLength=this.props.donations.length
+    var addHeight=900+(donationsLength-4)*100
+    const buttonStyle= {
+      backgroundColor:'#555ABF',
+      color:'white',
+      height:'30',
+      width:'150',
+      fontSize:'15',
+      borderRadius: '10'
+    }
+    const mainBox={
+      display:'flex',
+      flex:1,
+      flexDirection:'column',
+      height:donationsLength>4&&addHeight.toString()
+
+    }
+
+
+    var donationArr=[]
+
+    var donations=this.props.donations.forEach((donation)=>{
+      donationArr.push(<div style={{flex:1,borderColor:'gray', borderWidth:'1px',borderBottomStyle:'solid',display:'flex'}}><div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center'}}>{donation.userName}</div>
+                                                                        <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{donation.amount}</div><div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{donation.createdTime}</div></div>)
+    })
+
+
+    return (
+      <div id="MB" style={mainBox}>
+          <div style={{flex:1,borderColor:'gray',borderBottomStyle:'solid', borderWidth:'5px',display:'flex',alignItems:'center',fontSize:25,fontFamily:'Arial Black',backgroundColor:'#F6F9FC',paddingLeft:'20'}}>Donations</div>
+        {donationArr}
       </div>
     )
   }
@@ -492,7 +555,7 @@ class Main extends React.Component {
     return (<div id="master" style={{fontFamily:'Camphor, "Segoe UI", "Open Sans", sans-serif',display:'flex',flex:1,flexDirection:'column',height:1000}}>
               {this.state.modal&&<DescriptionModal type={this.state.type} modalContent={this.state.modalContent} name={this.props.name} info={this.props.info} closeModal={this.closeModal.bind(this)} show={this.state.descriptionshow} changeEmail={this.props.changeEmail}  changeName={this.props.changeName}/>}
                 {this.state.addressmodal&&<AddressModal changeAddress={this.props.changeAddress} streetAddress={this.props.streetAddress} city={this.props.city} country={this.props.country} state={this.props.state} zip={this.props.zip} closeModal={this.closeModal.bind(this)} show={this.state.addressshow} />}
-                {this.state.infomodal&&<InfoModal changeInfo={this.props.changeInfo}show={this.state.infoshow} modalContent={this.state.modalContent} closeModal={this.closeModal.bind(this)}/>}
+                {this.state.infomodal&&<InfoModal info={this.props.info} changeInfo={this.props.changeInfo}show={this.state.infoshow} modalContent={this.state.modalContent} closeModal={this.closeModal.bind(this)}/>}
 
               <div style={{flex:1,borderColor:'gray',borderBottomStyle:'solid', borderWidth:'5px',display:'flex',alignItems:'center',fontSize:25,fontFamily:'Arial Black',backgroundColor:'#F6F9FC',paddingLeft:'20'}}>Account</div>
 
@@ -533,7 +596,7 @@ class Main extends React.Component {
     super(props)
     this.state={
       editDescription:this.props.info,
-      newValue:null
+      newValue:this.props.name
     }
   }
 
@@ -621,7 +684,7 @@ class Main extends React.Component {
     super(props)
     this.state={
       editDescription:this.props.info,
-      newValue:null
+      newValue:this.props.info
     }
   }
 
@@ -754,9 +817,9 @@ class Main extends React.Component {
       backgroundColor:'#555ABF',
       color:'white',
       height:'50',
-      width:'150',
       fontSize:'15',
-      borderRadius: '10'
+      borderRadius: '10',
+      marginLeft:'200'
     }
 
     // Render nothing if the "show" prop is false
@@ -784,6 +847,7 @@ class Main extends React.Component {
       marginLeft:'600',
       padding: 30,
       display:'flex',
+      justifyContent:'center',
       flexDirection:'column'
     };
 
