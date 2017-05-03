@@ -28,15 +28,20 @@ res.sendFile(path.join(__dirname, '../../../public/index.html'))
 
 
 router.get('/api/foundations/donations',function(req,res) {
-  Foundation.findOne({_id:req.session.passport.user},function(err,foundation) {
-    if(err) {console.log(err)}
-    if(foundation) {
-      Donation.find({foundationId:foundation._id},function(err,donations) {
-        console.log(donations)
+  Foundation.findOne({_id:req.session.passport.user})
+  .then((foundation)=> {
+    return Donation.find({foundationId:foundation._id})
+    .then((donations)=> {
+      res.json(donations)
+
     })
-  }
+  })
+  .catch((err)=>{
+    console.log('error getting donations')
+    res.json(err)
+  })
 })
-})
+
 
 
 

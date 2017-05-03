@@ -89,7 +89,7 @@ router.post('/api/users/login',function(req,res){
 
 
 
-//To charge a card pass authToken, foundationToken, and amount
+//To charge a card pass authToken, foundationToken, and amount//
 router.post('/api/users/chargeCard',function(req,res){
   var platform_fee = parseInt(process.env.PERCENT_FEE) * req.body.amount;
   var user;
@@ -100,7 +100,9 @@ router.post('/api/users/chargeCard',function(req,res){
       user = tempUser;
       return Foundation.findOne({_id: req.body.foundationToken})
     }).then((tempFoundation) =>{
+
       foundation = tempFoundation
+      console.log('foundation!!',tempFoundation)
       return stripe.tokens.create({
         customer: user.stripe.customerID,
       }, {
@@ -127,7 +129,6 @@ router.post('/api/users/chargeCard',function(req,res){
       return donation.save()
     }).then((donation) =>{
       console.log('donation', donation);
-      console.log('user', user);
       return user.update({$push : {donationID : donation._id} }, {w:1}).exec()
     }).then((updated) =>{
       return foundation.update({$push : {donationID : donation._id} }, {w:1}).exec()
