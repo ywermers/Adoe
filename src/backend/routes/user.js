@@ -120,15 +120,21 @@ router.post('/api/users/chargeCard',function(req,res){
     .then((tempUser) => {
       console.log('urser1',tempUser);
       user = tempUser;
+      if(!user){
+        console.log('user not found')
+        throw new Error('user not found');
+      }
       return Foundation.findOne({_id: req.body.foundationToken})
     }).then((tempFoundation) =>{
       foundation = tempFoundation
+      if(!foundation) throw new Error('foundation not found');
       return stripe.tokens.create({
         customer: user.stripe.customerID,
       },{
         stripe_account: foundation.stripeUserId
       });
     }).then((token) => {
+      console.log('token',token);
       return stripe.charges.create({
         amount: req.body.amount,
         currency: "usd",
@@ -151,11 +157,10 @@ router.post('/api/users/chargeCard',function(req,res){
       console.log('user', user);
       return user.update({$push : {donationID : donation._id} }, {w:1}).exec()
     }).then((updated) =>{
-      return foundation.update({$push : {donationID : donation._id} }, {w:1}).exec()
-    }).then((updated) =>{
       res.json({"success": true})
     }).catch((err) => {
-      res.status(500).json({err:err, message: "cannot charge this account"});
+      console.log('caught error', err)
+      res.status(400).json({err:err.message, message: "cannot charge this account"});
     });
 });
 
@@ -168,7 +173,7 @@ router.post('/api/users/taxReceipts', function(req, res){
      }).then((tempDonations) => {
        donations = tempDonations;
        var foundationIds = donations.map(donation=>donation.foundationId)
-       console.log('ids', foundationIds);
+       console.log('foundationIds');
       return Foundation.find({_id : {$in: foundationIds}})
     }).then((foundations) =>{
       console.log('foundations',foundations);
