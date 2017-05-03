@@ -28,6 +28,7 @@ res.sendFile(path.join(__dirname, '../../../public/index.html'))
 
 
 router.get('/api/foundations/donations',function(req,res) {
+  console.log('hit')
   Foundation.findOne({_id:req.session.passport.user})
   .then((foundation)=> {
     return Donation.find({foundationId:foundation._id})
@@ -41,11 +42,6 @@ router.get('/api/foundations/donations',function(req,res) {
     res.json(err)
   })
 })
-
-
-
-
-
 
 
 

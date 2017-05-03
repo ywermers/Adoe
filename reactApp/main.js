@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Link from 'react-router'
 import FileInput from 'react-file-input';
+
+
 //
 // import AccountInfo from './components/Account/AccountInfo.js'
 // import About from './components/About.js'
@@ -11,8 +13,8 @@ import FileInput from 'react-file-input';
 
 const mainDiv = {
    display:'flex',
-   width:"1700px",
-   height:'820px',
+   width:"1360px",
+   height:'640px',
    fontFamily:'Camphor, "Segoe UI", "Open Sans", sans-serif',
    backgroundColor:'#F1F5F9'
  };
@@ -118,7 +120,7 @@ class Main extends React.Component {
 
   componentWillMount() {
 
-    fetch('https://polar-sands-99108.herokuapp.com/api/foundations/userdata', {
+    fetch('http://localhost:3001/api/foundations/userdata', {
       method: 'GET',
       credentials: "include",
       headers: {
@@ -144,7 +146,7 @@ class Main extends React.Component {
       console.log('error', err)
     });
 
-    fetch('https://polar-sands-99108.herokuapp.com/api/foundations/donations', {
+    fetch('http://localhost:3001/api/foundations/donations', {
       method: 'GET',
       credentials: "include",
       headers: {
@@ -153,7 +155,9 @@ class Main extends React.Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log('got donations!',responseJson)
+      this.setState({
+        donations:responseJson
+      })
 
   })
     .catch((err) => {
@@ -185,7 +189,7 @@ class Main extends React.Component {
 
   changeName(name) {
     console.log('updating name...')
-    fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateName', {
+    fetch('http://localhost:3001/api/foundations/updateName', {
       method: 'POST',
       credentials: "include",
       headers: {
@@ -210,7 +214,7 @@ class Main extends React.Component {
 
     changeEmail(email) {
       console.log('updating email...')
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateEmail', {
+      fetch('http://localhost:3001/api/foundations/updateEmail', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -234,7 +238,7 @@ class Main extends React.Component {
     changeInfo(info) {
 
       console.log('updating info...')
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateDescription', {
+      fetch('http://localhost:3001/api/foundations/updateDescription', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -258,7 +262,7 @@ class Main extends React.Component {
 
     changeAddress(street,city,state,country,zip) {
 
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateAddress', {
+      fetch('http://localhost:3001/api/foundations/updateAddress', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -411,6 +415,17 @@ class Main extends React.Component {
       borderRadius: '10'
     }
 
+    const bodyStyling ={
+      flex:15,
+      display:'flex',
+      borderStyleLeft:'groove',
+      borderColorLeft:'red',
+      backgroundColor:"#F6F9FC",
+      fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif',
+      borderStyle:"groove",
+      overflowY: !this.state.info&&this.props.donations.length<5?"hidden":"scroll"
+    }
+
     return (
       <div id="currentApp" style={currentApp}>
         <div id="top" style={top}>
@@ -422,16 +437,7 @@ class Main extends React.Component {
               {this.state.info&&<a href="/api/foundations/logout">Logout</a>}
           </div>
         </div>
-        <div id="body" style={{
-        flex:15,
-        display:'flex',
-        borderStyleLeft:'groove',
-        borderColorLeft:'red',
-        backgroundColor:"#F6F9FC",
-        fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif',
-        borderStyle:"groove",
-        overflowY: this.state.info&&"scroll"
-      }}>
+        <div id="body" style={bodyStyling}>
         {this.state.info===true&&
         <Description changeAddress={this.props.changeAddress} changeName={this.props.changeName} changeEmail={this.props.changeEmail} changeInfo={this.props.changeInfo} country={this.props.country}
         logoURL={this.props.logoURL} email={this.props.email } zip={this.props.zip} state={this.props.state} city={this.props.city} streetAddress={this.props.streetAddress} name={this.props.accountName} info={this.props.accountInfo}/>}
@@ -445,6 +451,8 @@ class Main extends React.Component {
   class Donations extends React.Component {
 
   render() {
+    var donationsLength=this.props.donations.length
+    var addHeight=900+(donationsLength-4)*100
     const buttonStyle= {
       backgroundColor:'#555ABF',
       color:'white',
@@ -453,11 +461,27 @@ class Main extends React.Component {
       fontSize:'15',
       borderRadius: '10'
     }
+    const mainBox={
+      display:'flex',
+      flex:1,
+      flexDirection:'column',
+      height:donationsLength>4&&addHeight.toString()
+
+    }
+
+
+    var donationArr=[]
+
+    var donations=this.props.donations.forEach((donation)=>{
+      donationArr.push(<div style={{flex:1,borderColor:'gray', borderWidth:'1px',borderBottomStyle:'solid',display:'flex'}}><div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center'}}>{donation.userName}</div>
+                                                                        <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{donation.amount}</div><div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{donation.createdTime}</div></div>)
+    })
 
 
     return (
-      <div style={{flex:1}}>
-        {this.props.donations}
+      <div id="MB" style={mainBox}>
+          <div style={{flex:1,borderColor:'gray',borderBottomStyle:'solid', borderWidth:'5px',display:'flex',alignItems:'center',fontSize:25,fontFamily:'Arial Black',backgroundColor:'#F6F9FC',paddingLeft:'20'}}>Donations</div>
+        {donationArr}
       </div>
     )
   }
@@ -531,7 +555,7 @@ class Main extends React.Component {
     return (<div id="master" style={{fontFamily:'Camphor, "Segoe UI", "Open Sans", sans-serif',display:'flex',flex:1,flexDirection:'column',height:1000}}>
               {this.state.modal&&<DescriptionModal type={this.state.type} modalContent={this.state.modalContent} name={this.props.name} info={this.props.info} closeModal={this.closeModal.bind(this)} show={this.state.descriptionshow} changeEmail={this.props.changeEmail}  changeName={this.props.changeName}/>}
                 {this.state.addressmodal&&<AddressModal changeAddress={this.props.changeAddress} streetAddress={this.props.streetAddress} city={this.props.city} country={this.props.country} state={this.props.state} zip={this.props.zip} closeModal={this.closeModal.bind(this)} show={this.state.addressshow} />}
-                {this.state.infomodal&&<InfoModal changeInfo={this.props.changeInfo}show={this.state.infoshow} modalContent={this.state.modalContent} closeModal={this.closeModal.bind(this)}/>}
+                {this.state.infomodal&&<InfoModal info={this.props.info} changeInfo={this.props.changeInfo}show={this.state.infoshow} modalContent={this.state.modalContent} closeModal={this.closeModal.bind(this)}/>}
 
               <div style={{flex:1,borderColor:'gray',borderBottomStyle:'solid', borderWidth:'5px',display:'flex',alignItems:'center',fontSize:25,fontFamily:'Arial Black',backgroundColor:'#F6F9FC',paddingLeft:'20'}}>Account</div>
 
@@ -572,7 +596,7 @@ class Main extends React.Component {
     super(props)
     this.state={
       editDescription:this.props.info,
-      newValue:null
+      newValue:this.props.name
     }
   }
 
@@ -660,7 +684,7 @@ class Main extends React.Component {
     super(props)
     this.state={
       editDescription:this.props.info,
-      newValue:null
+      newValue:this.props.info
     }
   }
 
@@ -793,9 +817,9 @@ class Main extends React.Component {
       backgroundColor:'#555ABF',
       color:'white',
       height:'50',
-      width:'150',
       fontSize:'15',
-      borderRadius: '10'
+      borderRadius: '10',
+      marginLeft:'200'
     }
 
     // Render nothing if the "show" prop is false
@@ -823,6 +847,7 @@ class Main extends React.Component {
       marginLeft:'600',
       padding: 30,
       display:'flex',
+      justifyContent:'center',
       flexDirection:'column'
     };
 

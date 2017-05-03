@@ -24797,8 +24797,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var mainDiv = {
   display: 'flex',
-  width: "1700px",
-  height: '820px',
+  width: "1360px",
+  height: '640px',
   fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif',
   backgroundColor: '#F1F5F9'
 };
@@ -24907,7 +24907,7 @@ var Main = function (_React$Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/userdata', {
+      fetch('http://localhost:3001/api/foundations/userdata', {
         method: 'GET',
         credentials: "include",
         headers: {
@@ -24932,7 +24932,7 @@ var Main = function (_React$Component) {
         console.log('error', err);
       });
 
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/donations', {
+      fetch('http://localhost:3001/api/foundations/donations', {
         method: 'GET',
         credentials: "include",
         headers: {
@@ -24941,7 +24941,9 @@ var Main = function (_React$Component) {
       }).then(function (response) {
         return response.json();
       }).then(function (responseJson) {
-        console.log('got donations!', responseJson);
+        _this2.setState({
+          donations: responseJson
+        });
       }).catch(function (err) {
         console.log('error', err);
       });
@@ -24980,7 +24982,7 @@ var Main = function (_React$Component) {
       var _this3 = this;
 
       console.log('updating name...');
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateName', {
+      fetch('http://localhost:3001/api/foundations/updateName', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -25006,7 +25008,7 @@ var Main = function (_React$Component) {
       var _this4 = this;
 
       console.log('updating email...');
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateEmail', {
+      fetch('http://localhost:3001/api/foundations/updateEmail', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -25032,7 +25034,7 @@ var Main = function (_React$Component) {
       var _this5 = this;
 
       console.log('updating info...');
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateDescription', {
+      fetch('http://localhost:3001/api/foundations/updateDescription', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -25057,7 +25059,7 @@ var Main = function (_React$Component) {
     value: function changeAddress(street, city, state, country, zip) {
       var _this6 = this;
 
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateAddress', {
+      fetch('http://localhost:3001/api/foundations/updateAddress', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -25244,6 +25246,17 @@ var AccountInfo = function (_React$Component2) {
         borderRadius: '10'
       };
 
+      var bodyStyling = {
+        flex: 15,
+        display: 'flex',
+        borderStyleLeft: 'groove',
+        borderColorLeft: 'red',
+        backgroundColor: "#F6F9FC",
+        fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif',
+        borderStyle: "groove",
+        overflowY: !this.state.info && this.props.donations.length < 5 ? "hidden" : "scroll"
+      };
+
       return _react2.default.createElement(
         'div',
         { id: 'currentApp', style: currentApp },
@@ -25285,16 +25298,7 @@ var AccountInfo = function (_React$Component2) {
         ),
         _react2.default.createElement(
           'div',
-          { id: 'body', style: {
-              flex: 15,
-              display: 'flex',
-              borderStyleLeft: 'groove',
-              borderColorLeft: 'red',
-              backgroundColor: "#F6F9FC",
-              fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif',
-              borderStyle: "groove",
-              overflowY: this.state.info && "scroll"
-            } },
+          { id: 'body', style: bodyStyling },
           this.state.info === true && _react2.default.createElement(Description, { changeAddress: this.props.changeAddress, changeName: this.props.changeName, changeEmail: this.props.changeEmail, changeInfo: this.props.changeInfo, country: this.props.country,
             logoURL: this.props.logoURL, email: this.props.email, zip: this.props.zip, state: this.props.state, city: this.props.city, streetAddress: this.props.streetAddress, name: this.props.accountName, info: this.props.accountInfo }),
           this.state.stripe === true && _react2.default.createElement(Donations, { donations: this.props.donations })
@@ -25318,6 +25322,8 @@ var Donations = function (_React$Component3) {
   _createClass(Donations, [{
     key: 'render',
     value: function render() {
+      var donationsLength = this.props.donations.length;
+      var addHeight = 900 + (donationsLength - 4) * 100;
       var buttonStyle = {
         backgroundColor: '#555ABF',
         color: 'white',
@@ -25326,11 +25332,47 @@ var Donations = function (_React$Component3) {
         fontSize: '15',
         borderRadius: '10'
       };
+      var mainBox = {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        height: donationsLength > 4 && addHeight.toString()
+
+      };
+
+      var donationArr = [];
+
+      var donations = this.props.donations.forEach(function (donation) {
+        donationArr.push(_react2.default.createElement(
+          'div',
+          { style: { flex: 1, borderColor: 'gray', borderWidth: '1px', borderBottomStyle: 'solid', display: 'flex' } },
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' } },
+            donation.userName
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' } },
+            donation.amount
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' } },
+            donation.createdTime
+          )
+        ));
+      });
 
       return _react2.default.createElement(
         'div',
-        { style: { flex: 1 } },
-        this.props.donations
+        { id: 'MB', style: mainBox },
+        _react2.default.createElement(
+          'div',
+          { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', alignItems: 'center', fontSize: 25, fontFamily: 'Arial Black', backgroundColor: '#F6F9FC', paddingLeft: '20' } },
+          'Donations'
+        ),
+        donationArr
       );
     }
   }]);
@@ -25420,7 +25462,7 @@ var Description = function (_React$Component4) {
         { id: 'master', style: { fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif', display: 'flex', flex: 1, flexDirection: 'column', height: 1000 } },
         this.state.modal && _react2.default.createElement(DescriptionModal, { type: this.state.type, modalContent: this.state.modalContent, name: this.props.name, info: this.props.info, closeModal: this.closeModal.bind(this), show: this.state.descriptionshow, changeEmail: this.props.changeEmail, changeName: this.props.changeName }),
         this.state.addressmodal && _react2.default.createElement(AddressModal, { changeAddress: this.props.changeAddress, streetAddress: this.props.streetAddress, city: this.props.city, country: this.props.country, state: this.props.state, zip: this.props.zip, closeModal: this.closeModal.bind(this), show: this.state.addressshow }),
-        this.state.infomodal && _react2.default.createElement(InfoModal, { changeInfo: this.props.changeInfo, show: this.state.infoshow, modalContent: this.state.modalContent, closeModal: this.closeModal.bind(this) }),
+        this.state.infomodal && _react2.default.createElement(InfoModal, { info: this.props.info, changeInfo: this.props.changeInfo, show: this.state.infoshow, modalContent: this.state.modalContent, closeModal: this.closeModal.bind(this) }),
         _react2.default.createElement(
           'div',
           { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', alignItems: 'center', fontSize: 25, fontFamily: 'Arial Black', backgroundColor: '#F6F9FC', paddingLeft: '20' } },
@@ -25560,7 +25602,7 @@ var DescriptionModal = function (_React$Component5) {
 
     _this10.state = {
       editDescription: _this10.props.info,
-      newValue: null
+      newValue: _this10.props.name
     };
     return _this10;
   }
@@ -25665,7 +25707,7 @@ var InfoModal = function (_React$Component6) {
 
     _this11.state = {
       editDescription: _this11.props.info,
-      newValue: null
+      newValue: _this11.props.info
     };
     return _this11;
   }
@@ -25822,9 +25864,9 @@ var AddressModal = function (_React$Component7) {
         backgroundColor: '#555ABF',
         color: 'white',
         height: '50',
-        width: '150',
         fontSize: '15',
-        borderRadius: '10'
+        borderRadius: '10',
+        marginLeft: '200'
       };
 
       // Render nothing if the "show" prop is false
@@ -25852,6 +25894,7 @@ var AddressModal = function (_React$Component7) {
         marginLeft: '600',
         padding: 30,
         display: 'flex',
+        justifyContent: 'center',
         flexDirection: 'column'
       };
 
