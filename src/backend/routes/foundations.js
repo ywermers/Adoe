@@ -10,6 +10,8 @@ var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET)
 var qs = require('querystring');
 var request = require('request');
 
+var SparkPost = require('sparkpost');
+var sparky = new SparkPost(); // uses process.env.SPARKPOST_API_KEY
 
 // Fix the foundation oauth return
 
@@ -26,6 +28,51 @@ res.sendFile(path.join(__dirname, '../../../public/index.html'))
 })
 
 
+router.post('/api/foundations/composeEmail', function(req, res) {
+  var foundation
+  console.log('trying to send an email')
+ Foundation.findOne({_id: req.session.passport.user})
+ .then(tmpFoundation => {
+   foundation = tmpFoundation;
+   console.log('foundation', foundation);
+   console.log('foundation emails length', foundation.subscribedEmails.length)
+   if(!foundation) throw new Error('Couldn\'t find the foundation');
+    else if(!foundation.subscribedEmails.length) throw new Error('no users subscirbed to your foundation');
+   else {
+     return foundation.subscribedEmails.map((email) => {
+     console.log('map emails', email)
+     return {address: email}
+   })
+ }
+ })
+ .then(emails => {
+   console.log('mapped emails', emails)
+   return sparky.transmissions.send({
+     options: {
+       sandbox: true
+     },
+     content: {
+       from: foundation.email + process.env.SPARKPOST_SANDBOX_DOMAIN,
+       subject: req.body.subject ? req.body.subject : ' ',
+       html: '<html><body><p>Testing SparkPost - the world\'s best email service,</p></body></html>'
+     },
+     recipients: emails
+   })
+
+ }).then(data => {
+   console.log('EMAIL SENT');
+   console.log(data);
+   res.status(200).json({success: true});
+ }).catch(err => {
+   console.log('caught', err);
+   res.status(400).json({success: false, message: err.message});
+ })
+
+});
+
+router.get('/api/foundations/main', function(req, res) {
+  res.render('index');
+});
 
 router.get('/api/foundations/donations',function(req,res) {
   console.log('hit')

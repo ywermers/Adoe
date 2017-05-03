@@ -33,7 +33,6 @@ module.exports = function(passport) {
   });
 
   router.get('/api/foundations/login', function(req,res){
-
     res.render('login');
   });
 
@@ -75,6 +74,7 @@ module.exports = function(passport) {
       res.render('login')
     })
     .catch((err) => {
+      console.error('err', err);
         if(err.code===11000) {
           res.render("login",{error:'account with this email already exists'})
         }
