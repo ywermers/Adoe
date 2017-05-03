@@ -33,6 +33,7 @@ module.exports = function(passport) {
   });
 
   router.get('/api/foundations/login', function(req,res){
+
     res.render('login');
   });
 
@@ -60,18 +61,18 @@ module.exports = function(passport) {
       password : req.body.password,
       phoneNumber: req.body.phoneNumber,
       streetAddress: req.body.streetAddress,
-      city:req.body.city,
-      ustate:req.body.ustate,
-      zipCode:req.body.zipCode,
-      country:req.body.country,
+      city: req.body.city,
+      ustate: req.body.ustate,
+      zipCode: req.body.zipCode,
+      country: req.body.country,
       description: req.body.description,
-      logoURL: req.file.location
+      logoURL: req.file ? req.file.location : "https://s3-us-west-1.amazonaws.com/adoe/ghost_person_200x200_v1.png"
     })
     console.log(foundation)
     foundation.save()
     .then((x)=>{
       console.log('foundation saved')
-      res.render('stripe')
+      res.render('login')
     })
     .catch((err) => {
         if(err.code===11000) {

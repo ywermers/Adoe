@@ -7,6 +7,7 @@ import {
   View,
   Animated,
   Alert,
+  AsyncStorage,
   Button,
   TouchableHighlight,
   TouchableOpacity,
@@ -17,181 +18,343 @@ import {
 } from 'react-native';
 import SearchBar from 'react-native-material-design-searchbar';
 import Modal from 'react-native-modal';
-var ScrollingMenu = require('react-native-scrolling-menu');
-var Drawer = require('react-native-drawer')
+import { Container, Content, List, ListItem, Thumbnail, Body, Drawer } from 'native-base';
+import  ScrollingMenu from 'react-native-scrolling-menu';
+import Autocomplete from 'react-native-autocomplete-input'
+// var Drawer = require('react-native-drawer')
 var HumanFund= require('../foundation/HumanFund')
+var SideBar = require('./SideBar')
+var Foundation = require('./FoundationPage')
 
 
 
 export default class Newsfeed extends Component {
-
+drawer = Object
 onClick(itemIndex) {
   console.log("Selected: " + items[itemNum]);
 }
 constructor(props) {
    super(props);
-   this.state = { text: '  SearchBar' };
+   this.state= {
+     str: '',
+     text: '',
+     foundations:null,
+     query:""
+   }
+
+
 }
-state = {
-    isModalVisible: false
+componentWillMount(){
+  var user = AsyncStorage.getItem('user');
+  fetch('https://polar-sands-99108.herokuapp.com/api/users/newsfeed', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      authToken: user.authToken,
+    })
+  })
+  .then((response) => response.json())
+  .then((responseJson) => {
+    console.log('response',responseJson);
+      if(responseJson.success){
+        this.setState({
+          foundations: responseJson.foundations,
+        })
+      } else {
+      console.log('newfeed error');
+      this.setState({
+        responseJsonError: responseJson.error,
+      });
+    }
+    console.log('responseJson', responseJson)
+  })
+  .catch((err) => {
+    console.log('unicorn', err)
+  });
+}
+
+foundationNavigation(foundation){
+console.log('foundation', Foundation);
+    this.props.navigator.push({
+      component: Foundation,
+      title: foundation.name,
+      passProps: {
+        foundation: foundation
+      }
+    })
+}
+_filterData(value){
+  if (value === "") {
+    return [];
   }
+  var len =value.length;
+  var final = false;
+  var store = ["red"]
+  if(this.state.foundations){
+    var foundationTitles= this.state.foundations.map((foundation)=> {
+      return foundation.name});
+    store = foundationTitles;
+  }
+  var filtered = store.filter((str)=> {
+  if(str === value) {
+    final = true;
+  }
+  return value.toLowerCase() === str.substring(0, len).toLowerCase();
+})
+if (final) {
+  return []
+}
+return filtered
 
-  _showModal = () => this.setState({ isModalVisible: true })
-
-  _hideModal = () => this.setState({ isModalVisible: false })
-
-
+}
 
 render () {
+
+  const { query } = this.state;
+  const data = this._filterData(query) //make function for filter data
+
+
+  var closeDrawer = () => {
+    this.drawer._root.close()
+  }
+
+  var openDrawer = () => {
+    console.log(this.drawer);
+    this.drawer._root.open()
+  }
+  console.log('foundations',this.state.foundations);
+  var foundationsList;
+  if(this.state.foundations){
+     foundationsList = this.state.foundations.map((foundation ,i) =>{
+      return (<View key={i} style={styles.newsFeedContainer}>
+
+              <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
+         <Image
+         style={styles.foundationLogos}
+         source={{uri: foundation.logoURL}}>
+         <Text style={styles.newsFeedText}>
+           {foundation.name}
+           </Text>
+           </Image>
+       </TouchableOpacity>
+      </View>)
+    });
+
+      console.log('foundationsList', foundationsList);
+  }
   return (
+    <Drawer ref={(ref) => { this.drawer = ref; }}
+      content={<SideBar navigator={this.props.navigator} />}
+      onClose={() => closeDrawer()} >
 
-<View stlye={styles.main}>
+    <View style={{flex:1}}>
+        <View style={styles.top}>
 
-    <View style={{width:375, height: 150, backgroundColor: '#058ed9'}}>
-      <View style={{justifyContent: 'flex-start'}}>
-      <TouchableOpacity>
-        <Image
-          style={styles.menuicon}
-          source={require('../assets/menu.png')}
-        />
-      </TouchableOpacity>
-    </View>
+          <View style={styles.buttons}>
+              <TouchableOpacity onPress={() => openDrawer()}>
+                <Image
+                  style={styles.menuicon}
+                  source={require('../assets/menu.png')}
+                />
+              </TouchableOpacity>
 
-    <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-      <TouchableOpacity style={styles.button1}>
-        <Text style={styles.buttonText}>
-            Feed
-        </Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button2}>
-        <Text style={styles.buttonText}>
-          News
-        </Text>
-      </TouchableOpacity>
+              <TouchableOpacity style={styles.button}>
+                   <Text style={styles.buttonText}>
+                       Feed
+                   </Text>
+             </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button3}>
-        <Text style={styles.buttonText}>
-          Me
-        </Text>
-      </TouchableOpacity>
+             <TouchableOpacity style={styles.button}>
+                  <Text style={styles.buttonText}>
+                    News
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button}>
+                  <Text style={styles.buttonText}>
+                    Me
+                  </Text>
+             </TouchableOpacity>
+
+            </View>
+      </View>
+
+      <View style={styles.search}>
+
+          <Autocomplete
+            data={data}
+            defaultValue={query}
+            onChangeText={text => this.setState({ query: text })}
+            renderItem={data => (
+              <TouchableOpacity onPress={() => this.setState({ query: data })}>
+              <Text>{data}</Text>
+              </TouchableOpacity>
+              )}
+            />
 
       </View>
+
+      <View style={styles.newsFeed}>
+           <ScrollView automaticallyAdjustContentInsets={false}>
+            <List style={styles.test}>
+
+              {foundationsList ? <View>{foundationsList}</View> : null}
+            </List>
+            </ScrollView>
     </View>
 
-  <View style={{flex:1}}>
-
-     <TextInput style={styles.searchBar}
-        style={{height: 40, fontSize: 23, color: '#a39a92', borderColor: '#058ed9', borderWidth: 4}}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text} />
-  </View>
-
-  <View style={styles.foundationslist}>
-    <ScrollView>
-      <TouchableOpacity onPress={this.showModal}>
-      <Image
-        style={styles.hfb}
-        source={require('../foundation/buttonSample.png')}
-      />
-      </TouchableOpacity>
-      <Modal isVisible={this.state.isModalVisible}>
-          <View style={{ flex: 1 }}>
-            <Text>Hello!</Text>
-          </View>
-      </Modal>
-    </ScrollView>
-  </View>
-</View>
-
+      </View>
+    </Drawer>
     );
   }
 }
 
 
+// <View style={{width:375, topMargin:150, backgroundColor: '#058ed9', justifyContent: 'flex-start'}}>
+//  <View style={styles.main}>
+//
+//
+//  <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', backgroundColor: '#058ed9'}}>
+//
+//   <View style={{ backgroundColor: '#058ed9'}}>
+//     <TouchableOpacity>
+//       <Image
+//         style={styles.menuicon}
+//         source={require('../assets/menu.png')}
+//       />
+//     </TouchableOpacity>
+//   </View>
+//
+//   <View style={{justifyContent:'center'}}>
+//     <TouchableOpacity style={styles.button1}>
+//       <Text style={styles.buttonText}>
+//           Feed
+//       </Text>
+//     </TouchableOpacity>
+//
+//     <TouchableOpacity style={styles.button2}>
+//       <Text style={styles.buttonText}>
+//         News
+//       </Text>
+//     </TouchableOpacity>
+//
+//     <TouchableOpacity style={styles.button3}>
+//       <Text style={styles.buttonText}>
+//         Me
+//       </Text>
+//     </TouchableOpacity>
+//   </View>
+// </View>
+//
+// <View style={{flex:1}}>
+//
+//    <TextInput style={styles.searchBar}
+//       style={{height: 40, fontSize: 23, color: '#a39a92', borderColor: '#058ed9', borderWidth: 4}}
+//       onChangeText={(text) => this.setState({text})}
+//       value={this.state.text} />
+// </View>
+//
+// <View style={styles.foundationslist}>
+//   <ScrollView>
+//     <TouchableOpacity onPress={this.showModal}>
+//     <Image
+//       style={styles.hfb}
+//       source={require('../foundation/buttonSample.png')}
+//     />
+//     </TouchableOpacity>
+//     <Modal isVisible={this.state.isModalVisible}>
+//         <View style={{ flex: 1 }}>
+//           <Text>Hello!</Text>
+//         </View>
+//     </Modal>
+//   </ScrollView>
+// </View>
+// </View>
+// </View>
 
-
-
+  //  <View style={{width:375, height: 150, backgroundColor: '#058ed9', justifyContent: 'flex-start'}}>
 var styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    flexDirection: 'column'
+  },
+  top: {
+    flexDirection:'column',
+    justifyContent:'center',
+    backgroundColor: '#483d3f',
+    width: 375,
+    height: 150,
+    flex: 2
+  },
+  newsFeed: {
+    backgroundColor: '#483d3f',
+    flex: 5,
+
+  },
+  buttons: {
+    flex: 3,
+    flexDirection:'row',
+    paddingLeft: 12,
+    paddingBottom: 12,
+    alignItems: 'flex-end'
+  },
+  search: {
+    flex:1,
+  },
   buttonText: {
     fontSize: 20,
     color: '#f4ebd9',
     alignSelf: 'center'
   },
-
-  buttons: {
-    paddingLeft: 10
-  },
-
-  button1: {
+  button: {
     height: 50,
     width: 70,
-    backgroundColor: '#058ed9',
+    backgroundColor: '#483d3f',
     borderColor: '#f4ebd9',
     borderWidth: 1,
     borderRadius: 80,
     marginBottom: 10,
     justifyContent: 'center',
-    top: 1,
-    left: 10,
+    top: 7,
+    left: 50,
+    marginLeft:7,
     borderRadius:10,
-    paddingLeft: 5,
-    paddingRight: 5,
-    top: 40,
-    left: 1
   },
-
-  button2: {
-    height: 50,
-    width: 70,
-    backgroundColor: '#058ed9',
-    borderColor: '#f4ebd9',
-    borderWidth: 1,
-    borderRadius: 80,
-    marginBottom: 10,
+  newsFeedContainer: {
+    // flex: 1
     justifyContent: 'center',
-    top: 1,
-    left: 10,
-    borderRadius:10,
-    top: 40
-  },
+    flex: 1
 
-  button3: {
-    height: 50,
-    width: 70,
-    backgroundColor: '#058ed9',
-    borderColor: '#f4ebd9',
-    borderWidth: 1,
-    borderRadius: 80,
-    marginBottom: 10,
+  },
+  foundationLogos:{
+    flex: 1,
     justifyContent: 'center',
-    top: 1,
-    left: 10,
-    borderRadius:10,
-    top: 40,
-    left: 20
+    alignItems: 'center',
+    height: 200,
+    width: 375,
+    backgroundColor: 'black',
+    opacity: .4,
   },
-
+  newsFeedText: {
+    color: 'white',
+    fontSize: 40,
+    backgroundColor: 'rgba(0,0,0,0)',
+    opacity: 1,
+    justifyContent: 'center',
+    alignSelf: 'center'
+  },
   menuicon: {
-    alignItems: "flex-start",
     height: 40,
     width:40,
-    left: 10,
-    top: 86
+    marginBottom: 8,
   },
-  hfb:{
-    justifyContent: "center",
-    height: 138,
-    width:375,
-    bottom: 70
-
-  },
-
   searchBar: {
-    top: 200
+    backgroundColor: "#483d3f"
   }
-
-
 });
 
 
