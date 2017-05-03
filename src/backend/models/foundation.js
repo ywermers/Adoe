@@ -45,6 +45,9 @@ var foundationSchema  = mongoose.Schema({
   logoURL: {
     type: String
   },
+  donationID: [{
+    type: mongoose.Schema.Types.ObjectId
+  }],
   stripeAccessToken: {
     type: String
   },
