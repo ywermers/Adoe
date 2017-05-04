@@ -45,15 +45,17 @@ constructor(props) {
 
 }
 componentWillMount(){
-  var user = AsyncStorage.getItem('user');
-  fetch('https://polar-sands-99108.herokuapp.com/api/users/newsfeed', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      authToken: user.authToken,
+  var user = AsyncStorage.getItem('user')
+  .then((user) => {
+    return fetch('https://polar-sands-99108.herokuapp.com/api/users/newsfeed', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        authToken: JSON.parse(user).authToken,
+      })
     })
   })
   .then((response) => response.json())
@@ -87,33 +89,34 @@ console.log('foundation', Foundation);
     })
 }
 _filterData(value){
+  console.log("F U");
   if (value === "") {
     return [];
   }
-  var len =value.length;
+
+  var len = value.length;
   var final = false;
-  var store = ["red"]
+  var store
   if(this.state.foundations){
-    var foundationTitles= this.state.foundations.map((foundation)=> {
+    var store = this.state.foundations.map((foundation)=> {
       return foundation.name});
-    store = foundationTitles;
   }
+  console.log('store', store)
   var filtered = store.filter((str)=> {
   if(str === value) {
     final = true;
   }
-  return value.toLowerCase() === str.substring(0, len).toLowerCase();
+  console.log('str', str);
+  return value.substring(0, len).toLowerCase() === str.substring(0, len).toLowerCase() ? str : false
 })
-if (final) {
-  return []
-}
+console.log('filtered',filtered)
 return filtered
-
 }
 
 render () {
 
   const { query } = this.state;
+  console.log(query);
   const data = this._filterData(query) //make function for filter data
 
 
@@ -128,10 +131,14 @@ render () {
   console.log('foundations',this.state.foundations);
   var foundationsList;
   if(this.state.foundations){
-     foundationsList = this.state.foundations.map((foundation ,i) =>{
+    foundationsList = this.state.foundations.filter((foundation)=>
+        (foundation.name.startsWith(query))
+
+    )
+     foundationsList = foundationsList.map((foundation ,i) =>{
       return (<View key={i} style={styles.newsFeedContainer}>
 
-              <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
+      <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
          <Image
          style={styles.foundationLogos}
          source={{uri: foundation.logoURL}}>
@@ -183,7 +190,7 @@ render () {
             </View>
       </View>
 
-      <View style={styles.search}>
+
 
           <Autocomplete
             data={data}
@@ -196,13 +203,15 @@ render () {
               )}
             />
 
-      </View>
+
 
       <View style={styles.newsFeed}>
            <ScrollView automaticallyAdjustContentInsets={false}>
             <List style={styles.test}>
 
               {foundationsList ? <View>{foundationsList}</View> : null}
+
+
             </List>
             </ScrollView>
     </View>
@@ -325,7 +334,6 @@ var styles = StyleSheet.create({
     borderRadius:10,
   },
   newsFeedContainer: {
-    // flex: 1
     justifyContent: 'center',
     flex: 1
 
@@ -345,7 +353,7 @@ var styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
     opacity: 1,
     justifyContent: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   menuicon: {
     height: 40,
