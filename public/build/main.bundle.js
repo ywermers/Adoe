@@ -25370,7 +25370,21 @@ var Donations = function (_React$Component3) {
         _react2.default.createElement(
           'div',
           { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', alignItems: 'center', fontSize: 25, fontFamily: 'Arial Black', backgroundColor: '#F6F9FC', paddingLeft: '20' } },
-          'Donations'
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1 } },
+            'name'
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1 } },
+            'amount donated'
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1 } },
+            'date recieved'
+          )
         ),
         donationArr
       );
