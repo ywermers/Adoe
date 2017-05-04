@@ -25369,7 +25369,7 @@ var Donations = function (_React$Component3) {
         { id: 'MB', style: mainBox },
         _react2.default.createElement(
           'div',
-          { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', alignItems: 'center', fontFamily: 'Arial Black', backgroundColor: '#F6F9FC', paddingLeft: '20' } },
+          { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', fontFamily: 'Arial Black', backgroundColor: '#F6F9FC' } },
           _react2.default.createElement(
             'div',
             { style: { flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' } },

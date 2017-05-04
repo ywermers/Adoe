@@ -478,7 +478,7 @@ class Main extends React.Component {
 
     return (
       <div id="MB" style={mainBox}>
-          <div style={{flex:1,borderColor:'gray',borderBottomStyle:'solid', borderWidth:'5px',display:'flex',alignItems:'center',fontFamily:'Arial Black',backgroundColor:'#F6F9FC',paddingLeft:'20'}}>
+          <div style={{flex:1,borderColor:'gray',borderBottomStyle:'solid', borderWidth:'5px',display:'flex',fontFamily:'Arial Black',backgroundColor:'#F6F9FC'}}>
           <div style={{flex:1,display:'flex',alignItems:'flex-end',justifyContent:'center'}}>name</div><div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'flex-end'}}>amount donated</div>
           <div style={{flex:1,display:'flex',alignItems:'flex-end',justifyContent:'center'}}>date recieved</div></div>
         {donationArr}
