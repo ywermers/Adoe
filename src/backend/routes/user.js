@@ -101,13 +101,12 @@ router.post('/api/users/login',function(req,res){
       console.log('user found!!!',user);
         user.tokenize(function(token, updated){
           console.log('token saved', updated);
-          res.json({success: true, token:token});
+          res.json({success: true, token:token, name: user.name});
         })
     }else if(!user){
       console.log('user not found');
       res.json({success: false})
     }
-
   })
 })
 
