@@ -189,7 +189,7 @@ router.get('/api/foundations/api/oauth',function(req,res) {
        stripePublishable: body.stripe_publishable_key})
     .then((updated) =>{
       console.log('updtaed');
-      res.render('index')
+      res.sendFile(path.join(__dirname, '../../../public/index.html'))
     }).catch((err) => {
       res.status(500).json(err);
     })
