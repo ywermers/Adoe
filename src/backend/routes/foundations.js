@@ -75,28 +75,20 @@ router.get('/api/foundations/main', function(req, res) {
 });
 
 router.get('/api/foundations/donations',function(req,res) {
-  Foundation.findOne({_id:req.session.passport.user}, function(err,foundation) {
-    if(foundation) {
-    console.log(foundation._id);
-    Donation.findOne({foundationId:foundation._id},function(err,user) {
-      console.log('here',user)
+  console.log('hit')
+  Foundation.findOne({_id:req.session.passport.user})
+  .then((foundation)=> {
+    return Donation.find({foundationId:foundation._id})
+    .then((donations)=> {
+      res.json(donations)
+
     })
-  }})
+  })
+  .catch((err)=>{
+    console.log('error getting donations')
+    res.json(err)
+  })
 })
-//   })
-//     .then((foundation)=> {
-//       console.log(alldonations);
-//       res.json(alldonations)
-//     })
-//     .catch((err) =>{
-//       console.log('error!!');
-//       res.json(err)
-//     })
-//   } else {
-//     res.json('error !!!?!?!',err)
-//   }
-//   })
-// })
 
 
 
@@ -176,6 +168,7 @@ router.get('/api/foundations/api/oauth',function(req,res) {
   });
 
   router.get("/api/foundations/oauth/callback", function(req, res) {
+    console.log('hit')
   var code = req.query.code;
   //Make /oauth/token endpoint POST request
   request.post({

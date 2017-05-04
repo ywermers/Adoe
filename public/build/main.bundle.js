@@ -24797,8 +24797,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var mainDiv = {
   display: 'flex',
-  width: "1700px",
-  height: '820px',
+  width: "1360px",
+  height: '640px',
   fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif',
   backgroundColor: '#F1F5F9'
 };
@@ -24907,7 +24907,7 @@ var Main = function (_React$Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/userdata', {
+      fetch('http://localhost:3001/api/foundations/userdata', {
         method: 'GET',
         credentials: "include",
         headers: {
@@ -24927,6 +24927,22 @@ var Main = function (_React$Component) {
           city: responseJson.city,
           state: responseJson.ustate,
           zip: responseJson.zipCode
+        });
+      }).catch(function (err) {
+        console.log('error', err);
+      });
+
+      fetch('http://localhost:3001/api/foundations/donations', {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (responseJson) {
+        _this2.setState({
+          donations: responseJson
         });
       }).catch(function (err) {
         console.log('error', err);
@@ -24966,7 +24982,7 @@ var Main = function (_React$Component) {
       var _this3 = this;
 
       console.log('updating name...');
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateName', {
+      fetch('http://localhost:3001/api/foundations/updateName', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -24992,7 +25008,7 @@ var Main = function (_React$Component) {
       var _this4 = this;
 
       console.log('updating email...');
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateEmail', {
+      fetch('http://localhost:3001/api/foundations/updateEmail', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -25018,7 +25034,7 @@ var Main = function (_React$Component) {
       var _this5 = this;
 
       console.log('updating info...');
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateDescription', {
+      fetch('http://localhost:3001/api/foundations/updateDescription', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -25043,9 +25059,7 @@ var Main = function (_React$Component) {
     value: function changeAddress(street, city, state, country, zip) {
       var _this6 = this;
 
-      console.log('TRUTLES', street, city, state, country, zip);
-      console.log('updating address...');
-      fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateAddress', {
+      fetch('http://localhost:3001/api/foundations/updateAddress', {
         method: 'POST',
         credentials: "include",
         headers: {
@@ -25141,7 +25155,7 @@ var Main = function (_React$Component) {
             )
           )
         ),
-        this.state.main === "account" && _react2.default.createElement(AccountInfo, { changeAddress: this.changeAddress.bind(this), logo: this.state.logo, changeInfo: this.changeInfo.bind(this), changeEmail: this.changeEmail.bind(this), changeName: this.changeName.bind(this), country: this.state.country,
+        this.state.main === "account" && _react2.default.createElement(AccountInfo, { donations: this.state.donations, changeAddress: this.changeAddress.bind(this), logo: this.state.logo, changeInfo: this.changeInfo.bind(this), changeEmail: this.changeEmail.bind(this), changeName: this.changeName.bind(this), country: this.state.country,
           logoURL: this.state.logoURL, email: this.state.email, zip: this.state.zip, city: this.state.city, state: this.state.state, fundraisers: this.state.fundraisers, streetAddress: this.state.streetAddress, accountName: this.state.accountName, accountInfo: this.state.accountInfo }),
         this.state.main === "about" && _react2.default.createElement(About, null),
         this.state.main === "fundraisers" && _react2.default.createElement(Fundraisers, { fundraisers: this.state.fundraisers }),
@@ -25232,6 +25246,17 @@ var AccountInfo = function (_React$Component2) {
         borderRadius: '10'
       };
 
+      var bodyStyling = {
+        flex: 15,
+        display: 'flex',
+        borderStyleLeft: 'groove',
+        borderColorLeft: 'red',
+        backgroundColor: "#F6F9FC",
+        fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif',
+        borderStyle: "groove",
+        overflowY: !this.state.info && this.props.donations.length < 5 ? "hidden" : "scroll"
+      };
+
       return _react2.default.createElement(
         'div',
         { id: 'currentApp', style: currentApp },
@@ -25257,7 +25282,7 @@ var AccountInfo = function (_React$Component2) {
             { id: 'top right', style: { flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', marginBottom: '10' } },
             this.state.stripe && _react2.default.createElement(
               'a',
-              { href: '/api/foundations/oauth/callback' },
+              { href: '/api/foundations/api/oauth' },
               _react2.default.createElement(
                 'button',
                 { style: buttonStyle },
@@ -25273,31 +25298,10 @@ var AccountInfo = function (_React$Component2) {
         ),
         _react2.default.createElement(
           'div',
-          { id: 'body', style: {
-              flex: 15,
-              display: 'flex',
-              borderStyleLeft: 'groove',
-              borderColorLeft: 'red',
-              backgroundColor: "#F6F9FC",
-              fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif',
-              borderStyle: "groove",
-              overflowY: this.state.info && "scroll"
-            } },
+          { id: 'body', style: bodyStyling },
           this.state.info === true && _react2.default.createElement(Description, { changeAddress: this.props.changeAddress, changeName: this.props.changeName, changeEmail: this.props.changeEmail, changeInfo: this.props.changeInfo, country: this.props.country,
             logoURL: this.props.logoURL, email: this.props.email, zip: this.props.zip, state: this.props.state, city: this.props.city, streetAddress: this.props.streetAddress, name: this.props.accountName, info: this.props.accountInfo }),
-          this.state.stripe === true && _react2.default.createElement(
-            'div',
-            { style: { flex: 1, display: 'flex', alignItems: 'flex-start', justifyContent: 'center' } },
-            _react2.default.createElement(
-              'div',
-              { style: { marginTop: '90' } },
-              _react2.default.createElement(
-                'h2',
-                null,
-                'You have not yet recevied any donations'
-              )
-            )
-          )
+          this.state.stripe === true && _react2.default.createElement(Donations, { donations: this.props.donations })
         )
       );
     }
@@ -25306,15 +25310,85 @@ var AccountInfo = function (_React$Component2) {
   return AccountInfo;
 }(_react2.default.Component);
 
-var Description = function (_React$Component3) {
-  _inherits(Description, _React$Component3);
+var Donations = function (_React$Component3) {
+  _inherits(Donations, _React$Component3);
+
+  function Donations() {
+    _classCallCheck(this, Donations);
+
+    return _possibleConstructorReturn(this, (Donations.__proto__ || Object.getPrototypeOf(Donations)).apply(this, arguments));
+  }
+
+  _createClass(Donations, [{
+    key: 'render',
+    value: function render() {
+      var donationsLength = this.props.donations.length;
+      var addHeight = 900 + (donationsLength - 4) * 100;
+      var buttonStyle = {
+        backgroundColor: '#555ABF',
+        color: 'white',
+        height: '30',
+        width: '150',
+        fontSize: '15',
+        borderRadius: '10'
+      };
+      var mainBox = {
+        display: 'flex',
+        flex: 1,
+        flexDirection: 'column',
+        height: donationsLength > 4 && addHeight.toString()
+
+      };
+
+      var donationArr = [];
+
+      var donations = this.props.donations.forEach(function (donation) {
+        donationArr.push(_react2.default.createElement(
+          'div',
+          { style: { flex: 1, borderColor: 'gray', borderWidth: '1px', borderBottomStyle: 'solid', display: 'flex' } },
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' } },
+            donation.userName
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' } },
+            donation.amount
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' } },
+            donation.createdTime
+          )
+        ));
+      });
+
+      return _react2.default.createElement(
+        'div',
+        { id: 'MB', style: mainBox },
+        _react2.default.createElement(
+          'div',
+          { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', alignItems: 'center', fontSize: 25, fontFamily: 'Arial Black', backgroundColor: '#F6F9FC', paddingLeft: '20' } },
+          'Donations'
+        ),
+        donationArr
+      );
+    }
+  }]);
+
+  return Donations;
+}(_react2.default.Component);
+
+var Description = function (_React$Component4) {
+  _inherits(Description, _React$Component4);
 
   function Description(props) {
     _classCallCheck(this, Description);
 
-    var _this8 = _possibleConstructorReturn(this, (Description.__proto__ || Object.getPrototypeOf(Description)).call(this, props));
+    var _this9 = _possibleConstructorReturn(this, (Description.__proto__ || Object.getPrototypeOf(Description)).call(this, props));
 
-    _this8.state = {
+    _this9.state = {
       descriptionshow: false,
       addressshow: false,
       infoshow: false,
@@ -25324,7 +25398,7 @@ var Description = function (_React$Component3) {
       modalContent: null,
       type: null
     };
-    return _this8;
+    return _this9;
   }
 
   _createClass(Description, [{
@@ -25388,7 +25462,7 @@ var Description = function (_React$Component3) {
         { id: 'master', style: { fontFamily: 'Camphor, "Segoe UI", "Open Sans", sans-serif', display: 'flex', flex: 1, flexDirection: 'column', height: 1000 } },
         this.state.modal && _react2.default.createElement(DescriptionModal, { type: this.state.type, modalContent: this.state.modalContent, name: this.props.name, info: this.props.info, closeModal: this.closeModal.bind(this), show: this.state.descriptionshow, changeEmail: this.props.changeEmail, changeName: this.props.changeName }),
         this.state.addressmodal && _react2.default.createElement(AddressModal, { changeAddress: this.props.changeAddress, streetAddress: this.props.streetAddress, city: this.props.city, country: this.props.country, state: this.props.state, zip: this.props.zip, closeModal: this.closeModal.bind(this), show: this.state.addressshow }),
-        this.state.infomodal && _react2.default.createElement(InfoModal, { changeInfo: this.props.changeInfo, show: this.state.infoshow, modalContent: this.state.modalContent, closeModal: this.closeModal.bind(this) }),
+        this.state.infomodal && _react2.default.createElement(InfoModal, { info: this.props.info, changeInfo: this.props.changeInfo, show: this.state.infoshow, modalContent: this.state.modalContent, closeModal: this.closeModal.bind(this) }),
         _react2.default.createElement(
           'div',
           { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', alignItems: 'center', fontSize: 25, fontFamily: 'Arial Black', backgroundColor: '#F6F9FC', paddingLeft: '20' } },
@@ -25518,19 +25592,19 @@ var Description = function (_React$Component3) {
   return Description;
 }(_react2.default.Component);
 
-var DescriptionModal = function (_React$Component4) {
-  _inherits(DescriptionModal, _React$Component4);
+var DescriptionModal = function (_React$Component5) {
+  _inherits(DescriptionModal, _React$Component5);
 
   function DescriptionModal(props) {
     _classCallCheck(this, DescriptionModal);
 
-    var _this9 = _possibleConstructorReturn(this, (DescriptionModal.__proto__ || Object.getPrototypeOf(DescriptionModal)).call(this, props));
+    var _this10 = _possibleConstructorReturn(this, (DescriptionModal.__proto__ || Object.getPrototypeOf(DescriptionModal)).call(this, props));
 
-    _this9.state = {
-      editDescription: _this9.props.info,
-      newValue: null
+    _this10.state = {
+      editDescription: _this10.props.info,
+      newValue: _this10.props.name
     };
-    return _this9;
+    return _this10;
   }
 
   _createClass(DescriptionModal, [{
@@ -25623,19 +25697,19 @@ var DescriptionModal = function (_React$Component4) {
   return DescriptionModal;
 }(_react2.default.Component);
 
-var InfoModal = function (_React$Component5) {
-  _inherits(InfoModal, _React$Component5);
+var InfoModal = function (_React$Component6) {
+  _inherits(InfoModal, _React$Component6);
 
   function InfoModal(props) {
     _classCallCheck(this, InfoModal);
 
-    var _this10 = _possibleConstructorReturn(this, (InfoModal.__proto__ || Object.getPrototypeOf(InfoModal)).call(this, props));
+    var _this11 = _possibleConstructorReturn(this, (InfoModal.__proto__ || Object.getPrototypeOf(InfoModal)).call(this, props));
 
-    _this10.state = {
-      editDescription: _this10.props.info,
-      newValue: null
+    _this11.state = {
+      editDescription: _this11.props.info,
+      newValue: _this11.props.info
     };
-    return _this10;
+    return _this11;
   }
 
   _createClass(InfoModal, [{
@@ -25721,24 +25795,24 @@ var InfoModal = function (_React$Component5) {
   return InfoModal;
 }(_react2.default.Component);
 
-var AddressModal = function (_React$Component6) {
-  _inherits(AddressModal, _React$Component6);
+var AddressModal = function (_React$Component7) {
+  _inherits(AddressModal, _React$Component7);
 
   function AddressModal(props) {
     _classCallCheck(this, AddressModal);
 
-    var _this11 = _possibleConstructorReturn(this, (AddressModal.__proto__ || Object.getPrototypeOf(AddressModal)).call(this, props));
+    var _this12 = _possibleConstructorReturn(this, (AddressModal.__proto__ || Object.getPrototypeOf(AddressModal)).call(this, props));
 
-    _this11.state = {
-      editDescription: _this11.props.info,
+    _this12.state = {
+      editDescription: _this12.props.info,
       newValue: null,
-      street: _this11.props.streetAddress,
-      state: _this11.props.state,
-      country: _this11.props.country,
-      zip: _this11.props.zip,
-      city: _this11.props.city
+      street: _this12.props.streetAddress,
+      state: _this12.props.state,
+      country: _this12.props.country,
+      zip: _this12.props.zip,
+      city: _this12.props.city
     };
-    return _this11;
+    return _this12;
   }
 
   _createClass(AddressModal, [{
@@ -25790,9 +25864,9 @@ var AddressModal = function (_React$Component6) {
         backgroundColor: '#555ABF',
         color: 'white',
         height: '50',
-        width: '150',
         fontSize: '15',
-        borderRadius: '10'
+        borderRadius: '10',
+        marginLeft: '200'
       };
 
       // Render nothing if the "show" prop is false
@@ -25820,6 +25894,7 @@ var AddressModal = function (_React$Component6) {
         marginLeft: '600',
         padding: 30,
         display: 'flex',
+        justifyContent: 'center',
         flexDirection: 'column'
       };
 
@@ -25876,8 +25951,8 @@ var AddressModal = function (_React$Component6) {
   return AddressModal;
 }(_react2.default.Component);
 
-var Fundraisers = function (_React$Component7) {
-  _inherits(Fundraisers, _React$Component7);
+var Fundraisers = function (_React$Component8) {
+  _inherits(Fundraisers, _React$Component8);
 
   function Fundraisers() {
     _classCallCheck(this, Fundraisers);
@@ -25934,8 +26009,8 @@ var Fundraisers = function (_React$Component7) {
   return Fundraisers;
 }(_react2.default.Component);
 
-var Subscribers = function (_React$Component8) {
-  _inherits(Subscribers, _React$Component8);
+var Subscribers = function (_React$Component9) {
+  _inherits(Subscribers, _React$Component9);
 
   function Subscribers() {
     _classCallCheck(this, Subscribers);

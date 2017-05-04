@@ -30,7 +30,8 @@ constructor(props) {
    this.state = {
      cardInformationModal: false,
      donationModalOpen: false,
-     text: ' $'
+     text: ' $',
+     donationAmount: '1'
    }
 }
 goToCredit() {
@@ -39,26 +40,38 @@ goToCredit() {
     title: 'Card Information'
   })
 }
-donate(value){
-  var user = AsyncStorage.getItem('user');
-  console.log('value', value);
-  console.log('foundation', this.props.foundation);
-  fetch('https://polar-sands-99108.herokuapp.com/api/users/chargeCard', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      authToken: user.authToken,
-      amount: value,
-      foundationToken: this.props.foundation._id
+donateTotal(value) {
+  console.log('donateTotal function call');
+  this.setState({
+    donationAmount: value
+  })
+}
+donate(){
+  console.log('donate function call')
+  AsyncStorage.getItem('user')
+  .then((user) => {
+    console.log('value', this.state.donationAmount);
+    console.log('foundation', this.props.foundation);
+    return fetch('https://polar-sands-99108.herokuapp.com/api/users/chargeCard', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        authToken: JSON.parse(user).authToken,
+        amount: JSON.parse(this.state.donationAmount)*100,
+        foundationToken: this.props.foundation.id
+      })
     })
   })
-  .then((response) => response.json())
+  .then((response) => {
+    console.log('resp', response);
+    return response.json()
+  })
   .then((responseJson) => {
     console.log('response',responseJson);
-    if(responseJson.err.message === "The  customer must have and active payment source attached"){
+    if(responseJson.err && responseJson.err.message === "The  customer must have and active payment source attached"){
       console.log('navigate to card information')
       this.setState({
         donationModalOpen: false,
@@ -74,6 +87,7 @@ donate(value){
 
 render () {
     console.log('foundation', this.props)
+    console.log('donationAmount', this.state.donationAmount )
   return (
     <View style={styles.pageContainer} >
         <View style={styles.topContainer}>
@@ -117,34 +131,34 @@ render () {
                      backgroundColor: '#f4ebd9'}}>
                 <View style={styles.modalContainer}>
                           <View style={{flexDirection: 'row'}}>
-                                <TouchableOpacity style={styles.modalButton} onPress={this.donate.bind(this, 500)}>
+                                <TouchableOpacity style={styles.modalButton} onPress={this.donateTotal.bind(this, '5.00')}>
                                   <View>
                                     <Text style={styles.dText}>$5</Text>
                                   </View>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity style={styles.modalButton} onPress={this.donate.bind(this, 1000)}>
+                                <TouchableOpacity style={styles.modalButton} onPress={this.donateTotal.bind(this, '10.00')}>
                                   <View>
                                     <Text style={styles.dText}>$10</Text>
                                   </View>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity style={styles.modalButton} onPress={this.donate.bind(this, 2500)}>
+                                <TouchableOpacity style={styles.modalButton} onPress={this.donateTotal.bind(this, '25.00')}>
                                   <View>
                                     <Text style={styles.dText}>$25</Text>
                                   </View>
                                 </TouchableOpacity>
                             </View>
 
-                      <View style={styles.search}>
+                      <View style={styles.donateTotal}>
                         <TextInput
                             style={{height: 40, borderColor: '#77685d', borderWidth: 2, borderRadius: 5}}
-                            onChangeText={(text) => this.setState({text})}
-                            value={this.state.text}
+                            onChangeText={(donationAmount) => this.setState({donationAmount})}
+                            value={this.state.donationAmount}
                           />
                       </View>
                       <View style={styles.modaldonatebutton}>
-                      <TouchableOpacity style={styles.modalButton2}>
+                      <TouchableOpacity style={styles.modalButton2} onPress={this.donate.bind(this)}>
                         <View>
                           <Text style={styles.dText}>Send</Text>
                         </View>
