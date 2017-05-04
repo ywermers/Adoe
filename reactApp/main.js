@@ -119,7 +119,6 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
-
     fetch('https://polar-sands-99108.herokuapp.com/api/foundations/userdata', {
       method: 'GET',
       credentials: "include",

@@ -10,8 +10,8 @@ var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET)
 var qs = require('querystring');
 var request = require('request');
 
-var SparkPost = require('sparkpost');
-var sparky = new SparkPost(); // uses process.env.SPARKPOST_API_KEY
+// var SparkPost = require('sparkpost');
+// var sparky = new SparkPost(); // uses process.env.SPARKPOST_API_KEY
 
 // Fix the foundation oauth return
 
@@ -189,7 +189,7 @@ router.get('/api/foundations/api/oauth',function(req,res) {
        stripePublishable: body.stripe_publishable_key})
     .then((updated) =>{
       console.log('updtaed');
-      res.render('index')
+      res.redirect('/api/foundations/main')
     }).catch((err) => {
       res.status(500).json(err);
     })
