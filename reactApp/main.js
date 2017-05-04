@@ -186,7 +186,6 @@ class Main extends React.Component {
       main:'fundraisers'
     })
   }
-
   changeName(name) {
     console.log('updating name...')
     fetch('https://polar-sands-99108.herokuapp.com/api/foundations/updateName', {
