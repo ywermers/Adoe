@@ -25369,20 +25369,20 @@ var Donations = function (_React$Component3) {
         { id: 'MB', style: mainBox },
         _react2.default.createElement(
           'div',
-          { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', alignItems: 'center', fontSize: 25, fontFamily: 'Arial Black', backgroundColor: '#F6F9FC', paddingLeft: '20' } },
+          { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', alignItems: 'center', fontFamily: 'Arial Black', backgroundColor: '#F6F9FC', paddingLeft: '20' } },
           _react2.default.createElement(
             'div',
-            { style: { flex: 1 } },
+            { style: { flex: 1, display: 'flex', justifyContent: 'center' } },
             'name'
           ),
           _react2.default.createElement(
             'div',
-            { style: { flex: 1 } },
+            { style: { flex: 1, display: 'flex', justifyContent: 'center' } },
             'amount donated'
           ),
           _react2.default.createElement(
             'div',
-            { style: { flex: 1 } },
+            { style: { flex: 1, display: 'flex', justifyContent: 'center' } },
             'date recieved'
           )
         ),
