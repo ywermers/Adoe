@@ -10,8 +10,8 @@ var stripe = require("stripe")(process.env.STRIPE_TEST_SECRET)
 var qs = require('querystring');
 var request = require('request');
 
-var SparkPost = require('sparkpost');
-var sparky = new SparkPost(); // uses process.env.SPARKPOST_API_KEY
+// var SparkPost = require('sparkpost');
+// var sparky = new SparkPost(); // uses process.env.SPARKPOST_API_KEY
 
 // Fix the foundation oauth return
 
