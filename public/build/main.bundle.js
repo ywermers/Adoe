@@ -25345,7 +25345,7 @@ var Donations = function (_React$Component3) {
       var donations = this.props.donations.forEach(function (donation) {
         donationArr.push(_react2.default.createElement(
           'div',
-          { style: { flex: 1, borderColor: 'gray', borderWidth: '1px', borderBottomStyle: 'solid', display: 'flex' } },
+          { style: { flex: 2, borderColor: 'gray', borderWidth: '1px', borderBottomStyle: 'solid', display: 'flex' } },
           _react2.default.createElement(
             'div',
             { style: { flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' } },
@@ -25359,7 +25359,7 @@ var Donations = function (_React$Component3) {
           _react2.default.createElement(
             'div',
             { style: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' } },
-            donation.createdTime
+            donation.createdTime.slice(0, 10)
           )
         ));
       });
@@ -25369,8 +25369,22 @@ var Donations = function (_React$Component3) {
         { id: 'MB', style: mainBox },
         _react2.default.createElement(
           'div',
-          { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', alignItems: 'center', fontSize: 25, fontFamily: 'Arial Black', backgroundColor: '#F6F9FC', paddingLeft: '20' } },
-          'Donations'
+          { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', fontFamily: 'Arial Black', backgroundColor: '#F6F9FC' } },
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1, display: 'flex', alignItems: 'flex-end', marginBottom: '20', justifyContent: 'center' } },
+            'name'
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1, display: 'flex', justifyContent: 'center', marginBottom: '20', alignItems: 'flex-end' } },
+            'amount donated'
+          ),
+          _react2.default.createElement(
+            'div',
+            { style: { flex: 1, display: 'flex', marginBottom: '20', alignItems: 'flex-end', justifyContent: 'center' } },
+            'date recieved'
+          )
         ),
         donationArr
       );
@@ -25663,7 +25677,7 @@ var DescriptionModal = function (_React$Component5) {
         maxWidth: 500,
         minHeight: 300,
         marginTop: '120',
-        marginLeft: '600',
+        marginLeft: '450',
         padding: 30,
         display: 'flex',
         flexDirection: 'column'
@@ -25761,7 +25775,7 @@ var InfoModal = function (_React$Component6) {
         maxWidth: 500,
         minHeight: 300,
         marginTop: '120',
-        marginLeft: '600',
+        marginLeft: '450',
         padding: 30,
         display: 'flex',
         flexDirection: 'column'
@@ -25864,9 +25878,10 @@ var AddressModal = function (_React$Component7) {
         backgroundColor: '#555ABF',
         color: 'white',
         height: '50',
+        width: '100',
         fontSize: '15',
         borderRadius: '10',
-        marginLeft: '200'
+        marginLeft: '210'
       };
 
       // Render nothing if the "show" prop is false
@@ -25891,7 +25906,7 @@ var AddressModal = function (_React$Component7) {
         maxWidth: 500,
         minHeight: 300,
         marginTop: '120',
-        marginLeft: '600',
+        marginLeft: '450',
         padding: 30,
         display: 'flex',
         justifyContent: 'center',
@@ -25935,13 +25950,9 @@ var AddressModal = function (_React$Component7) {
             ' Zip'
           ),
           _react2.default.createElement(
-            'div',
-            { id: 'but', style: { display: 'flex', justifyContent: 'center', width: '50', marginLeft: '130' } },
-            _react2.default.createElement(
-              'button',
-              { style: buttonStyle, onClick: this.addressSubmit.bind(this, this.state.street, this.state.city, this.state.state, this.state.country, this.state.zip) },
-              'ok'
-            )
+            'button',
+            { style: buttonStyle, onClick: this.addressSubmit.bind(this, this.state.street, this.state.city, this.state.state, this.state.country, this.state.zip) },
+            'ok'
           )
         )
       );
