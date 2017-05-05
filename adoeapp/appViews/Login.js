@@ -135,6 +135,7 @@ export default class Login extends Component {
       </TouchableOpacity>
 
       </View>
+
     )
   }
 };
@@ -143,7 +144,7 @@ export default class Login extends Component {
 var styles = StyleSheet.create({
 
   container: {
-    backgroundColor: '#483d3f',
+    backgroundColor: 'white',
   },
 
   description: {
@@ -155,7 +156,8 @@ var styles = StyleSheet.create({
   container: {
     padding: 30,
     marginTop: 65,
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'white'
   },
   buttonText: {
     fontSize: 18,
@@ -164,8 +166,8 @@ var styles = StyleSheet.create({
   },
   button: {
     height: 36,
-    backgroundColor: '#77685d',
-    borderColor: '#77685d',
+    backgroundColor: '#483d3f',
+    borderColor: '#483d3f',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
@@ -180,7 +182,7 @@ var styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 18,
     borderWidth: 1,
-    borderColor: '#48BBEC',
+    borderColor: '#483d3f',
     borderRadius: 8,
     color: '#48BBEC'
   },
