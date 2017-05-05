@@ -6,13 +6,19 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ScrollView,
   View,
   TouchableHighlight,
   ActivityIndicator,
   Image
 } from 'react-native';
 export default class Tax extends Component {
-
+  constructor(props) {
+     super(props);
+     this.state= {
+       donations : []
+     }
+  }
   componentWillMount(){
    AsyncStorage.getItem('user')
     .then((user) => {
@@ -45,16 +51,12 @@ export default class Tax extends Component {
     .catch((err) => {
       console.log('tax error', err)
     });
-    this.setState({foundations: [
-      {foundation:'Cats', date: '09112001', amount: '1'},
-      {foundation:'Dogs', date: '09112002', amount: '2'},
-      {foundation:'human', date: '09112003', amount: '3'}
-    ]})
   }
 
 
 
   render() {
+    console.log('donations', this.state.donations)
     return (
       <View style={styles.mainContainer}>
         <View style={{ flex: 1, justifyContent: 'center'}}>
@@ -69,13 +71,20 @@ export default class Tax extends Component {
           </Text>
         </View>
         <View style={{flex: 3, backgroundColor: 'pink', justifyContent: 'center'}}>
+        <ScrollView>
         {
-          this.state.donations && this.state.donations.length ? this.state.donations.map((donation) =>
+           this.state.donations.length ? this.state.donations.map((donation, i) =>
+              {
+                return(<View key={i} style = {styles.taxReceipts}>
 
-              { return <Text>{donation}</Text>
+                  <Text> {donation.amount} {donation.date} {donation.foundation} </Text>
+
+                       </View>)
+
             }) : <Text> You currently have no donation receipts. </Text>
 
         }
+        </ScrollView>
         </View>
       </View>
     );
