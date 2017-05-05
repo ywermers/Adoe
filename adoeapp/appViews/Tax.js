@@ -12,6 +12,9 @@ import {
   ActivityIndicator,
   Image
 } from 'react-native';
+import moment from 'moment';
+var currencyFormatter = require('currency-formatter');
+
 export default class Tax extends Component {
   constructor(props) {
      super(props);
@@ -70,14 +73,23 @@ export default class Tax extends Component {
             tax returns
           </Text>
         </View>
-        <View style={{flex: 3, backgroundColor: 'pink', justifyContent: 'center'}}>
+
+        <View style={styles.labels}>
+        <Text> Amount </Text>
+        <Text> Date </Text>
+        <Text> Name </Text>
+        </View>
+
+        <View style={{flex: 3, backgroundColor: 'red', justifyContent: 'center'}}>
         <ScrollView>
         {
            this.state.donations.length ? this.state.donations.map((donation, i) =>
               {
                 return(<View key={i} style = {styles.taxReceipts}>
 
-                  <Text> {donation.amount} {donation.date} {donation.foundation} </Text>
+                  <Text style={styles.amount}> {currencyFormatter.format(donation.amount, {code:'USD'})} </Text>
+                  <Text style={styles.date}> {moment(donation.date).format("ddd, hA")} </Text>
+                  <Text style={styles.foundation}>{donation.foundation} </Text>
 
                        </View>)
 
@@ -102,9 +114,32 @@ var styles = StyleSheet.create ({
     marginTop: 30
 
   },
-  description: {
-
+  labels: {
+    flexDirection: 'row',
+    justifyContent: 'space-around'
   },
+  description: {
+    textAlign: 'center'
+  },
+  taxReceipts: {
+    flex:1,
+    flexDirection: 'row'
+  },
+  amount: {
+    flex:1,
+    paddingTop: 10,
+    paddingLeft: 20
+  },
+  date: {
+    flex:1,
+    paddingTop: 10,
+    paddingLeft: 20
+  },
+  foundation: {
+    flex:1,
+    paddingTop: 10,
+    paddingLeft: 20
+  }
 
 });
 module.exports = Tax;
