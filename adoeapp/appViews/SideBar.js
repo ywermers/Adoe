@@ -34,7 +34,7 @@ export default class SideBar extends Component {
   goToTax(){
       this.props.navigator.push({
         component: Tax,
-        title: 'Tax Reciept',
+        title: 'Tax Receipt',
       })
   }
   render() {
@@ -55,7 +55,7 @@ export default class SideBar extends Component {
                   </ListItem>
                   <ListItem>
                     <TouchableOpacity onPress={this.goToTax.bind(this)}>
-                      <Text style={styles.listtext}>Tax Reciept</Text>
+                      <Text style={styles.listtext}>Tax Receipt</Text>
                     </TouchableOpacity>
                   </ListItem>
                   <ListItem>

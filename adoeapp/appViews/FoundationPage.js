@@ -30,6 +30,7 @@ constructor(props) {
    this.state = {
      cardInformationModal: false,
      donationModalOpen: false,
+     purchaseConfirmationModal: false,
      text: ' $',
      donationAmount: '1'
    }
@@ -71,6 +72,14 @@ donate(){
   })
   .then((responseJson) => {
     console.log('response',responseJson);
+    if(responseJson.success){
+      this.setState({
+         donationModalOpen: false,
+         cardInformationModal: false,
+         purchaseConfirmationModal: true
+      })
+
+    }
     if(responseJson.err && responseJson.err.message === "The  customer must have and active payment source attached"){
       console.log('navigate to card information')
       this.setState({
@@ -193,6 +202,54 @@ render () {
                         </View>
                       </TouchableOpacity>
                       </View>
+
+                </View>
+      </Modal>
+
+      <Modal
+              offset={-100}
+              open={this.state.cardInformationModal}
+                modalDidOpen={() => console.log('modal did open')}
+                modalDidClose={() => this.setState({cardInformationModal: false})}
+              modalStyle={{alignItems: 'center',
+                     justifyContent: 'center',
+                     height: 200,
+                     width: 350,
+                     borderRadius: 4,
+                     margin: 20,
+                     padding: 10,
+                     backgroundColor: '#f4ebd9'}}>
+                <View style={styles.modalContainer}>
+
+                      <View style={styles.search}>
+                          <Text> "Thank you for your donation!"</Text>
+                      </View>
+                      <View style={styles.modaldonatebutton}>
+                      <TouchableOpacity style={styles.modalButton2} onPress ={this.goToCredit.bind(this)}>
+                        <View>
+                          <Text style={styles.dText}>OK!</Text>
+                        </View>
+                      </TouchableOpacity>
+                      </View>
+
+                </View>
+      </Modal>
+      <Modal
+              offset={-100}
+              open={this.state.purchaseConfirmationModal}
+                modalDidOpen={() => console.log('modal did open')}
+                modalDidClose={() => this.setState({purchaseConfirmationModal: false})}
+              modalStyle={{alignItems: 'center',
+                     justifyContent: 'center',
+                     height: 200,
+                     width: 350,
+                     borderRadius: 4,
+                     margin: 20,
+                     padding: 10,
+                     backgroundColor: '#f4ebd9'}}>
+                <View style={styles.modalContainer}>
+
+                    <Text> Thank You For Your Donation </Text>
 
                 </View>
       </Modal>

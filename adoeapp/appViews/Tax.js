@@ -62,12 +62,12 @@ export default class Tax extends Component {
     console.log('donations', this.state.donations)
     return (
       <View style={styles.mainContainer}>
-        <View style={{ flex: 1, justifyContent: 'center'}}>
+        <View style={{ flex: 3, justifyContent: 'center'}}>
           <Text style={styles.title}>
             Donation History
           </Text>
         </View>
-        <View style={{flex: 1, justifyContent: 'center'}}>
+        <View style={{flex: 2, justifyContent: 'center'}}>
           <Text style={styles.description}>
             Description for why we have this page and how it can help with the getting
             tax returns
@@ -75,20 +75,21 @@ export default class Tax extends Component {
         </View>
 
         <View style={styles.labels}>
-        <Text> Amount </Text>
-        <Text> Date </Text>
-        <Text> Name </Text>
+        <Text style={styles.label}> Amount </Text>
+        <Text style={styles.label}> Date </Text>
+        <Text style={styles.label}> Name </Text>
         </View>
 
-        <View style={{flex: 3, backgroundColor: 'red', justifyContent: 'center'}}>
+
+        <View style={{flex: 5, backgroundColor: 'red', justifyContent: 'center', }}>
         <ScrollView>
         {
            this.state.donations.length ? this.state.donations.map((donation, i) =>
               {
                 return(<View key={i} style = {styles.taxReceipts}>
 
-                  <Text style={styles.amount}> {currencyFormatter.format(donation.amount, {code:'USD'})} </Text>
-                  <Text style={styles.date}> {moment(donation.date).format("ddd, hA")} </Text>
+                  <Text style={styles.amount}> {currencyFormatter.format(donation.amount/100, {code:'USD'})} </Text>
+                  <Text style={styles.date}> {moment(donation.date).format("MM-DD-YYYY")} </Text>
                   <Text style={styles.foundation}>{donation.foundation} </Text>
 
                        </View>)
@@ -108,21 +109,36 @@ var styles = StyleSheet.create ({
     backgroundColor: '#a39a92'
   },
   title: {
-    fontSize: 20,
+    fontSize: 40,
     fontWeight: 'bold',
     alignSelf: 'center',
-    marginTop: 30
+    marginTop: 50,
+    
 
   },
   labels: {
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    alignItems: 'center',
+
+    backgroundColor: 'pink',
+    borderColor: 'white',
+    borderWidth: 10,
+    height: 40,
+    flex:.5
+
+  },
+  label: {
+    fontSize: 20,
+    fontWeight: 'bold',
+
   },
   description: {
-    textAlign: 'center'
+    textAlign: 'center',
+    position: 'absolute'
   },
   taxReceipts: {
-    flex:1,
+
     flexDirection: 'row'
   },
   amount: {
@@ -138,7 +154,8 @@ var styles = StyleSheet.create ({
   foundation: {
     flex:1,
     paddingTop: 10,
-    paddingLeft: 20
+    paddingLeft: 20,
+    textAlign: 'center'
   }
 
 });
