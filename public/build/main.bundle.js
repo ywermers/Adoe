@@ -25677,7 +25677,7 @@ var DescriptionModal = function (_React$Component5) {
         maxWidth: 500,
         minHeight: 300,
         marginTop: '120',
-        marginLeft: '600',
+        marginLeft: '450',
         padding: 30,
         display: 'flex',
         flexDirection: 'column'
@@ -25775,7 +25775,7 @@ var InfoModal = function (_React$Component6) {
         maxWidth: 500,
         minHeight: 300,
         marginTop: '120',
-        marginLeft: '600',
+        marginLeft: '450',
         padding: 30,
         display: 'flex',
         flexDirection: 'column'
@@ -25878,9 +25878,10 @@ var AddressModal = function (_React$Component7) {
         backgroundColor: '#555ABF',
         color: 'white',
         height: '50',
+        width: '100',
         fontSize: '15',
         borderRadius: '10',
-        marginLeft: '200'
+        marginLeft: '210'
       };
 
       // Render nothing if the "show" prop is false
@@ -25905,7 +25906,7 @@ var AddressModal = function (_React$Component7) {
         maxWidth: 500,
         minHeight: 300,
         marginTop: '120',
-        marginLeft: '600',
+        marginLeft: '450',
         padding: 30,
         display: 'flex',
         justifyContent: 'center',
@@ -25949,13 +25950,9 @@ var AddressModal = function (_React$Component7) {
             ' Zip'
           ),
           _react2.default.createElement(
-            'div',
-            { id: 'but', style: { display: 'flex', justifyContent: 'center', width: '50', marginLeft: '130' } },
-            _react2.default.createElement(
-              'button',
-              { style: buttonStyle, onClick: this.addressSubmit.bind(this, this.state.street, this.state.city, this.state.state, this.state.country, this.state.zip) },
-              'ok'
-            )
+            'button',
+            { style: buttonStyle, onClick: this.addressSubmit.bind(this, this.state.street, this.state.city, this.state.state, this.state.country, this.state.zip) },
+            'ok'
           )
         )
       );

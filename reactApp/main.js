@@ -467,7 +467,6 @@ class Main extends React.Component {
 
     }
 
-
     var donationArr=[]
 
     var donations=this.props.donations.forEach((donation)=>{
@@ -477,6 +476,7 @@ class Main extends React.Component {
 
 
     return (
+
       <div id="MB" style={mainBox}>
           <div style={{flex:1,borderColor:'gray',borderBottomStyle:'solid', borderWidth:'5px',display:'flex',fontFamily:'Arial Black',backgroundColor:'#F6F9FC'}}>
           <div style={{flex:1,display:'flex',alignItems:'flex-end',marginBottom:'20',justifyContent:'center'}}>name</div><div style={{flex:1,display:'flex',justifyContent:'center',marginBottom:'20',alignItems:'flex-end'}}>amount donated</div>
@@ -655,7 +655,7 @@ class Main extends React.Component {
       maxWidth: 500,
       minHeight: 300,
       marginTop:'120',
-      marginLeft:'600',
+      marginLeft:'450',
       padding: 30,
       display:'flex',
       flexDirection:'column'
@@ -737,7 +737,7 @@ class Main extends React.Component {
       maxWidth: 500,
       minHeight: 300,
       marginTop:'120',
-      marginLeft:'600',
+      marginLeft:'450',
       padding: 30,
       display:'flex',
       flexDirection:'column'
@@ -817,9 +817,10 @@ class Main extends React.Component {
       backgroundColor:'#555ABF',
       color:'white',
       height:'50',
+      width:'100',
       fontSize:'15',
       borderRadius: '10',
-      marginLeft:'200'
+      marginLeft:'210'
     }
 
     // Render nothing if the "show" prop is false
@@ -844,7 +845,7 @@ class Main extends React.Component {
       maxWidth: 500,
       minHeight: 300,
       marginTop:'120',
-      marginLeft:'600',
+      marginLeft:'450',
       padding: 30,
       display:'flex',
       justifyContent:'center',
@@ -860,8 +861,8 @@ class Main extends React.Component {
         <div style={{flex:1}}><input defaultValue={this.props.state} onChange={this.handleChangeState.bind(this)} style={{height:'25',width:'250',marginLeft:'130',marginBottom:'20'}}></input> State</div>
         <div style={{flex:1}}><input defaultValue={this.props.country} onChange={this.handleChangeCountry.bind(this)} style={{height:'25',width:'250',marginLeft:'130',marginBottom:'20'}}></input> Country</div>
         <div style={{flex:1}}><input defaultValue={this.props.zip} onChange={this.handleChangeZip.bind(this)} style={{height:'25',width:'250',marginLeft:'130',marginBottom:'20'}}></input> Zip</div>
-        <div id="but" style={{display:'flex',justifyContent:'center',width:'50',marginLeft:'130'}}>
-        <button  style={buttonStyle} onClick={this.addressSubmit.bind(this,this.state.street,this.state.city,this.state.state,this.state.country,this.state.zip)} >ok</button></div>
+
+        <button  style={buttonStyle} onClick={this.addressSubmit.bind(this,this.state.street,this.state.city,this.state.state,this.state.country,this.state.zip)} >ok</button>
 
         </div>
       </div>
