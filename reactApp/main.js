@@ -472,7 +472,7 @@ class Main extends React.Component {
 
     var donations=this.props.donations.forEach((donation)=>{
       donationArr.push(<div style={{flex:2,borderColor:'gray', borderWidth:'1px',borderBottomStyle:'solid',display:'flex'}}><div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center'}}>{donation.userName}</div>
-                                                                        <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{donation.amount}</div><div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{donation.createdTime}</div></div>)
+                                                                        <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{donation.amount}</div><div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{donation.createdTime.slice(0,11)}</div></div>)
     })
 
 
