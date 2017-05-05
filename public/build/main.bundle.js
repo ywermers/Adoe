@@ -25345,7 +25345,7 @@ var Donations = function (_React$Component3) {
       var donations = this.props.donations.forEach(function (donation) {
         donationArr.push(_react2.default.createElement(
           'div',
-          { style: { flex: 1, borderColor: 'gray', borderWidth: '1px', borderBottomStyle: 'solid', display: 'flex' } },
+          { style: { flex: 2, borderColor: 'gray', borderWidth: '1px', borderBottomStyle: 'solid', display: 'flex' } },
           _react2.default.createElement(
             'div',
             { style: { flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' } },
@@ -25372,17 +25372,17 @@ var Donations = function (_React$Component3) {
           { style: { flex: 1, borderColor: 'gray', borderBottomStyle: 'solid', borderWidth: '5px', display: 'flex', fontFamily: 'Arial Black', backgroundColor: '#F6F9FC' } },
           _react2.default.createElement(
             'div',
-            { style: { flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' } },
+            { style: { flex: 1, display: 'flex', alignItems: 'flex-end', marginBottom: '20', justifyContent: 'center' } },
             'name'
           ),
           _react2.default.createElement(
             'div',
-            { style: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' } },
+            { style: { flex: 1, display: 'flex', justifyContent: 'center', marginBottom: '20', alignItems: 'flex-end' } },
             'amount donated'
           ),
           _react2.default.createElement(
             'div',
-            { style: { flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' } },
+            { style: { flex: 1, display: 'flex', marginBottom: '20', alignItems: 'flex-end', justifyContent: 'center' } },
             'date recieved'
           )
         ),

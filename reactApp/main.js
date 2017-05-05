@@ -471,7 +471,7 @@ class Main extends React.Component {
     var donationArr=[]
 
     var donations=this.props.donations.forEach((donation)=>{
-      donationArr.push(<div style={{flex:1,borderColor:'gray', borderWidth:'1px',borderBottomStyle:'solid',display:'flex'}}><div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center'}}>{donation.userName}</div>
+      donationArr.push(<div style={{flex:2,borderColor:'gray', borderWidth:'1px',borderBottomStyle:'solid',display:'flex'}}><div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center'}}>{donation.userName}</div>
                                                                         <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{donation.amount}</div><div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>{donation.createdTime}</div></div>)
     })
 
@@ -479,8 +479,8 @@ class Main extends React.Component {
     return (
       <div id="MB" style={mainBox}>
           <div style={{flex:1,borderColor:'gray',borderBottomStyle:'solid', borderWidth:'5px',display:'flex',fontFamily:'Arial Black',backgroundColor:'#F6F9FC'}}>
-          <div style={{flex:1,display:'flex',alignItems:'flex-end',justifyContent:'center'}}>name</div><div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'flex-end'}}>amount donated</div>
-          <div style={{flex:1,display:'flex',alignItems:'flex-end',justifyContent:'center'}}>date recieved</div></div>
+          <div style={{flex:1,display:'flex',alignItems:'flex-end',marginBottom:'20',justifyContent:'center'}}>name</div><div style={{flex:1,display:'flex',justifyContent:'center',marginBottom:'20',alignItems:'flex-end'}}>amount donated</div>
+          <div style={{flex:1,display:'flex',marginBottom:'20',alignItems:'flex-end',justifyContent:'center'}}>date recieved</div></div>
         {donationArr}
       </div>
     )
