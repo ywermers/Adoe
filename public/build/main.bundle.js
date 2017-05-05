@@ -25359,7 +25359,7 @@ var Donations = function (_React$Component3) {
           _react2.default.createElement(
             'div',
             { style: { flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' } },
-            donation.createdTime.slice(0, 11)
+            donation.createdTime.slice(0, 10)
           )
         ));
       });
