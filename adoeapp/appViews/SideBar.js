@@ -22,7 +22,9 @@ var Credit = require('./Credit');
 var Tax = require('./Tax');
 
 export default class SideBar extends Component {
-
+  constructor(props){
+    super(props)
+  }
   goToCredit(){
       this.props.navigator.push({
         component: Credit,
@@ -36,11 +38,12 @@ export default class SideBar extends Component {
       })
   }
   render() {
+    console.log('side bar props',this.props)
     return (
       <View style={styles.mainContainer}>
         <View style={styles.topcontainer}>
           <Text style={styles.topname}>
-            Firstname LastName
+            {this.props.name} LastName
           </Text>
         </View>
         <View style={styles.optionssection}>

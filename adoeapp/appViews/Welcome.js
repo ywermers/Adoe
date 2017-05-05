@@ -28,8 +28,8 @@ class Welcome extends Component {
     AsyncStorage.getItem('user')
     .then((user) => {
       console.log('user', user);
-      console.log('userEmail', JSON.parse(user).email)
-      fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
+      if(!user) throw new Error('no user found')
+      return fetch('https://polar-sands-99108.herokuapp.com/api/users/login', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"
@@ -46,6 +46,7 @@ class Welcome extends Component {
              AsyncStorage.setItem('user', JSON.stringify({
               email: JSON.parse(user).email,
               password: JSON.parse(user).password,
+              name: responseJson.name,
               authToken: responseJson.token
             }));
             this.props.navigator.push({

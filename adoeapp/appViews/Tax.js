@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ScrollView,
   View,
   TouchableHighlight,
   ActivityIndicator,
@@ -70,16 +71,20 @@ export default class Tax extends Component {
           </Text>
         </View>
         <View style={{flex: 3, backgroundColor: 'pink', justifyContent: 'center'}}>
+        <ScrollView>
         {
            this.state.donations.length ? this.state.donations.map((donation, i) =>
               {
                 return(<View key={i} style = {styles.taxReceipts}>
+
                   <Text> {donation.amount} {donation.date} {donation.foundation} </Text>
 
                        </View>)
+
             }) : <Text> You currently have no donation receipts. </Text>
 
         }
+        </ScrollView>
         </View>
       </View>
     );

@@ -45,8 +45,12 @@ constructor(props) {
 
 }
 componentWillMount(){
-  var user = AsyncStorage.getItem('user')
+  AsyncStorage.getItem('user')
   .then((user) => {
+    console.log('user tester',user);
+    this.setState({
+      name : JSON.parse(user).name
+    })
     return fetch('https://polar-sands-99108.herokuapp.com/api/users/newsfeed', {
       method: 'POST',
       headers: {
@@ -114,7 +118,7 @@ return filtered
 }
 
 render () {
-
+  console.log('state', this.state.name)
   const { query } = this.state;
   console.log(query);
   const data = this._filterData(query) //make function for filter data
@@ -137,15 +141,18 @@ render () {
     )
      foundationsList = foundationsList.map((foundation ,i) =>{
       return (<View key={i} style={styles.newsFeedContainer}>
+        <Image
+        style={styles.foundationLogos}
+        source={{uri: foundation.logoURL}}>
 
-      <TouchableOpacity onPress={this.foundationNavigation.bind(this, foundation)}>
-         <Image
-         style={styles.foundationLogos}
-         source={{uri: foundation.logoURL}}>
-         <Text style={styles.newsFeedText}>
-           {foundation.name}
-           </Text>
-           </Image>
+       </Image>
+      <TouchableOpacity style={{justifyContent: 'center', flex: 1}} onPress={this.foundationNavigation.bind(this, foundation)}>
+
+
+
+        <Text style={styles.newsFeedText}>
+          {foundation.name}
+          </Text>
        </TouchableOpacity>
       </View>)
     });
@@ -154,7 +161,7 @@ render () {
   }
   return (
     <Drawer ref={(ref) => { this.drawer = ref; }}
-      content={<SideBar navigator={this.props.navigator} />}
+      content={<SideBar navigator={this.props.navigator} name={this.state.name}/>}
       onClose={() => closeDrawer()} >
 
     <View style={{flex:1}}>
@@ -335,20 +342,24 @@ var styles = StyleSheet.create({
   },
   newsFeedContainer: {
     justifyContent: 'center',
-    flex: 1
+    flex: 1,
+    height: 200,
+    width: 375,
 
   },
   foundationLogos:{
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+
+    top: 0,
+    left: 0,
     height: 200,
     width: 375,
     backgroundColor: 'black',
     opacity: .4,
+    position: 'absolute'
   },
   newsFeedText: {
     color: 'white',
+
     fontSize: 40,
     backgroundColor: 'rgba(0,0,0,0)',
     opacity: 1,
