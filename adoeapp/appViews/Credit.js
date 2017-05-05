@@ -73,7 +73,7 @@ class Credit extends Component {
   render() {
     return(
 
-      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: '#f4ebd9'}}>
 
       <View style={styles.container}>
 
@@ -150,8 +150,8 @@ var styles = StyleSheet.create({
   },
   button: {
     height: 36,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    backgroundColor: '#483d3f',
+    borderColor: '#483d3f',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
@@ -166,7 +166,7 @@ var styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 18,
     borderWidth: 1,
-    borderColor: '#48BBEC',
+    borderColor: '#483d3f',
     borderRadius: 8,
     color: '#48BBEC'
   },

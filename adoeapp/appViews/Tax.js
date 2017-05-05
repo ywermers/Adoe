@@ -69,8 +69,7 @@ export default class Tax extends Component {
         </View>
         <View style={{flex: 2, justifyContent: 'center'}}>
           <Text style={styles.description}>
-            Description for why we have this page and how it can help with the getting
-            tax returns
+            Use your donations to receive tax benefits! Below you can see amounts, dates and the name of the foundation which you donated to.
           </Text>
         </View>
 
@@ -81,7 +80,7 @@ export default class Tax extends Component {
         </View>
 
 
-        <View style={{flex: 5, backgroundColor: 'red', justifyContent: 'center', }}>
+        <View style={{flex: 5, backgroundColor: '#f4ebd9', justifyContent: 'center', }}>
         <ScrollView>
         {
            this.state.donations.length ? this.state.donations.map((donation, i) =>
@@ -97,6 +96,8 @@ export default class Tax extends Component {
             }) : <Text> You currently have no donation receipts. </Text>
 
         }
+
+
         </ScrollView>
         </View>
       </View>
@@ -113,7 +114,8 @@ var styles = StyleSheet.create ({
     fontWeight: 'bold',
     alignSelf: 'center',
     marginTop: 50,
-    
+    color: '#483d3f'
+
 
   },
   labels: {
@@ -121,8 +123,8 @@ var styles = StyleSheet.create ({
     justifyContent: 'space-around',
     alignItems: 'center',
 
-    backgroundColor: 'pink',
-    borderColor: 'white',
+    backgroundColor: '#a39a92',
+    borderColor: '#483d3f',
     borderWidth: 10,
     height: 40,
     flex:.5
@@ -131,11 +133,17 @@ var styles = StyleSheet.create ({
   label: {
     fontSize: 20,
     fontWeight: 'bold',
+     color: '#483d3f'
 
   },
   description: {
+
     textAlign: 'center',
-    position: 'absolute'
+    padding: 4,
+    color: '#483d3f',
+    fontSize: 20
+
+
   },
   taxReceipts: {
 
@@ -144,18 +152,21 @@ var styles = StyleSheet.create ({
   amount: {
     flex:1,
     paddingTop: 10,
-    paddingLeft: 20
+    paddingLeft: 20,
+    color: '#483d3f'
   },
   date: {
     flex:1,
     paddingTop: 10,
-    paddingLeft: 20
+    paddingLeft: 20,
+    color: '#483d3f'
   },
   foundation: {
     flex:1,
     paddingTop: 10,
     paddingLeft: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#483d3f'
   }
 
 });

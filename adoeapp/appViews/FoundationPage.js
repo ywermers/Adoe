@@ -101,15 +101,18 @@ render () {
     <View style={styles.pageContainer} >
         <View style={styles.topContainer}>
         <Image
-        style={styles.foundationLogo}
+        style={styles.foundationLogos}
         source={{uri: this.props.foundation.logoURL}}>
         </Image>
-          <View style={styles.foundationTitleContainer}>
-            <Text style={styles.foundationTitle}>
-            {this.props.foundation.name}
-            </Text>
+        <View style={{justifyContent: 'center', flex: 1}}>
+        <Text style={styles.newsFeedText}>
+          {this.props.foundation.name}
+          </Text>
           </View>
         </View>
+
+
+
 
         <View style={styles.descriptionContainer}>
             <Text style={styles.descriptionText}> {this.props.foundation.description}</Text>
@@ -309,52 +312,62 @@ modalButton2: {
     flex:1,
     flexDirection: 'row',
     backgroundColor: '#a39a92',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: 'black'
   },
-  foundationLogo: {
-    flex: 2,
-    top: 25,
+  foundationLogos:{
+
+    top: 0,
+    left: 0,
+    height: 200,
+    width: 375,
     backgroundColor: 'black',
-    height: 100,
-    width: 60,
-    borderRadius: 50,
-    borderColor: 'white',
-    borderWidth: 3
+    opacity: .4,
+    position: 'absolute'
   },
   foundationTitleContainer: {
-    flex: 3,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#a39a92',
-    height: 40,
+    height: 50,
     backgroundColor: "#77685d",
     borderRadius: 20,
-    top: 25
+    top: 25,
+
   },
-  foundationTitle: {
-    flex: 4,
-    fontSize: 20,
-    color: '#f4ebd9',
-    fontWeight: 'bold',
-    alignSelf: 'center'
+  newsFeedText: {
+    color: 'white',
+
+    fontSize: 40,
+    backgroundColor: 'rgba(0,0,0,0)',
+    opacity: 1,
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   descriptionContainer:{
     flex: 1,
-    paddingBottom: 50,
-    paddingTop: 100,
+
+
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#f4ebd9',
+
+
   },
   descriptionText: {
-    color: '#f4ebd9',
-    fontSize: 40,
+    color: '#483d3f',
+    fontSize: 20,
     justifyContent: 'center',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    textAlign: 'center'
 
   },
   donateButtonContainer:{
     flex: 1,
-    backgroundColor: '#a39a92'
+    backgroundColor: '#f4ebd9',
+    justifyContent: 'center',
+
+
+
   },
   donateButton: {
     flex: 1,
